@@ -25,12 +25,12 @@
       <div id="banner">
         <span id="logo"></span>
 
-        <a href="http://lixinzhang.github.io/Tech" class="button fork"><strong>Tech</strong></a>
-        <a href="http://lixinzhang.github.io/Life" class="button fork"><strong>Life</strong></a>
-        <a href="http://lixinzhang.github.io/Notes" class="button fork"><strong>Notes</strong></a>
-        <a href="http://lixinzhang.github.io/Projects" class="button fork"><strong>Projects</strong></a>
-        <a href="http://lixinzhang.github.io/Resume" class="button fork"><strong>Resume</strong></a>
-        <a href="http://lixinzhang.github.io/Aboutme" class="button fork"><strong>About Me</strong></a>
+        <a href="http://lixinzhang.github.io/Tech/index.html" class="button fork"><strong>Tech</strong></a>
+        <a href="http://lixinzhang.github.io/Life/index.html" class="button fork"><strong>Life</strong></a>
+        <a href="http://lixinzhang.github.io/Notes/index.html" class="button fork"><strong>Notes</strong></a>
+        <a href="http://lixinzhang.github.io/Projects/index.html" class="button fork"><strong>Projects</strong></a>
+        <a href="http://lixinzhang.github.io/Resume/Resume.html" class="button fork"><strong>Resume</strong></a>
+        <a href="http://lixinzhang.github.io/Aboutme/AboutMe.html" class="button fork"><strong>About Me</strong></a>
         <a href="https://github.com/LixinZhang" class="button fork"><strong>View On GitHub</strong></a>
       </div><!-- end banner -->
 
