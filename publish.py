@@ -3,7 +3,7 @@
 import sys
 import os
 
-DIR = ['Tech']
+DIR = ['Tech', 'Life', 'Notes', 'Projects']
 MD_DIR = [ d + '/' + 'md' for d in DIR ]
 
 class publish :

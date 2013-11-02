@@ -19,7 +19,7 @@
       <header>
         <h1>糖拌咸鱼-当我和世界不一样</h1>
 
-        <p>Intern Experience</p>
+        <p>I am on the way to dream.</p>
       </header>
 
       <div id="banner">
