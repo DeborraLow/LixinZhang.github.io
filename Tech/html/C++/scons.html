@@ -30,7 +30,7 @@
         <a href="http://lixinzhang.github.io/Notes/index.html" class="button fork"><strong>Notes</strong></a>
         <a href="http://lixinzhang.github.io/Projects/index.html" class="button fork"><strong>Projects</strong></a>
         <a href="http://lixinzhang.github.io/Resume/resume.html" class="button fork"><strong>Resume</strong></a>
-        <a href="http://lixinzhang.github.io/Aboutme/aboutme.html" class="button fork"><strong>About Me</strong></a>
+        <a href="http://lixinzhang.github.io/AboutMe/aboutme.html" class="button fork"><strong>About Me</strong></a>
         <a href="https://github.com/LixinZhang" class="button fork"><strong>View On GitHub</strong></a>
       </div><!-- end banner -->
 

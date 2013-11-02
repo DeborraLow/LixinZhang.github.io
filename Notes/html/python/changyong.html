@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Lixinzhang.github.io/internExperience by LixinZhang</title>
-    <link rel="stylesheet" href="../stylesheets/styles.css">
-    <link rel="stylesheet" href="../stylesheets/pygment_trac.css">
+    <link rel="stylesheet" href="../../../stylesheets/styles.css">
+    <link rel="stylesheet" href="../../../stylesheets/pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="../javascripts/main.js"></script>
+    <script src="../../../javascripts/main.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -41,25 +41,37 @@
       <section>
       
 
-<h1>Tech</h1>
-<h2>Computational_Advertising</h2>
-<ul>
-<li>
-<h3><a href="html/Computational_Advertising/Introduction.html">Hello</a></h3>
-</li>
-</ul>
-<h2>C++</h2>
-<ul>
-<li>
-<h3><a href="html/C++/scons.html">Scons学习笔记</a></h3>
-</li>
-</ul>
-<h2>Recommender_System</h2>
-<ul>
-<li>
-<h3><a href="html/Recommender_System/recommender_system.html">Recommender System Notes#</a></h3>
-</li>
-</ul>      </section>
+<h1>python常用记录</h1>
+<h2>支持中文</h2>
+<pre>
+
+<h1>-<em>- coding:utf-8 -</em>-</h1>
+</pre>
+
+<h2>时间处理</h2>
+<p><pre>
+数值转换datetime
+import date
+timestamp # 123456789
+dt # datetime.datetime.utcfromtimestamp(timestamp)
+</pre>
+<pre>
+字符串时间转化为数值时间
+import time
+transform_time # int(time.mktime(time.strptime(click[1], '%Y-%m-%d %H:%M:%S')))
+</pre></p>
+<h2>python中执行系统命令</h2>
+<p><pre>
+import os
+cmdout # os.popen('ls -al').read() #执行命令，并可以将结果读入到cmdout
+os.system('ls -al') #只是执行命令
+os.listdir(os.getcwd()) #列出当前文件夹下的所有文件
+</pre></p>
+<h2>python取topN</h2>
+<p><pre>
+import heapq
+heapq.nlargest(N, arr)
+</pre></p>      </section>
       <footer>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
       </footer>

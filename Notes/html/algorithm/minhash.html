@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Lixinzhang.github.io/internExperience by LixinZhang</title>
-    <link rel="stylesheet" href="../stylesheets/styles.css">
-    <link rel="stylesheet" href="../stylesheets/pygment_trac.css">
+    <link rel="stylesheet" href="../../../stylesheets/styles.css">
+    <link rel="stylesheet" href="../../../stylesheets/pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="../javascripts/main.js"></script>
+    <script src="../../../javascripts/main.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -41,25 +41,17 @@
       <section>
       
 
-<h1>Tech</h1>
-<h2>Computational_Advertising</h2>
-<ul>
-<li>
-<h3><a href="html/Computational_Advertising/Introduction.html">Hello</a></h3>
-</li>
-</ul>
-<h2>C++</h2>
-<ul>
-<li>
-<h3><a href="html/C++/scons.html">Scons学习笔记</a></h3>
-</li>
-</ul>
-<h2>Recommender_System</h2>
-<ul>
-<li>
-<h3><a href="html/Recommender_System/recommender_system.html">Recommender System Notes#</a></h3>
-</li>
-</ul>      </section>
+<h1>minHash算法原理</h1>
+<h2>相关资源</h2>
+<p>[[http://www.cnblogs.com/bourneli/archive/2013/04/04/2999767.html|利用minHash与LSH寻找相似的集合]] \ 
+[[http://zh.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E5%93%88%E5%B8%8C|最小hash]]</p>
+<h2>算法原理</h2>
+<h3>比较集合间的相似度</h3>
+<p>两个集合的相似度可以近似等价于，这两个集合中每个元素经过N个hash函数后取得N个最小hash值的集合的相似度</p>
+<h3>可以理解为降维</h3>
+<p>将集合中的元素通过N个hash函数取最小hash值，相当于将含有M个值的集合S降维到N。</p>
+<p>假设，有K个集合，每个集合有M个元素，那么传统比较两两集合的相似度需要K<em>(K-1)</em>M*M 。</p>
+<p>如果采用minHash，假设hash函数为N个，则比较两两集合只需要K<em>(K-1)</em>N*N，而N要比M小得多，从而降低了计算复杂度</p>      </section>
       <footer>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
       </footer>
