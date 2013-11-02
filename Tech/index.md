@@ -1,5 +1,7 @@
 #Tech
 ##Computational_Advertising
 * ###<a href="html/Computational_Advertising/Introduction.html">Hello</a>
-##MD_Demos.html
-* ###<a href="html/MD_Demos.html">MD Demos</a>
+##C++
+* ###<a href="html/C++/scons.html">Scons学习笔记</a>
+##Recommender_System
+* ###<a href="html/Recommender_System/recommender_system.html">Recommender System Notes#</a>

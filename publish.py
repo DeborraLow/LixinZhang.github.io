@@ -87,6 +87,10 @@ class publish :
             self.md2Page(category + '/index.md' , category + '/index.html')
 
 if __name__ == '__main__' :
+    if len(sys.argv) == 3:
+        pb = publish()
+        pb.md2Page(sys.argv[1], sys.argv[2])
+        exit(0)
     pb = publish()
     pb.process()
 
