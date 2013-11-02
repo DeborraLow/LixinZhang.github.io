@@ -99,6 +99,6 @@ egrep -v [正则表达式] 取反
 
 ###查看某个文件的绝对路径
 <pre>
-#!/bin/bash
+<code>#!/bin/bash</code>
 ls $1 | sed "s:^:`pwd`/: "
 </pre>

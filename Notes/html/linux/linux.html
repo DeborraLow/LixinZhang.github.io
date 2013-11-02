@@ -129,10 +129,9 @@ egrep -v [正则表达式] 取反
 充分利用管道机制，即cat file | grep 'aaa' | egrep -v 'b.*\a?' | egrep 'ccc' | less
 </pre></p>
 <h3>查看某个文件的绝对路径</h3>
-<pre>
-
-<h1>!/bin/bash</h1>
-<p>ls $1 | sed "s:^:<code>pwd</code>/: "
+<p><pre>
+<code>#!/bin/bash</code>
+ls $1 | sed "s:^:<code>pwd</code>/: "
 </pre></p>      </section>
       <footer>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
