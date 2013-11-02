@@ -688,10 +688,8 @@ header p {
 
 #banner {
   z-index: 100;
-  left: 0;
-  right: 50%;
   height: 50px;
-  margin-right: -382px;
+  margin-left: 60px;
   position: fixed;
   top: 115px;
   background: #ffcc00;
@@ -747,9 +745,8 @@ header p {
   background-color: #ffeca0;
 }
 #banner .fork {
-  position: fixed;
+  width: 100px;
   left: 50%;
-  margin-left: -325px;
   padding: 10px 12px;
   margin-top: 6px;
   line-height: 14px;
@@ -792,7 +789,7 @@ header p {
 }
 
 section {
-  width: 590px;
+  width: 800px;
   padding: 30px 30px 50px 30px;
   margin: 20px 0;
   margin-top: 190px;
