@@ -1,32 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Lixinzhang.github.io/internExperience : Intern Experience" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Lixinzhang.github.io/internExperience by LixinZhang</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Lixinzhang.github.io/internExperience</title>
   </head>
-
   <body>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/LixinZhang">View on GitHub</a>
+      <header>
+        <h1>Lixinzhang.github.io/internExperience</h1>
+        <p>Intern Experience</p>
+      </header>
 
-          <h1 id="project_title">Lixinzhang.github.io/internExperience</h1>
-          <h2 id="project_tagline">Intern Experience</h2>
+      <div id="banner">
+        <span id="logo"></span>
 
-        </header>
-    </div>
+        <a href="https://github.com/LixinZhang" class="button fork"><strong>View On GitHub</strong></a>
+      </div><!-- end banner -->
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
         <h1>
 <a name="%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86" class="anchor" href="#%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86"><span class="octicon octicon-link"></span></a>实习经历</h1>
 
@@ -90,16 +95,11 @@
 
 <p>这本来是个很棘手的问题，因为淘宝类目与tanx类目本身是两套独立的体系，类目间的关系及粒度差距很大。淘宝类目有几万个，而tanx类目是全网的类目但只有几十个。人工编辑，成本太大了，必须有自动化的解决办法。当时，想到了一个办法就是利用tanx类目的描述信息，当做query去查淘宝搜索引擎的历史query，然后提取出query覆盖到的淘宝类目。这样就建立了一个简单的映射关系，但是tanx类目描述文字少，召回的query有限，于是考虑将该query扩展，再去召回，这样召回的多了，但是错误率仍然很高。于是，考虑分析类目体系，建立类目树，利用boosting的方法进行填补与改写。最后人工review一遍，达到了很好的效果。</p>
       </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      <footer>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
       </footer>
     </div>
-
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
-
   </body>
 </html>
