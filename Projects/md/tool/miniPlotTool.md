@@ -24,15 +24,15 @@ lineConf = {
 
 1.	画单根线<code>tool.plotSingleLine(lineConf)</code>
 2.	画多条线
-	<pre>
-	tool.addline(lineConf)
-	tool.plot()
-	tool.show()
-	</pre>	
-
-
+<pre>
+tool.addline(lineConf)
+tool.plot()
+tool.show()
+</pre>	
 
 ##常用配置选项
+
+
 ###颜色（color 简写为 c）：
 
 *	蓝色： 'b' (blue)
@@ -104,4 +104,5 @@ lineConf = {
 *	linewidth： 实数
 
 ##代码实现
+
 <script src="https://gist.github.com/LixinZhang/5796875.js"></script>
