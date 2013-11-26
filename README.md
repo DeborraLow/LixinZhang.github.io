@@ -6,4 +6,4 @@ One can write blogs in Markdown, and use <code>publish.py</code> script tool to 
 
 Welcome to try it!
 
-You can see this website on <a href="http://lixinzhang.github.io/AboutMe/">http://lixinzhang.github.io/AboutMe/</a>
+You can see this website on <a href="http://lixinzhang.github.io/AboutMe/">http://lixinzhang.github.io/</a>

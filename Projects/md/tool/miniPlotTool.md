@@ -4,7 +4,7 @@ pylab 提供了比较强大的画图功能，但是函数和参数都比较多�
 <a href="https://gist.github.com/LixinZhang/5796875">Download</a>
 
 
-##如何使用
+##如何使用(How to use)
 <pre>
 lineConf = {
          'X' : X,
@@ -30,7 +30,7 @@ tool.plot()
 tool.show()
 </pre>	
 
-##常用配置选项
+##常用配置选项(Config)
 
 
 ###颜色（color 简写为 c）：
@@ -103,6 +103,6 @@ tool.show()
 
 *	linewidth： 实数
 
-##代码实现
+##代码实现(Code)
 
 <script src="https://gist.github.com/LixinZhang/5796875.js"></script>

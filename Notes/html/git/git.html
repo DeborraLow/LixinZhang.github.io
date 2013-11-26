@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Lixinzhang.github.io/internExperience by LixinZhang</title>
+    <link rel="stylesheet" href="../../../stylesheets/styles.css">
+    <link rel="stylesheet" href="../../../stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="../../../javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>糖拌咸鱼-当我和世界不一样</h1>
+
+        <p>I am on the way to dream.</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="http://lixinzhang.github.io/Tech/index.html" class="button fork"><strong>Tech</strong></a>
+        <a href="http://lixinzhang.github.io/Life/index.html" class="button fork"><strong>Life</strong></a>
+        <a href="http://lixinzhang.github.io/Notes/index.html" class="button fork"><strong>Notes</strong></a>
+        <a href="http://lixinzhang.github.io/Projects/index.html" class="button fork"><strong>Projects</strong></a>
+        <a href="http://lixinzhang.github.io/Resume/resume.html" class="button fork"><strong>Resume</strong></a>
+        <a href="http://lixinzhang.github.io/AboutMe/aboutme.html" class="button fork"><strong>About Me</strong></a>
+        <a href="https://github.com/LixinZhang" class="button fork"><strong>View On GitHub</strong></a>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+      
+
+<h1>git useful commands</h1>
+<h2>Create remote repo</h2>
+<p><pre>
+pwd:/Users/zhanglx/workspace/gittest/
+git init --bare
+</pre></p>
+<h2>Clone repo from remote repo</h2>
+<p><pre>
+git clone /Users/zhanglx/workspace/gittest/
+</pre></p>
+<h2>Init a local git repo and add a remote</h2>
+<p>This is equal to "Clone"
+<pre>
+mkdir myrepo
+cd myrepo/
+git init
+git remote add origin /Users/zhanglx/workspace/gittest/
+</pre></p>
+<h2>New branch and switch to this branch</h2>
+<pre>
+git branch test
+git checkout test
+</pre>
+
+<p>Type <code>git branch</code> to check which branch you are working on.</p>
+<h2>Add, modify, commit, reset and checkout history</h2>
+<h3>Git文件状态</h3>
+<p>Git文件的状态分为untracked和tracked, untracked文件是指新建的文件，尚未被git管理起来。</p>
+<p>tracked又分为三种状态:</p>
+<p>已提交（committed），已修改（modified）和已暂存（staged）。已提交表示文件已被安全地保存在本地数据库中了；已修改表示修改了某个文件，但没有提交保存；已暂存表示把已修改的文件放在下次提交时要保存的清单中。</p>
+<h3>Github</h3>
+<p><code>git remote show origin</code> 查看相关信息
+<code>git push origin master</code> 将commit的代码，push到github上。
+<code>git pull origin master</code> 将github上的代码，update到本地。</p>
+<h3>Delete</h3>
+<p><code>git delete file</code> 然后commit的，将无法恢复。
+<code>rm file</code>, 可以通过<code>git checkout -- file</code>进行恢复。
+<code>git rm --cached file</code>，只是在缓存中删除，</p>
+<p>恢复更改的文件
+git checkout — //未git add的文件</p>
+<p>git reset HEAD //已经git add的文件，可以用这个取消add，然后用上一条命令恢复</p>
+<h3>Push master branch of locale repo to remote origin</h3>
+<p><code>git push origin master</code></p>
+<h3>Pull (if there are some conflicts, git will call git merge automatically)</h3>
+<p><code>git pull origin master</code></p>      </section>
+      <footer>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+  </body>
+</html>
+
