@@ -52,14 +52,14 @@ MPI_INIT (ierr)
 </pre>
 
 ###MPI_Comm_size
-Returns the <code>total number</code> of MPI processes in the specified communicator, such as <code>MPI_COMM_WORLD<code>. If the communicator is <code>MPI_COMM_WORLD<code>, then it represents the number of MPI tasks available to your application.
+Returns the <code>total number</code> of MPI processes in the specified communicator, such as <code>MPI_COMM_WORLD</code>. If the communicator is <code>MPI_COMM_WORLD</code>, then it represents the number of MPI tasks available to your application.
 <pre>
 MPI_Comm_size (comm,&size) 
 MPI_COMM_SIZE (comm,size,ierr)
 </pre>
 
 ###MPI_Comm_rank
-Returns the <code>rank<code> of the calling MPI process within the specified communicator. Initially, each process will be assigned a unique integer rank <code>between 0 and number of tasks - 1<code> within the communicator <code>MPI_COMM_WORLD<code>. This rank is often referred to as a task ID. If a process becomes associated with other communicators, it will have a unique rank within each of these as well.
+Returns the <code>rank</code> of the calling MPI process within the specified communicator. Initially, each process will be assigned a unique integer rank <code>between 0 and number of tasks - 1</code> within the communicator <code>MPI_COMM_WORLD</code>. This rank is often referred to as a task ID. If a process becomes associated with other communicators, it will have a unique rank within each of these as well.
 <pre>
 MPI_Comm_rank (comm,&rank) 
 MPI_COMM_RANK (comm,rank,ierr)
