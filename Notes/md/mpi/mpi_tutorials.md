@@ -65,3 +65,45 @@ MPI_Comm_rank (comm,&rank)
 MPI_COMM_RANK (comm,rank,ierr)
 </pre>
 
+###MPI_Abort
+Terminates all MPI processes associated with the communicator. In most MPI implementations it terminates All processes regardless of the communicator specified.
+<pre>
+MPI_Abort(comm, errorcode)
+MPI_ABORT(comm,  errorcode, ierr)
+</pre>
+
+###MPI_Get_processor_name
+Returns the processor name. Also returns the length of the name. The buffer for "name" must be at least <code>MPI_MAX_PROCESSOR_NAME</code>characters in size. What is returned into "name" is implementation dependent-may not be the same as the output of the "hostname" or "host" shell commands.
+<pre>
+MPI_Get_processor_name(&name, &resultlength)
+MPI_GET_PROCESSOR_NAME(name, resultlength, ierr)
+</pre>
+
+###MPI_Initialized
+Indicates whether MPI_Init has been called - returns flag as either logical true (1) or false(0). MPI requires that MPI_Init be called once and only once by each process. This may pose a problem for modules that want to use MPI and are prepared to call MPI_Init if necessary. MPI_Initialized solves this problem.
+<pre>
+MPI_Initialized (&flag)
+MPI_INITIALIZED (flag, ierr)
+</pre>
+
+###MPI_Wtime
+Returns an elapsed wall clock time in seconds (double precision) on the calling processor.
+<pre>
+MPI_Wtime ()
+MPI_WTIME ()
+</pre>
+
+###MPI_Wtick
+Returns the resolution in seconds (double precision) of MPI_Wtime.
+<pre>
+MPI_Wtick ()
+MPI_WTICK ()
+</pre>
+
+###MPI_Finalize
+Terminates the MPI execution environment. This function should be the last MPI routine called in every MPI program - no other MPI routines may be called after it.
+<pre>
+MPI_Finalize ()
+MPI_FINALIZE (ierr)
+</pre>
+

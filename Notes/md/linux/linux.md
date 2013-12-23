@@ -95,6 +95,7 @@ info ln 命令告诉您，硬链接是已存在文件的另一个名字(A "hard 
 egrep [正则表达式] 
 egrep -v [正则表达式] 取反
 充分利用管道机制，即cat file | grep 'aaa' | egrep -v 'b.*\\a?' | egrep 'ccc' | less
+grep 含有特殊符号的字符串，如"\t"，可以使用perl style : grep -P "\taaa" 
 </pre>
 
 ###查看某个文件的绝对路径

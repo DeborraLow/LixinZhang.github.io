@@ -1,5 +1,6 @@
 #Notes
 ##git
+* ###<a href="html/git/add_ssh_keys.html">Add ssh keys to github</a>
 * ###<a href="html/git/git.html">git useful commands</a>
 ##algorithm
 * ###<a href="html/algorithm/minhash.html">minHash算法原理</a>

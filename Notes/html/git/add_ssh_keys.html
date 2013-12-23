@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Lixinzhang.github.io/internExperience by LixinZhang</title>
-    <link rel="stylesheet" href="../stylesheets/styles.css">
-    <link rel="stylesheet" href="../stylesheets/pygment_trac.css">
+    <link rel="stylesheet" href="../../../stylesheets/styles.css">
+    <link rel="stylesheet" href="../../../stylesheets/pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="../javascripts/main.js"></script>
+    <script src="../../../javascripts/main.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -41,52 +41,21 @@
       <section>
       
 
-<h1>Notes</h1>
-<h2>git</h2>
-<ul>
-<li>
-<h3><a href="html/git/add_ssh_keys.html">Add ssh keys to github</a></h3>
-</li>
-<li>
-<h3><a href="html/git/git.html">git useful commands</a></h3>
-</li>
-</ul>
-<h2>algorithm</h2>
-<ul>
-<li>
-<h3><a href="html/algorithm/minhash.html">minHash算法原理</a></h3>
-</li>
-</ul>
-<h2>DataMining</h2>
-<ul>
-<li>
-<h3><a href="html/DataMining/SVM.html">支持向量机(SVM)</a></h3>
-</li>
-</ul>
-<h2>python</h2>
-<ul>
-<li>
-<h3><a href="html/python/changyong.html">python常用记录</a></h3>
-</li>
-</ul>
-<h2>mpi</h2>
-<ul>
-<li>
-<h3><a href="html/mpi/mpi_tutorials.html">Message Passing Interface(MPI)</a></h3>
-</li>
-</ul>
-<h2>Topic_Model</h2>
-<ul>
-<li>
-<h3><a href="html/Topic_Model/SVD.html">SVD</a></h3>
-</li>
-</ul>
-<h2>linux</h2>
-<ul>
-<li>
-<h3><a href="html/linux/linux.html">Linux知识点记录</a></h3>
-</li>
-</ul>      </section>
+<h1>Add ssh keys to github</h1>
+<h2>创建SSH key</h2>
+<p><pre>
+ssh-keygen
+生成的SSH key文件保存在中～/.ssh/id_rsa.pub
+</pre></p>
+<h2>添加SSH key到github</h2>
+<p><pre>
+接着拷贝.ssh/id_rsa.pub文件内的所以内容
+打开github帐号管理中的添加SSH key界面的步骤如下：
+1. 登录github
+2. 点击右上方的Accounting settings图标
+3. 选择 SSH key
+4. 点击 Add SSH key
+</pre></p>      </section>
       <footer>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
       </footer>
