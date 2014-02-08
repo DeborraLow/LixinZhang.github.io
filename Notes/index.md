@@ -10,6 +10,8 @@
 * ###<a href="html/python/changyong.html">python常用记录</a>
 ##mpi
 * ###<a href="html/mpi/mpi_tutorials.html">Message Passing Interface(MPI)</a>
+##MAC
+* ###<a href="html/MAC/mac.html">Mac相关记录</a>
 ##Topic_Model
 * ###<a href="html/Topic_Model/SVD.html">SVD</a>
 ##linux
