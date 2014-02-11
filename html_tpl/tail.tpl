@@ -1,4 +1,3 @@
-      </section>
 	  <!-- Duoshuo Comment BEGIN -->
 	  	<div class="ds-thread"></div>
 	  <script type="text/javascript">
@@ -13,6 +12,7 @@
 	  	})();
 	  	</script>
 	  <!-- Duoshuo Comment END -->
+      </section>
       <footer>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
       </footer>
