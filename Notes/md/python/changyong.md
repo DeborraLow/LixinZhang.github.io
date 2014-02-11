@@ -29,3 +29,10 @@ os.listdir(os.getcwd()) #列出当前文件夹下的所有文件
 import heapq
 heapq.nlargest(N, arr)
 </pre>
+
+##Enumerate使用
+<pre>
+names = ['Safe', 'George', 'Mildred']
+for i, name in enumerate(names):
+    print(i, name) # 0 Safe, 1 George etc.
+</pre>
