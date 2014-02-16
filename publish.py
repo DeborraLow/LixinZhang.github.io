@@ -16,7 +16,8 @@ class publish :
             self.getAllMdFiles(d)
    
     def md2Page(self, md_path, html_path) :
-        transformedPage = os.popen('markdown_py %s' % (md_path,)).read()
+        #transformedPage = os.popen('markdown_py %s' % (md_path,)).read()
+        transformedPage = os.popen('python -m markdown %s' % (md_path,)).read()
         html_tpl_head_content = file(self.html_tpl_head).read()
         cnt = html_path.count('/')
         path_str = ''

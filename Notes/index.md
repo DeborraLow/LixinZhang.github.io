@@ -13,6 +13,7 @@
 * ###<a href="html/mpi/mpi_tutorials.html">Message Passing Interface(MPI)</a>
 ##MAC
 * ###<a href="html/MAC/mac.html">Mac相关记录</a>
+* ###<a href="html/MAC/mou.html">mou技巧</a>
 ##Topic_Model
 * ###<a href="html/Topic_Model/SVD.html">SVD</a>
 ##linux
