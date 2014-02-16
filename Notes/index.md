@@ -8,6 +8,7 @@
 * ###<a href="html/DataMining/SVM.html">支持向量机(SVM)</a>
 ##python
 * ###<a href="html/python/changyong.html">python常用记录</a>
+* ###<a href="html/python/python中的模块.html">Python中的模块与包</a>
 ##mpi
 * ###<a href="html/mpi/mpi_tutorials.html">Message Passing Interface(MPI)</a>
 ##MAC

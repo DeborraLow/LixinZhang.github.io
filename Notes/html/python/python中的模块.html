@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Lixinzhang.github.io/internExperience by LixinZhang</title>
+    <link rel="stylesheet" href="../../../stylesheets/styles.css">
+    <link rel="stylesheet" href="../../../stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="../../../javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                  ga('create', 'UA-46845640-1', 'lixinzhang.github.io');
+                    ga('send', 'pageview');
+
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>糖拌咸鱼-当我和世界不一样</h1>
+
+        <p>I am on the way to dream.</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="http://lixinzhang.github.io/Tech/index.html" class="button fork"><strong>Tech</strong></a>
+        <a href="http://lixinzhang.github.io/Life/index.html" class="button fork"><strong>Life</strong></a>
+        <a href="http://lixinzhang.github.io/Notes/index.html" class="button fork"><strong>Notes</strong></a>
+        <a href="http://lixinzhang.github.io/Projects/index.html" class="button fork"><strong>Projects</strong></a>
+        <a href="http://lixinzhang.github.io/Resume/resume.html" class="button fork"><strong>Resume</strong></a>
+        <a href="http://lixinzhang.github.io/AboutMe/aboutme.html" class="button fork"><strong>About Me</strong></a>
+        <a href="https://github.com/LixinZhang" class="button fork"><strong>View On GitHub</strong></a>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+      
+
+<h1>Python中的模块与包</h1>
+<h2>标准库的安装路径</h2>
+<p>在<code>import</code>模块的时候，python是通过系统路径找到这些模块的，我们可以将这些路径打印出来：
+<pre></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>pprint.pprint(sys.path)
+['',
+ '/Library/Python/2.7/site-packages/pip-1.4.1-py2.7.egg',
+ '/Library/Python/2.7/site-packages/python_recsys-0.2-py2.7.egg',
+ '/Users/zhanglixin/opensource/ipython',
+ '/Library/Python/2.7/site-packages/pexpect-3.0-py2.7.egg',
+ '/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python27.zip',
+ '/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7',
+ '/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-darwin',
+ '/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac',
+ '/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac/lib-scriptpackages',
+ '/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python',
+ '/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-tk',
+ '/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-old',
+ '/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-dynload',
+ '/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/PyObjC',
+ '/Library/Python/2.7/site-packages']
+</pre></p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>那么，我们放进这些路径里的模块或包，就可以不需指定路径，直接使用<code>import</code>导入了。特别的，<code>/Library/Python/2.7/site-packages</code>，我们常用的应该放在这里。</p>
+<h2>常见问题：</h2>
+<ul>
+<li>引入某一特定路径下的模块</li>
+<li>
+<p>使用<code>sys.path.append(your_module_path)</code></p>
+</li>
+<li>
+<p>将一个路径加入到python系统路径下，避免每次通过代码指定路径</p>
+</li>
+<li>利用系统环境变量 <code>export PYTHONPATH=$PYTHONPATH:your_module_path</code>，</li>
+<li>
+<p>直接将这个路径链接到类似<code>/Library/Python/2.7/site-packages</code>目录下</p>
+</li>
+<li>
+<p>好的建议</p>
+</li>
+<li>经常使用<code>if __name__ == '__main__'</code>，保证你写包既可以import又可以独立运行，用于test。</li>
+<li>多次import不会多次执行模块，只会执行一次。可以使用<code>reload</code>来强制运行模块，但不提倡。</li>
+</ul>
+<h2>包（package）</h2>
+<p>为了组织好模块，将多个模块分为一个包。包是python模块文件所在的目录，且该目录下必须存在<code>__init<strong>.py</code>文件。常见的包结构如下：
+<pre>
+package_a
+├── </strong>init<strong>.py
+├── module_a1.py
+└── module_a2.py
+package_b
+├── </strong>init__.py
+├── module_b1.py
+└── module_b2.py
+main.py
+</pre></p>
+<ul>
+<li>
+<p>如果<code>main.py</code>想要引用<code>package_a</code>中的模块<code>module_a1</code>，可以使用:
+<pre>
+from package_a import module_a1
+import package_a.module_a1
+</pre></p>
+</li>
+<li>
+<p>如果<code>package_a</code>中的<code>module_a1</code>需要引用<code>package_b</code>，那么默认情况下，python是找不到<code>package_b</code>。我们可以使用<code>sys.path.append('../')</code>,可以在<code>package_a</code>中的<code>__init__.py</code>添加这句话，然后该包下得所有module都添加* <code>import __init__</code>即可。</p>
+</li>
+</ul>    <!-- Duoshuo Comment BEGIN -->
+	  	<div class="ds-thread"></div>
+	  <script type="text/javascript">
+	  var duoshuoQuery = {short_name:"lixinzhang"};
+	  	(function() {
+	  		var ds = document.createElement('script');
+	  		ds.type = 'text/javascript';ds.async = true;
+	  		ds.src = 'http://static.duoshuo.com/embed.js';
+	  		ds.charset = 'UTF-8';
+	  		(document.getElementsByTagName('head')[0] 
+	  		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	  	})();
+	  	</script>
+	  <!-- Duoshuo Comment END -->
+      </section>
+      <footer>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+  </body>
+</html>
+
