@@ -33,3 +33,4 @@ DEFAULT_PAGINATION = 10
 THEME = '/Users/zhanglixin/pelican-themes/elegant'
 GITHUB_URL = 'https://github.com/LixinZhang'
 DISQUS_SITENAME = 'zhanglixinseu'
+OUTPUT_PATH = './'
