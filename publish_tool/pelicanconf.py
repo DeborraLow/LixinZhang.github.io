@@ -30,7 +30,7 @@ DEFAULT_PAGINATION = 10
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
 
-THEME = '/Users/zhanglixin/pelican-themes/elegant'
+THEME = './elegant'
 GITHUB_URL = 'https://github.com/LixinZhang'
 DISQUS_SITENAME = 'zhanglixinseu'
 OUTPUT_PATH = './'
