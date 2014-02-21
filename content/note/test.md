@@ -1,8 +1,16 @@
-#Python中的模块与包
-##标准库的安装路径
+Title: Python中的模块与包
+Date: 2010-12-03 10:20
+Modified: 2010-12-05 19:30
+Category: Python
+Tags: pelican, publishing
+Slug: python_module_package
+Authors: Alexis Metaireau, Conan Doyle
+Summary: Short version for index and feeds
+
+###标准库的安装路径
 在<code>import</code>模块的时候，python是通过系统路径找到这些模块的，我们可以将这些路径打印出来：
 <pre>
->>> pprint.pprint(sys.path)
+ pprint.pprint(sys.path)
 ['',
  '/Library/Python/2.7/site-packages/pip-1.4.1-py2.7.egg',
  '/Library/Python/2.7/site-packages/python_recsys-0.2-py2.7.egg',
@@ -36,7 +44,7 @@
   * 经常使用<code>if \_\_name\__ == '\_\_main__'</code>，保证你写包既可以import又可以独立运行，用于test。
   * 多次import不会多次执行模块，只会执行一次。可以使用<code>reload</code>来强制运行模块，但不提倡。
   
-##包（package）
+###包（package）
 为了组织好模块，将多个模块分为一个包。包是python模块文件所在的目录，且该目录下必须存在<code>\_\_init__.py</code>文件。常见的包结构如下：
 <pre>
 package_a
@@ -50,7 +58,7 @@ package_b
 main.py
 </pre>
 
-*	如果<code>main.py</code>想要引用<code>package_a</code>中的模块<code>module_a1</code>，可以使用:
+* 如果<code>main.py</code>想要引用<code>package_a</code>中的模块<code>module_a1</code>，可以使用:
 <pre>
 from package_a import module_a1
 import package_a.module_a1
