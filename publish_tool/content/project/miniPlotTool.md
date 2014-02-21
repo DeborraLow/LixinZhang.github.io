@@ -111,3 +111,12 @@ tool.show()
 ##代码实现(Code)
 
 <script src="https://gist.github.com/LixinZhang/5796875.js"></script>
+
+
+
+Code Block Example:
+    :::python
+    import sys
+    sys.path.append('../')
+
+
