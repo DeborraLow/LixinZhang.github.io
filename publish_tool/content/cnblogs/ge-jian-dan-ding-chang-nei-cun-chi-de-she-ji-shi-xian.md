@@ -1,0 +1,181 @@
+Title: 一个简单定长内存池的设计实现
+Date: 2013-03-17 09:27
+Author: 糖拌咸鱼
+Slug: ge-jian-dan-ding-chang-nei-cun-chi-de-she-ji-shi-xian
+
+    主要分为 3 个部分，memoryPool 是管理内存池类，block
+表示内存块，chunk 表示每个存储小块。它们之间的关系为，memoryPool
+中有一个指针指向某一起始 block，block 之前通过 next
+指针构成链表结构的连接，每个 block 包含指定数量的
+chunk。每次分配内存的时候，分配 chunk 中的数据地址。
+
+</p>
+
+[![内存池设计文档][]][]
+
+</p>
+
+ 
+
+</p>
+
+<span style="font-size: large;">主要数据结构设计：</span>
+
+</p>
+
+Block：
+
+</p>
+
+<div class="cnblogs_code"
+style="background-color: #f5f5f5; border: #cccccc 1px solid; padding: 5px;">
+
+</p>
+<p>
+    struct block {    block * next;//指向下一个block指针    unsigned int numofChunks;    unsigned int numofFreeChunks;//剩余free的chunk数量    unsigned int blockNum;//该block的编号    char * data;    queue<int> freepos; //记录可用chunk序号};
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+MemoryPool：
+
+</p>
+
+<div class="cnblogs_code"
+style="background-color: #f5f5f5; border: #cccccc 1px solid; padding: 5px;">
+
+</p>
+<p>
+    class memoryPool {    unsigned int initNumofChunks; //每个block的chunk数量    unsigned int chunkSize;//每个chunk的数据大小    unsigned int steps;//每次扩展的chunk数量    unsigned int numofBlocks;//当前管理多少个blocks    block * blocksPtr;//指向起始block    block * blocksPtrTail;//指向末尾block    block * firstHasFreeChunksBlock;//指向第一个不为空的block};
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+Chunk：
+
+</p>
+
+[![image][]][]
+
+</p>
+
+ 
+
+</p>
+
+ChunkNum：该 chunk 所在 block 里的编号
+
+</p>
+
+blockAddress: 该 chunk 所对应的 block，主要用于 free 这个 chunk
+的时候，能够快速找到所属 block，并进行相应更新
+
+</p>
+
+data：实际供使用的数据起始位置
+
+</p>
+
+ 
+
+</p>
+
+<span style="font-size: large;">关键操作说明：</span>
+
+</p>
+
+内存分配：
+
+</p>
+
+从 firstHasFreeChunksBlock 开始查找第一个有 free 位置的
+block，如果找到，则则获取该 block 的 freepos
+的队首元素，返回该元素序号对应的 chunk 的数据地址，并将 freepos
+的队首元素弹出，其他相关属性更新。如果找不到，则新增 steps 个
+chunk，再重复上面的过程。
+
+</p>
+
+内存释放：
+
+</p>
+
+传入待释放的地址指针p，通过对p的地址移动可以找到chunk中的 ChunkNum 和
+blockAddress 两个数据，通过 blockAddress 可以找到该 chunk 所属的
+block，然后将ChunkNum 添加到该 block 的 freepos 中，其他相应属性更新。
+
+</p>
+
+使用方法：
+
+</p>
+
+<div class="cnblogs_code"
+style="background-color: #f5f5f5; border: #cccccc 1px solid; padding: 5px;">
+
+</p>
+<p>
+    memoryPool * mp = new memoryPool (256);     char * s = (char *)mp->allocate();   // 一些操作   mp->freeMemory(s);       delete mp;
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+不足：
+
+</p>
+
+没考虑线程安全问题，该实现方案在单线程下可以正常运行。
+
+</p>
+
+ 
+
+</p>
+
+<span style="font-size: large;">程序源代码：</span>
+
+</p>
+
+<div class="cnblogs_code"
+style="background-color: #f5f5f5; border: #cccccc 1px solid; padding: 5px;">
+
+</p>
+<p>
+    #include <iostream>#include <queue>#include <string.h>#include <ctime>using namespace std;struct block {    block * next;    unsigned int numofChunks;//指向下一个block指针    unsigned int numofFreeChunks;//剩余free的chunk数量    unsigned int blockNum;//该block的编号    char * data;    //记录可用chunk序号    queue<int> freepos;    block(unsigned int _numofChunks ,unsigned int _chunkSize, unsigned int _blockNum){        numofChunks =  _numofChunks;        numofFreeChunks = _numofChunks;        blockNum = _blockNum;        next = NULL;        data = new char [numofChunks * (sizeof(unsigned int) + sizeof(void *) + _chunkSize)];        char * p = data;        //每个chunk的结构：4byte的chunk序号 + 4byte的所属block地址 + 真正的数据        for(int i=0;i<numofChunks;i++){            char * ptr = p + i * (_chunkSize +  sizeof(unsigned int) + sizeof(void *));            unsigned int * num = (unsigned int *)(ptr);            *num = i;            ptr += sizeof(void *);            int * blockpos = (int *) ptr;            *blockpos = (int)this;            freepos.push(i);        }    }    ~block(){        delete [] data;    }};class memoryPool {public :    memoryPool(unsigned int _chunkSize = 256, unsigned int _initNumofChunks = 4096, unsigned int _steps = 64){        initNumofChunks = _initNumofChunks;        chunkSize = _chunkSize;        steps = _steps;        numofBlocks = steps;        //创建内存池时，初始化一定数量的内存空间        block * p = new block(initNumofChunks, chunkSize, 0);        blocksPtr = p;        for(int i=1;i<steps;i++){            p->next = new block(initNumofChunks, chunkSize, i);            p = p->next;            blocksPtrTail = p;        }        firstHasFreeChunksBlock = blocksPtr;    }    ~memoryPool(){        block  * p = blocksPtr;        while(blocksPtr!=NULL){            p = blocksPtr->next;            delete blocksPtr;            blocksPtr = p;        }    }    /*    从firstHasFreeChunksBlock开始查找第一个有free位置的block，    如果找到，则则获取该block的freepos的对首元素，    返回该元素序号对应的chunk的数据地址，并将freepos的队首元素弹出，    其他相关属性更新。如果找不到，则新增steps个chunk，再重复上面的过程。    */    void * allocate(){        block * p = firstHasFreeChunksBlock;        while(p != NULL && p->numofFreeChunks <= 0) p = p->next;        if(p == NULL){            p = blocksPtrTail;            increaseBlocks();            p = p->next;            firstHasFreeChunksBlock = p;        }        unsigned int pos =  p->freepos.front();        void * chunkStart = (void *)(p->data + pos * (chunkSize +  sizeof(unsigned int) + sizeof(void *)));        void * res = chunkStart + sizeof(unsigned int) + sizeof(void *);        p->freepos.pop();        p->numofFreeChunks --;        return res;    }    void increaseBlocks(){        block * p = blocksPtrTail;        for(int i=0; i<steps; i++){            p->next = new block(initNumofChunks, chunkSize, numofBlocks);            numofBlocks++;            p = p->next;            blocksPtrTail = p;        }    }    /*    传入待释放的地址指针_data，    通过对_data的地址移动可以找到chunk中的ChunkNum和blockAddress两个数据，    通过blockAddress可以找到该chunk所属的block，    然后将ChunkNum添加到该block的freepos中，其他相应属性更新。    */    void freeMemory(void * _data){        void * p = _data;        p -= sizeof(void *);        int * blockpos = (int *) p;        block * b = (block *) (*blockpos);        p -= sizeof(unsigned int);        int * num = (int *) p;        b->freepos.push(*num);        b->numofFreeChunks ++;        if (b->numofFreeChunks > 0 && b->blockNum < firstHasFreeChunksBlock->blockNum)            firstHasFreeChunksBlock = b;    }private :    unsigned int initNumofChunks; //每个block的chunk数量    unsigned int chunkSize;//每个chunk的数据大小    unsigned int steps;//每次扩展的chunk数量    unsigned int numofBlocks;//当前管理多少个blocks    block * blocksPtr;//指向起始block    block * blocksPtrTail;//指向末尾block    block * firstHasFreeChunksBlock;//指向第一个不为空的block};//testvoid echoPositionNum(char * p){    p -= (sizeof(void *) + sizeof(unsigned int));    int * num = (int *) p;    cout<<*num<<endl;}//测试void test0(){    memoryPool mp;    char * s1 = (char *)mp.allocate();    char * s2 = (char *)mp.allocate();    char str [256];    char str2 [256];    char str3 [256];    for(int i=0; i<255; i++) {        str[i] = 'a';str2[i] = 'b';str3[i] = 'c';    }    str[255] = '\0';    str2[255] = '\0';    strcpy(s1,str);    strcpy(s2,str2);    str3[255] = '\0';    echoPositionNum(s1);    cout<<s1<<endl;    mp.freeMemory(s1);    echoPositionNum(s2);    cout<<s2<<endl;    char * s3 = (char *)mp.allocate();    strcpy(s3,str3);    echoPositionNum(s3);    cout<<s3<<endl;}void test1(){    clock_t clock_begin = clock();    const int N = 50000;    char * s[N];    int round = 100;    while(round>=0){        round --;        for(int i=0;i<N;i++){            s[i] = new char[256];        }        for(int i=0;i<N;i++){             delete [] s[i];        }    }    clock_t clock_end = clock();    cout<<"Time cost\t"<<clock_end - clock_begin<<endl;}void test2(){    memoryPool mp(256);    clock_t clock_begin = clock();    const int N = 50000;    char * s[N];    int round = 100;    while(round>=0){        round --;        for(int i=0;i<N;i++){            s[i] = (char *)mp.allocate();        }        for(int i=0;i<N;i++){            mp.freeMemory(s[i]);        }    }    clock_t clock_end = clock();    cout<<"Time cost\t"<<clock_end - clock_begin<<endl;}int main(){    test0();    test1();    test2();    return 0;}
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+运行结果：
+
+</p>
+
+[![image][1]][]
+
+</p>
+
+  [内存池设计文档]: http://images.cnitblog.com/blog/146443/201303/17181425-ba67735f92c4446e9a77356264398889.jpg
+    "内存池设计文档"
+  [![内存池设计文档][]]: http://images.cnitblog.com/blog/146443/201303/17181421-1518745099324a1f9b2a635e616fe732.jpg
+  [image]: http://images.cnitblog.com/blog/146443/201303/17172629-fc6fcb33ea504d8b8ee64def9cf7c320.png
+    "image"
+  [![image][]]: http://images.cnitblog.com/blog/146443/201303/17172627-4b8365435360413093960486a92c79e7.png
+  [1]: http://images.cnitblog.com/blog/146443/201303/17172634-bf4d5a194052467683ace140c62c839a.png
+    "image"
+  [![image][1]]: http://images.cnitblog.com/blog/146443/201303/17172631-ebebd9483efd468ab0319e1f91fcd807.png

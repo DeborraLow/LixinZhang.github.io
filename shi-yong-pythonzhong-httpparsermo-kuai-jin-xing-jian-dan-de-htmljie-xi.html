@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>使用Python中HTTPParser模块进行简单的html解析 - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io/aboutme.html">About</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.html">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/shi-yong-pythonzhong-httpparsermo-kuai-jin-xing-jian-dan-de-htmljie-xi.html"> 使用Python中HTTPParser模块进行简单的html解析  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p>很早之前，在.net平台下写过一个分析html代码的程序，那时候的思想是将html代码解析成一棵类似树的结构，然后在分析其中的标签。Python中，HTTPParser模块，更像是在过程中进行解析，模拟遇到开始标签怎样开始，怎样处理属性和值，又当遇到结束标签该怎样结束等等过程。对于格式规范、代码简洁的html容易解析，如果复杂、不规范的html解析会很繁琐。</p>
+</p>
+
+<p><strong><span style="font-size: 16px;">HTTPParser：</span></strong></p>
+</p>
+
+<p>HTMLParser是python用来解析html的模块。它可以分析出html里面的标签、数据等等，是一种处理html的简便途径。</p>
+<p>HTMLParser采用的是一种事件驱动的模式，当HTMLParser找到一个特定的标记时，它会去调用一个用户定义的函数，以此来通知程序处理。<br />
+它主要的用户回调函数的命名都是以handler_开头的，都是HTMLParser的成员函数。<br />
+当我们使用时，就从HTMLParser派生出新的类，然后重新定义这几个以handler_开头的函数即可。</p>
+</p>
+
+<p><strong><span style="font-size: 16px;">例子：</span></strong></p>
+</p>
+
+<p>写了小例子，用于分析获取到我们东南大学教务处网站的信息公告栏，内容比较简单。</p>
+</p>
+
+<p><img alt="" src="http://pic002.cnblogs.com/images/2012/146443/2012010914154791.png" /></p>
+</p>
+
+<p>打开jwc网站。</p>
+</p>
+
+<p>查看源代码，可以发现信息公告栏里有这样格式的html片段：</p>
+</p>
+
+<p>\&lt;td width="314" height="20">\&lt;a href="/admin/disp.asp?id=5323"
+target="newwin">关于申请2012年德国乌尔姆大学本科交流项目的报...\&lt;/a>\&lt;img
+src="imagess/new.gif" width="26" height="10">\&lt;/td> <br />
+\&lt;td width="76" height="20">2012-1-9\&lt;/td></p>
+</p>
+
+<p>于是，可以简单的提取包含href="/admin/disp.asp?"属性的\&lt;a>标签获取文本和链接，以及紧接着的\&lt;td>标签获取日期值。</p>
+</p>
+
+<p>具体python实现代码如下：</p>
+</p>
+
+<div class="cnblogs_Highlighter">
+
+</p>
+<p>
+``` {.brush:python;gutter:false;}
+#-*- encoding:gb2312 -*-'''Created on 2012-1-9@author: xiaojay'''from HTMLParser import HTMLParserfrom htmlentitydefs import entitydefsimport urllib2url = "http://jwc.seu.edu.cn"class NewsParser(HTMLParser):    def __init__(self):        HTMLParser.__init__(self)        self.link = ""        self.text = ""        self.items = [] #保存提取结果        self.flag = False        self.parse_date = False        self.date_start = False    def handle_starttag(self,tag,attrs):        #处理开始标签        if tag=='a' and attrs:            for key ,value in attrs:                if key=='href':                    index = value.find("?")                    if index>0 and value[0:index]=="/admin/disp.asp":                        self.flag = True                        self.parse_date = True                                     self.link = value        if tag == "td" and self.parse_date == True :            self.date_start = True                            def handle_data(self,data):        #处理数据        if self.flag == True :            self.text = data        if self.date_start == True :            self.items.append((self.text,self.link,data))    def handle_entityref(self , name):        #处理实体引用        if entitydefs.has_key(name):            self.handle_data(name)        else :            self.handle_data("&"+name )    def handle_endtag(self,tag):        #处理结束标签        if tag == 'a' and self.flag== True :            self.flag = False        if tag == 'td' and self.parse_date and self.date_start :            self.parse_date = False            self.date_start = False    def getItems(self):        return self.items    req = urllib2.Request(url)fd = urllib2.urlopen(req)newsparser = NewsParser()#调用feed方法，开始处理newsparser.feed(fd.read())items = newsparser.getItems()for text , link , date in items :    print text , link , date                                                    
+```
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+<p>运行结果：</p>
+<p></p>
+<p></p>
+<blockquote>
+</p>
+
+<p>关于申请2012年德国乌尔姆大学本科交流项目的报...
+/admin/disp.asp?id=5323 2012-1-9<br />
+关于公布“东南大学第五届PLD设计竞赛”结果的通知 /admin/disp.asp?id=5322
+2012-1-6<br />
+关于公布“2011年国家大学生创新性实验计划项目... /admin/disp.asp?id=5321
+2012-1-6<br />
+关于公布2011年“国家大学生创新性实验计划项目... /admin/disp.asp?id=5320
+2012-1-6<br />
+关于申请暑假东南大学与台湾中原大学交换生的报名通知
+/admin/disp.asp?id=5319 2012-1-5<br />
+本科生申报2012年SRTP项目的预通知 /admin/disp.asp?id=5318 2012-1-5<br />
+关于申请2012年法国巴黎电子信息学院本科交流项...
+/admin/disp.asp?id=5317 2012-1-5<br />
+关于申请2012年日本北海道大学本科交流项目的报...
+/admin/disp.asp?id=5316 2012-1-4</p>
+<p></p>
+<p></p>
+</blockquote>
+</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/pythonwang-luo-bian-cheng-zhong-de-select-he-poll-iofu-yong-de-jian-dan-shi-yong.html" title="Previous: Python网络编程中的select 和 poll I/O复用的简单使用">Python网络编程中的select 和 poll I/O复用的简单使用</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/shi-yong-pythonzi-dai-de-xmldomchuang-jian-he-jie-xi-xml.html" title="Next: 使用python自带的xml.dom创建和解析xml">使用python自带的xml.dom创建和解析xml</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/shi-yong-pythonzhong-httpparsermo-kuai-jin-xing-jian-dan-de-htmljie-xi.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/shi-yong-pythonzhong-httpparsermo-kuai-jin-xing-jian-dan-de-htmljie-xi.html';
+    var disqus_url = 'http://lixinzhang.github.io/shi-yong-pythonzhong-httpparsermo-kuai-jin-xing-jian-dan-de-htmljie-xi.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2012-01-09T06:17:00">Jan 9, 2012</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

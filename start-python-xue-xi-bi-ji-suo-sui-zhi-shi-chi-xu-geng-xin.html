@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>Start Python 学习笔记（琐碎知识，持续更新。。。） - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io/aboutme.html">About</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.html">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/start-python-xue-xi-bi-ji-suo-sui-zhi-shi-chi-xu-geng-xin.html"> Start Python 学习笔记（琐碎知识，持续更新。。。）  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p>最近比较闲，想学习一门脚本语言，于是选择了python进行学习，之前对脚本语言不是很熟悉，所以不对python好坏做任何评价。希望通过学习python，能让自己对脚本语言有更深刻的认识吧。<br />
+Python的执行过程：当程序执行时，python内部会先将源代码编译成所谓的字节码的形式。字节码是源代码底层的、与平台无关的表现形式。编译字节码的过程中，会生成一个.pyc的文件，这个文件就是编译之后的字节码。Python真正在运行的就是这个字节码文件，如果生成字节码文件之后没有再修改过源代码的话，下次程序运行会跳过编译这个步骤，直接运行pyc文件，这是一种启动速度的优化。字节码文件被发送到python虚拟机（Python
+Virtual Machine, PVM）上来执行。PVM是python的运行引擎。<br />
+Python字节码不是机器的二进制代码，只是一种中间表示形式，所以python无法运行的和C/C++一样快。<br />
+Python语言有三种主要的实现方式：CPython、Jython和IronPython。<br />
+Python是动态类型的（自动跟踪你的类型而不是要求声明的代码），但也是强类型的（只能对一个对象进行有效的操作）</p>
+</p>
+
+</p>
+
+<p>1 、十六进制和八进制表示 0XAF -> 175  , 010 ->8 <br />
+2、math模块 import math
+，使用的时候math.sqrt(100),当确定自己不会导入多个同名函数的情况下，可以使用from
+math import sqrt ,以后就可以随时使用sqrt函数了。 <br />
+3、对于虚数的处理，使用cmath（complex
+math）模块，这样就可以对-1进行sqrt操作了。 <br />
+4、input和raw_input的区别，input会假设用户输入的是合法的Python表达式，使用raw_input函数，它会把所有的输入当做原始数据（raw
+data），然后将其放在字符串中。除非input有特别的需要，否则应该尽可能使用raw_input函数</p>
+<p>5、在字符串前面加r，取消转义 <br />
+6、列表和元组的主要区别：列表可以修改而元组不能 <br />
+7、列表的分片，列表[起始点,终止点之前一点,步长（默认为1） <br />
+8、字符串不能像列表一样被修改，一般转换为列表然后再进行处理 <br />
+9、列表a、b，a=a+b的效率要低于a.extend(b)，因为前者是在a+b后生成新的列表然后又赋值给a，而后者是在原a的基础上扩展出b的</p>
+<p>10、pop方法是唯一一个能够修改列表又返回值的方法。lst.pop() 返回并删除 <br />
+11、tuple函数将列表转化为元组 tuple([1,2,3]) <br />
+12、模板字符串：string模块提供一种格式化值的方法：模板字符串。它的工作方式类似于很多UnixShell里的变量替换。
+from string import Template 。 具体google。 <br />
+13、string模块的join方法是split方法的逆方法。EG：seq =
+['1','2','3','4','5'];sep = ',';s = sep.join(seq) <br />
+14、字符串的title方法，将字符串转换为标题，也就是所有单词的首字母大写，而其他字母小写。string
+= "that's all folks.";string.title()=="That'S All Folks." <br />
+15、strip方法返回去除两侧（不包括内部）空格的字符串。 <br />
+16、使用dict的小Demo： <br />
+people = { <br />
+    'Alice':{ <br />
+        'phone':1234, <br />
+        'address':'beijing' <br />
+           }, <br />
+    'Peter':{ <br />
+        'phone':4567, <br />
+        'address':'shanghai' <br />
+            }, <br />
+    'Micheal':{ <br />
+        'phone':9012, <br />
+        'address':'hangzhou'   <br />
+             } <br />
+          } <br />
+name = raw_input("please input the name : \n") <br />
+if(people.has_key(name)==False): <br />
+    print "Not exist" <br />
+else: <br />
+    profile = people[name] <br />
+    #use dict to format the string <br />
+    print "Phone is : %(phone)s \nAddress is : %(address)s" % profile <br />
+17、字典的拷贝，字典的普通copy方法是浅拷贝，只是简单的拷贝值，但是如果涉及到应用的拷贝的话，就要考虑使用deepcopy方法进行深拷贝。</p>
+<p>18、模块的导入： <br />
+   import somemodule <br />
+   from somemodule import somefunction <br />
+   from somemodule import somefunction, anthorfunction,
+yetanthorfunction <br />
+   from somemodule import * <br />
+   使用别名，避免冲突:import math as foobar <br />
+19、交换两个值 x,y = y,x <br />
+20、== 测试相等性，即值是否相等，而 is
+用于测试同一性，即是否指向同一个对象 <br />
+21、a if b else c ; 如果b为真，则返回a，否则返回c    <br />
+22、遍历字典 <br />
+d = {'x':1,'y':2,'z':3} <br />
+#Method1 <br />
+for key in d: <br />
+    print key ,'----->',d[key] <br />
+#Method2 <br />
+for key in d.keys(): <br />
+    print key ,'----->',d[key] <br />
+#Method3 <br />
+for (key , value) in d.items() : <br />
+    print key , '----->' , value <br />
+23、zip函数可以用来进行并行迭代，可以将多个序列"压缩"在一起，然后返回一个元组的列表</p>
+<p>names = ['Peter','Rich','Tom'] <br />
+ages = [20,23,22] <br />
+d = dict(zip(names,ages)) <br />
+for (name,age) in zip(names,ages): <br />
+    print name ,'----', age <br />
+print d['Peter'] <br />
+24、在循环中添加else语句，只有在没有调用break语句的时候执行。这样可以方便编写曾经需要flag标记的算法。</p>
+<p>25、使用del时候，删除的只是名称，而不是列表本身值，事实上，在python中是没有办法删除值的，系统会自动进行垃圾回收。</p>
+<p>26、求斐波那契数列 <br />
+def fibs(num): <br />
+    'a function document' <br />
+    result = [0,1] <br />
+    for i in range(num-2): <br />
+        result.append(result[-2]+result[-1]) <br />
+    return result <br />
+27、抽象函数（参数可以缺省，可以通过*p传递任意数量的参数，传递的是元组；通过**p传递任意数量的参数，传递的是字典）</p>
+<p>def a(*p): <br />
+    print p <br />
+def b(**p): <br />
+    print p <br />
+a(1,2,3) <br />
+b(a='1',b='2',c='3') <br />
+""" <br />
+result: <br />
+(1, 2, 3) <br />
+{'a': '1', 'c': '3', 'b': '2'} <br />
+""" <br />
+28、使用globals()函数获取全局变量值，该函数的近亲是vars，它可以返回全局变量的字典（locals返回局部变量的字典）</p>
+<p>29、随机函数random.choice([1,2,3,4]) <br />
+30、关于面向对象 <br />
+#__metaclass__ = type <br />
+class Person:   <br />
+    #private variable <br />
+    __name = "" <br />
+    count = 0 <br />
+    def setname(self,name): <br />
+        self.__name = name <br />
+    def getname(self): <br />
+        return self.__name <br />
+    #private method using '__' <br />
+    def __greet(self): <br />
+        print "Say hello to %s !"%self.__name <br />
+    def greet(self): <br />
+        self.__greet() <br />
+    def inc(self): <br />
+        # ClassName.variableName means the variable belongs to the
+Class <br />
+        # every instance shares the variable <br />
+        Person.count+=1 <br />
+#create instance <br />
+p = Person() <br />
+p.setname("Peter") <br />
+p.inc()</p>
+</p>
+
+<p>p2 = Person() <br />
+p2.setname("Marry") <br />
+p2.inc()</p>
+</p>
+
+<p>print "Name : " , p.getname() <br />
+#private method __Method is converted to public method
+_ClassName__Method <br />
+p._Person__greet() <br />
+print "Total count of person :  ", Person.count</p>
+</p>
+
+<p>p.count=12 # change the variable belong to the instance P <br />
+print p.count <br />
+print p2.count</p>
+</p>
+
+<p>31、python支持多重继承，如果一个方法从多个超类继承，那么必须要注意一下超类的顺序（在class语句中）：先继承的类中方法会重写后继承的类中的方法，也就是后来将自动忽略同名的继承。</p>
+<p>32、使用hasattr(tc,'talk') 判断对象tc时候包含talk属性；
+使用callable(getattr(tc,'talk',None))
+判断对象tc的talk属性是否可以调用，但是在python3.0之后，callable方法已经不再使用了，可以使用hasattr(x,'__call__')代替callable(x)；使用setattr可以动态设置对象的属性，setattr(tc,'talk',speek)</p>
+<p>33、try：  except： else:    finally:   
+可以捕捉多个异常，多个异常用元组进行列出，并且可以捕捉对象， <br />
+def test(): <br />
+    while True: <br />
+        try: <br />
+            x = raw_input("Please input the x: ") <br />
+            y = raw_input("Please input the y: ") <br />
+            print int(x)//int(y) <br />
+        except ZeroDivisionError as e: <br />
+            print "The second number can not be zero" <br />
+            print e <br />
+        else: <br />
+            print "Nothing exception has happened!" <br />
+        finally: <br />
+            print "Clean up . It will be executed all the time" <br />
+34、异常和函数：在函数内引发异常时，它就会被传播到函数调用的地方(对于方法也是一样)   </p>
+<p>35、构造方法:def __init__(self , arguments) <br />
+36、子类不会自动调用父类的构造方法 <br />
+37、查看模块包含的内容可以使用dir函数，它会将对象（以及模块的所有函数、类、变量等）的所有特性列出.__all__变量定义了模块的共有接口（public
+interface）。更准确的说，它告诉解释器：从模块导入所有名字代表什么含义。eg：
+form copy import *
+代码你只能访问__all__所定义的接口，而如果想访问其他接口的话，就必须显式地实现，from
+copy import PyStringMap</p>
+</p>
+
+<p>38、shelve模块的简单使用 <br />
+''' <br />
+Created on 2011-12-11 <br />
+A demo for shelve <br />
+@author: Peter <br />
+''' <br />
+import shelve</p>
+</p>
+
+<p>def store_person(db): <br />
+    pid = raw_input("Enter the unique id for the person : ") <br />
+    if pid in db : <br />
+        print "The id exists , please change " <br />
+        return <br />
+    person = {} <br />
+    person['name'] = raw_input("Enter the name of the person : ") <br />
+    person['age'] = raw_input("Enter the age of the person : ") <br />
+    person['phone'] = raw_input("Enter the phone number of the person :
+") <br />
+    db[pid] = person <br />
+<br />
+def lookup_person(db): <br />
+    pid = raw_input("Enter the id : ") <br />
+    if pid not in db : <br />
+        print "This is no that person" <br />
+        return <br />
+    field = raw_input("What would you like to know ? (name,age,phone) :
+") <br />
+    field = field.strip().lower() <br />
+    print field.capitalize()+":"+db[pid][field] <br />
+<br />
+def enter_command(): <br />
+    cmd = raw_input("Enter command : ") <br />
+    cmd = cmd.strip().lower() <br />
+    return cmd</p>
+</p>
+
+<p>def main(): <br />
+    database = shelve.open("database.bat") <br />
+    try: <br />
+        while True: <br />
+            cmd = enter_command() <br />
+            if cmd == 'store': <br />
+                store_person(database) <br />
+            elif cmd == 'lookup': <br />
+                lookup_person(database) <br />
+            elif cmd == 'exit': <br />
+                return <br />
+    finally: <br />
+        database.close()</p>
+</p>
+
+<p>if __name__  == '__main__':main()</p>
+</p>
+
+<hr />
+</p>
+
+</p>
+
+<p><strong>关于with和contextylib的用法：</strong></p>
+</p>
+
+<p>平常Coding过程中，经常使用到的with场景是（打开文件进行文件处理，然后隐式地执行了文件句柄的关闭）:</p>
+</p>
+
+<div class="cnblogs_Highlighter">
+
+</p>
+<p>
+``` {.brush:python;gutter:true;}
+    with file('test.py','r') as f :        print f.readline()
+
+wzxhzdk:0
+
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+<p>运行结果：</p>
+</p>
+
+<p><img alt="" src="http://images.cnitblog.com/blog/146443/201301/28171208-485f497abe3240cebdbe6efebf8bc07d.png" /></p>
+</p>
+
+<p>contextlib是为了加强with语句，提供上下文机制的模块，它是通过Generator实现的。通过定义类以及写__enter__和__exit__来进行上下文管理虽然不难，但是很繁琐。contextlib中的contextmanager作为装饰器来提供一种针对函数级别的上下文管理机制。常用框架如下：</p>
+</p>
+
+<div class="cnblogs_Highlighter">
+
+</p>
+<p>
+``` {.brush:python;gutter:false;}
+from contextlib import contextmanager@contextmanagerdef make_context() :    print 'enter'    try :        yield {}    except RuntimeError, err :        print 'error' , err    finally :        print 'exit'with make_context() as value :    print value
+
+wzxhzdk:1
+
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+<p>运行结果：</p>
+</p>
+
+<p><img alt="" src="http://images.cnitblog.com/blog/146443/201301/28174158-0862d4af882d462483c64b2121dcde33.png" /></p>
+</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/zhi-xing-hashsuan-fa-cyu-yan-shi-xian.html" title="Previous: 一致性hash算法 C++语言实现">一致性hash算法 C++语言实现</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/jsongai-shu-yi-ji-pythondui-jsonde-xiang-guan-cao-zuo.html" title="Next: Json概述以及python对json的相关操作">Json概述以及python对json的相关操作</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/start-python-xue-xi-bi-ji-suo-sui-zhi-shi-chi-xu-geng-xin.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/start-python-xue-xi-bi-ji-suo-sui-zhi-shi-chi-xu-geng-xin.html';
+    var disqus_url = 'http://lixinzhang.github.io/start-python-xue-xi-bi-ji-suo-sui-zhi-shi-chi-xu-geng-xin.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2011-12-11T14:21:00">Dec 11, 2011</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

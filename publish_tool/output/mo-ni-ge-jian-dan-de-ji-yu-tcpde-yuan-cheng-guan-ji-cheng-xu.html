@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>模拟一个简单的基于tcp的远程关机程序 - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io/aboutme.html">About</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.html">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/mo-ni-ge-jian-dan-de-ji-yu-tcpde-yuan-cheng-guan-ji-cheng-xu.html"> 模拟一个简单的基于tcp的远程关机程序  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p><span
+style="white-space: pre;"></span>最近在学习unix网络编程，现在正在学习tcp的通信。其实，只要建立起了tcp通信，操作远端的计算机就不是什么问题了。正向telnet一样，也是基于tcp/IP协议的。所以这个实验，也算是对telnet功能的一种简单的模拟。</p>
+</p>
+
+<p><span
+style="white-space: pre;"></span>但是，值得注意的问题是关机涉及到系统权限，所以要给运行在Server端的程序以足够的权限，这样才可以在接收到Client端的关机请求时，执行关机。</p>
+</p>
+
+<p>将会模拟如下执行过程：</p>
+</p>
+
+<p>1．<span></span>执行 mytelnet 跟上参数telnet服务器 IP地址 127.0.0.1</p>
+</p>
+
+<p>2．<span></span>输入login 向服务器请求登录，随之服务器会要求输入密码</p>
+</p>
+
+<p>3．<span></span>输入一个错误的登录密码 123 </p>
+</p>
+
+<p>4．<span></span>服务器验证不通过，所以返回Fail to login ,please check
+your password</p>
+</p>
+
+<p>5．<span></span>再次输入密码，这次输入正确的密码123456</p>
+</p>
+
+<p>6．<span></span>服务器验证通过，此时客户端可以执行基于telnet的远程操控</p>
+</p>
+
+<p>7．<span></span>输入操控命令，例如关机命令shutdown </p>
+</p>
+
+<p>8．<span></span>服务器将会执行shutdown 操作。</p>
+</p>
+
+<p><strong>在编译时使用如下的命令：</strong></p>
+</p>
+
+<p><strong>Server:</strong></p>
+</p>
+
+<p><strong><span face="monospace" size="2"
+style="font-family: monospace; font-size: 15px;"><span
+style="line-height: normal; white-space: pre-wrap;">sudo gcc server.c -o
+server //足够的权限</span></span></strong></p>
+</p>
+
+<p><strong><span face="monospace" size="2"
+style="font-family: monospace; font-size: 15px;"><span
+style="line-height: normal; white-space: pre-wrap;">sudo chmod u+s
+server </span></span></strong></p>
+</p>
+
+<p><strong><span face="monospace" size="2"
+style="font-family: monospace; font-size: x-small;"><span
+style="line-height: normal; white-space: pre-wrap;"><span
+style="font-size: 15px;">./server</span></span></span></strong></p>
+</p>
+
+<p><strong><span face="monospace" style="font-family: monospace;"><span
+style="font-size: 15px; line-height: normal; white-space: pre-wrap;">Client:</span></span></strong></p>
+</p>
+
+<p><strong><span face="monospace" size="2"
+style="font-family: monospace; font-size: 15px;"><span
+style="line-height: normal; white-space: pre-wrap;">gcc client.c -o
+mytelnet</span></span></strong></p>
+</p>
+
+<p><span face="monospace" size="2"
+style="font-family: monospace; font-size: x-small;"><span
+style="line-height: normal; white-space: pre-wrap;"><strong><span
+style="font-size: 15px;">./mytelnet 10.3.1.210</span></strong><br />
+</span></span></p>
+</p>
+
+<p><strong>Client端：</strong></p>
+</p>
+
+<p><span face="monospace" size="2" style="font-family: monospace; font-size: x-small;"><span style="line-height: normal; white-space: pre-wrap;"></p>
+<div class="cnblogs_code">
+
+</p>
+<p>
+    #include <stdio.h>#include <string.h>#include <arpa/inet.h>#include <netinet/in.h>#include <sys/socket.h>#define MAXLINE 4096void clientWork(FILE* fp , int sockfd){    char sendline[MAXLINE],receiveline[MAXLINE];    int n;    while(fgets(sendline,MAXLINE,fp)!=NULL)    {        write(sockfd,sendline,strlen(sendline));        n=read(sockfd,receiveline,MAXLINE);        receiveline[n]='\0';        fputs(receiveline,stdout);        if(strcmp(receiveline,"bye\n")==0) break;    }}int main( int argc , char * * argv ){    int sockfd , n ;    char recvline[ MAXLINE + 1];    struct sockaddr_in servaddr;    if( ( sockfd = socket( AF_INET , SOCK_STREAM , 0 ) ) < 0 ) {        printf( "socket error\n" );        exit( 1 );    }    memset( &servaddr , 0 , sizeof( servaddr ) );    servaddr.sin_family = AF_INET;    servaddr.sin_port = htons( 2000 );//指定Server端的端口号    char * serverAddress=argv[1];    //判断指定的ip地址是否有错误    if( inet_pton( AF_INET ,serverAddress , &servaddr.sin_addr ) <= 0 )  {        printf( "inet_pton error for %s\n" , serverAddress );        exit( 1 );     }    if( connect( sockfd , (struct sockaddr *)&servaddr , sizeof( servaddr ) ) < 0 )  {        printf( "connect error\n" );        exit( 1 );    }    //从Terminal中读取用户输入的指令    clientWork(stdin,sockfd);    close(sockfd);    return 0;}
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+<p></span></span></p>
+</p>
+
+<p><strong>Server端：</strong></p>
+</p>
+
+<p><span face="monospace" size="2" style="font-family: monospace; font-size: x-small;"><span style="line-height: normal; white-space: pre-wrap;"></p>
+<div class="cnblogs_code">
+
+</p>
+<p>
+    #include <stdio.h>#include <string.h>#include <arpa/inet.h>#include <netinet/in.h>#include <sys/socket.h>#define MAXSIZE 1024#define LOGIN 1    //登录Server#define BYE 2    //离开Server#define PASS 3    //合法登录#define DENY 4 //非法登录#define SHUTDOWN 5 //执行关机#define ERROR -1 //非法信息//记录状态信息static int STATE=0;int getClientChoice(char * clientmsg){    if(strcmp(clientmsg,"login\n")==0) return LOGIN;    if(STATE>0)    {        if(strcmp(clientmsg,"bye\n")==0) return BYE;    }    if(STATE==LOGIN)    {        //Default password is 123456        if(strcmp(clientmsg,"123456\n")==0) return PASS;        else return DENY;    }    if(STATE==PASS)    {        if(strcmp(clientmsg,"shutdown\n")==0) return SHUTDOWN;        else ERROR;        }    return ERROR;};//发送消息void sendMsg(int sockfd,char * buffer,char * msg){    char buffer2[MAXSIZE];    snprintf(buffer2,sizeof(buffer2),"%s",msg);    write(sockfd,buffer2,sizeof(buffer2));}//定义关机函数void myshutdown(){    //系统在一分钟后关机    system("shutdown -t 1");}int main(int argc , char * * argv ){    char buffer[MAXSIZE];    int listenfd=socket(AF_INET,SOCK_STREAM,0);//定义socket，指向ipv4地址的字节流套接口        struct sockaddr_in serverAddr;    memset(&serverAddr,0,sizeof(serverAddr));//sockAddr_in 进行初始化    serverAddr.sin_family=AF_INET;    serverAddr.sin_addr.s_addr=htonl(INADDR_ANY);    serverAddr.sin_port=htons(2000);    if(bind(listenfd,(struct sockaddr *) &serverAddr,sizeof(serverAddr))==-1)    {        printf("There is an error during binding\n");        return -1;    }    else    {        printf("Bind successfully!!!\n");    }    //对listenfd进行监听，从最初建立时的主动套接口（用于进行connect的套接口）转化为被动套接口（接受连接）    listen(listenfd,100);//第二个参数为套接口排队的最大连接个数    int connectfd;    socklen_t addrlen;    struct sockaddr_in connectAddr;    memset(&connectAddr,0,sizeof(connectAddr));    printf("Be ready to accept a connection!\n");    while(1)    {        connectfd=accept(listenfd,(struct sockAddr * )&connectAddr,&addrlen);//接受client端一个请求的socket        char receivebuffer[MAXSIZE];        int revbuflen;        while(1)        {            revbuflen = read(connectfd,receivebuffer,MAXSIZE);            receivebuffer[revbuflen]='\0';            //printf("%s",receivebuffer);            int clientChoice=getClientChoice(receivebuffer);        //    模拟操作过程            if(clientChoice==LOGIN)            {                STATE=LOGIN;                sendMsg(connectfd,buffer,"Please input your password :\n");            }            else if(clientChoice==PASS&&STATE==LOGIN)            {                STATE=PASS;                sendMsg(connectfd,buffer,"Welcome to my Telnet Server...\n");            }            else if(clientChoice==SHUTDOWN&&STATE==PASS)            {                myshutdown();                sendMsg(connectfd,buffer,"Remote computer is going to shutdown...\n");            }            else if (clientChoice==BYE)            {                sendMsg(connectfd,buffer,"bye\n");                break;            }            else if(clientChoice==DENY)            {                sendMsg(connectfd,buffer,"Fail to login ,please check your password\n");            }            else if(clientChoice==ERROR)            {                sendMsg(connectfd,buffer,"wrong,Check your input...\n");            }        }        close(connectfd);    }    close(listenfd); //虽然因为上面有while（true），这行永远都执行不了，但是时刻注意关闭socket连接应该是个好习惯。     return 0;}
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+<p></span></span></p>
+</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/tcplian-jie-de-jian-li-yi-ji-li-yong-tcpdumpfen-xi-lian-jie-jian-li-de-guo-cheng.html" title="Previous: TCP连接的建立以及利用tcpdump分析连接建立的过程">TCP连接的建立以及利用tcpdump分析连接建立的过程</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/jian-dan-de-udphui-she-cheng-xu.html" title="Next: 简单的UDP回射程序">简单的UDP回射程序</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/mo-ni-ge-jian-dan-de-ji-yu-tcpde-yuan-cheng-guan-ji-cheng-xu.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/mo-ni-ge-jian-dan-de-ji-yu-tcpde-yuan-cheng-guan-ji-cheng-xu.html';
+    var disqus_url = 'http://lixinzhang.github.io/mo-ni-ge-jian-dan-de-ji-yu-tcpde-yuan-cheng-guan-ji-cheng-xu.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2010-12-05T13:07:00">Dec 5, 2010</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

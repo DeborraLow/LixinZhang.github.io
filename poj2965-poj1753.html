@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>poj2965 && poj1753 - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io/aboutme.html">About</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.html">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/poj2965-poj1753.html"> poj2965 && poj1753  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p>两道关于用整数位运算模拟棋盘变换+暴力搜索的问题。</p>
+</p>
+
+<p>poj2965：<a href="http://poj.org/problem?id=1753">Flip Game</a></p>
+</p>
+
+<p>poj1753：<a href="http://poj.org/problem?id=2965">The Pilots Brothers' refrigerator</a></p>
+</p>
+
+<p><strong>Code：</strong></p>
+</p>
+
+<p>poj2965</p>
+</p>
+
+<div class="cnblogs_code"
+style="background-color: #f5f5f5; border: #cccccc 1px solid; padding: 5px;">
+
+</p>
+<p>
+    #include<iostream>using namespace std;int switch_flag [] = {0xF888,0xF444,0xF222,0xF111,0x8F88,0x4F44,0x2F22,0x1F11,0x88F8,0x44F4,0x22F2,0x11F1,0x888F,0x444F,0x222F,0x111F};int num = (1<<16) -1;void output(int minsteps,int ans){     cout<<minsteps<<endl;     int mark = 1<<15;     int x,y;     for (int i=0;i<16;i++){         if (mark == (mark & ans)){            x = i / 4 + 1;            y = i % 4 + 1;            cout<<x<<" "<<y<<endl;         }         mark = mark >> 1;     }}void search(int data ){    int minsteps = 17;    int ans = 0;    int oridata = data;    int mark,index,step;    for(int i=0; i<=num; i++){       mark = 1;       index = 0;       data = oridata;       step = 0;       while(index <= 15){           if (mark == (mark & i)) {               step += 1;               if(step>=minsteps) break;               data = switch_flag[15-index] ^ data;               if (data == 0) {                   if (step<=minsteps) {                       minsteps = step;                       ans = i;                   }                   break;               }           }           index ++;           mark = mark << 1;       }    }    output(minsteps, ans);}int main(){    long data = 0;    char c ;    for(int i=0; i<16; i++){        cin>>c;        if (c=='+'){            data += (1<<(15-i));        }    }    search(data);    return 0;}
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+<p>poj1753：</p>
+</p>
+
+<div class="cnblogs_code"
+style="background-color: #f5f5f5; border: #cccccc 1px solid; padding: 5px;">
+
+</p>
+<p>
+    #include<iostream>#include<stdio.h>using namespace std;int flip[] = {0xC800,0xE400,0x7200,0x3100,0x8C80,0x4E40,0x2720,0x1310,0x08C8,0x04E4,0x0272,0x0131,0x008C,0x004E,0x0027,0x0013};long num = (1 << 16) - 1;int search(int data ){    int ans = 17;    int oridata = data;    int mark,index,step;    for(int i=0; i<=num; i++){       mark = 1;       index = 0;       data = oridata;       step = 0;       while(index <= 15){           if (mark == (mark & i)) {               step += 1;               if(step>=ans) break;               data = flip[15-index] ^ data;               if (data == num || data == 0) {                   if (step<ans) ans = step;                   break;               }           }           index ++;           mark = mark << 1;       }    }    if (ans < 17)        return ans;    else return -1;}int main(){    long data = 0;    char c;    for (int i=0; i<16; i++){        cin>>c;        if (c == 'b') data += (1 << (15-i));    }    if (data == num || data == 0) {        cout<<0<<endl;        return 0;    }    int ans = search(data);    if (ans!=-1) cout<<ans<<endl;    else cout<<"Impossible"<<endl;    return 0;}
+
+</p>
+<p>
+
+</div>
+
+</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/k-nearest-neighbors-suan-fa.html" title="Previous: K-nearest Neighbors 算法">K-nearest Neighbors 算法</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/liang-dao-dong-tai-gui-hua-de-zuo-ye-ti.html" title="Next: 两道动态规划的作业题">两道动态规划的作业题</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/poj2965-poj1753.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/poj2965-poj1753.html';
+    var disqus_url = 'http://lixinzhang.github.io/poj2965-poj1753.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2012-11-09T05:32:00">Nov 9, 2012</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

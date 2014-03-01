@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>两路归并的数组和链表实现 - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io/aboutme.html">About</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.html">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/liang-lu-gui-bing-de-shu-zu-he-lian-biao-shi-xian.html"> 两路归并的数组和链表实现  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <div class="cnblogs_code">
+
+</p>
+<p>
+    #include<iostream>#include<assert.h>using namespace std;struct node{    int val;    node * next;    node(int v)    {        val=v;        next=NULL;    }};node * merge(node* list1 , node * list2){    assert(list1!=NULL&&list2!=NULL);    node * res;    if(list1->val<=list2->val)    {        res=list1;        list1=list1->next;    }    else    {        res=list2;        list2=list2->next;    }    node * p = res;    node *p1 =list1,*p2 =list2;    while(p1!=NULL&&p2!=NULL)    {        if(p1->val<=p2->val)        {            p->next=p1;            p=p->next;            p1=p1->next;        }        else        {            p->next=p2;            p=p->next;            p2=p2->next;        }    }    while(p1!=NULL)     {        p->next=p1;        p=p->next;        p1=p1->next;    }    while(p2!=NULL)     {        p->next=p2;        p=p->next;        p2=p2->next;    }    return res;}int * merge(int * arr1,int la, int * arr2,int lb){    int i=0,j=0;    int * arr = new int[la+lb];    int t=0;    while(i<la&&j<lb)    {        if(arr1[i]<=arr2[j])        {            arr[t++]=arr1[i];            i++;        }        else        {            arr[t++]=arr2[j];            j++;        }    }    while(i<la)     {        arr[t++]=arr1[i];        i++;    }    while(j<lb)    {        arr[t++]=arr2[j];        j++;    }    return arr;}void setLinkData(node * & list1 , node * & list2){    node * node1 = new node(2);    node * node2 = new node(3);    node * node3 = new node(7);    node * node4= new node(9);    node1->next=node2;    node2->next=node3;    node3->next=node4;    list1=node1;    node * node5 = new node(1);    node * node6 = new node(4);    node * node7 = new node(6);    node * node8 = new node(8);    node5->next=node6;    node6->next=node7;    node7->next=node8;    list2=node5;}int main(){    node * list1;    node * list2;    setLinkData(list1,list2);    int arr1[]={1,6,15,17,19};    int arr2[]={2,4,6,8,10};    int * arr = merge(arr1,5,arr2,5);    node * ans = merge(list1,list2);    //Print result    int length=10;    for(int i=0;i<10;i++)    {        cout<<*arr<<endl;        arr++;    }    while(ans!=NULL)    {        cout<<ans->val<<endl;        ans=ans->next;    }    return 0;}
+
+</p>
+<p>
+
+</div>
+
+</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/oraclenei-cun-zu-jian-yu-jin-cheng-de-xiang-guan-zhi-shi-zong-jie.html" title="Previous: Oracle内存组件与进程的相关知识总结">Oracle内存组件与进程的相关知识总结</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/ji-he-de-zi-ji-he-ji-he-de-quan-pai-lie-wen-ti.html" title="Next: 集合的子集和集合的全排列问题">集合的子集和集合的全排列问题</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/liang-lu-gui-bing-de-shu-zu-he-lian-biao-shi-xian.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/liang-lu-gui-bing-de-shu-zu-he-lian-biao-shi-xian.html';
+    var disqus_url = 'http://lixinzhang.github.io/liang-lu-gui-bing-de-shu-zu-he-lian-biao-shi-xian.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2011-05-07T08:59:00">May 7, 2011</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>
