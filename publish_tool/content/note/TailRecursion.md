@@ -29,6 +29,7 @@ Tags: Algorithm
 简单理解，就是处于函数尾部的递归调用本身的情形下，前面的变量状态都不需要再保存了，可以释放，从而节省很大的内存空间。在前面的代码中，明显在调用递归调用<code>Fibonacci(n-1)</code>的时候，还有<code>Fibonacci(n-2)</code>没有执行，需要保存前面的状态，因此开销较大的。
 
 于是，我们可以改写这个斐波那契数列：
+
     :::cpp
     int Fibonacci(int n, int a, int b) {
         if (n<=2) {

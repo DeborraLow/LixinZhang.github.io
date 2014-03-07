@@ -82,16 +82,18 @@
 而形式上只要是最后一个return语句返回的是一个完整函数，它就是尾递归。</p>
 </blockquote>
 <p>简单理解，就是处于函数尾部的递归调用本身的情形下，前面的变量状态都不需要再保存了，可以释放，从而节省很大的内存空间。在前面的代码中，明显在调用递归调用<code>Fibonacci(n-1)</code>的时候，还有<code>Fibonacci(n-2)</code>没有执行，需要保存前面的状态，因此开销较大的。</p>
-<p>于是，我们可以改写这个斐波那契数列：
-    :::cpp
-    int Fibonacci(int n, int a, int b) {
-        if (n&lt;=2) {
-            return b;
-        }
-        else {
-            return Fibonacci(n-1, b, a+b);
-        }
-    }</p>
+<p>于是，我们可以改写这个斐波那契数列：</p>
+<div class="highlight"><pre><span class="kt">int</span> <span class="nf">Fibonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">Fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
 <p>详细的可以参考上面给出的<a href="http://zh.wikipedia.org/wiki/%E5%B0%BE%E8%B0%83%E7%94%A8">尾递归</a>链接。</p>
             <aside>
             <nav>
