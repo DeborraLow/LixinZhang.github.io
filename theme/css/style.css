@@ -132,7 +132,7 @@ ul.articles-in-tag li {
 /* Article */
 
 article p a, article ol a {
-    /*color:black;*/
+    color:black;
     border-bottom:0.5px dashed darkblue;
 }
 
