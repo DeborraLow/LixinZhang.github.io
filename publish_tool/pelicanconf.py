@@ -49,9 +49,9 @@ If you are in China, you also could find me in <a href="http://weibo.com/zhangli
 <p>
 I mostly work in Python, C++/C on Mac OS, UNIX-style OS, windows. I also have ever used JAVA and C#. I have rich
 intern experience in different companies, like Yahoo, Alibaba and Innovation Works.
-Engineering technoledge like Web Development, Network Programming, Mysql, system architecture are my favroutate.
-I also like fields such as Computational Advertising, Recommender System, Data Mining which are now very pupular in industry and academia.
-They help make Computer more intelligent. 
+Engineering technoledge like Web Development, Network Programming, Mysql, system architecture are my interest.
+I also focus on fields such as Computational Advertising, Recommender System, Data Mining which are now very pupular in industry and academia.
+They help make Computers more intelligent. 
 </p>
 
 <p>
@@ -60,3 +60,18 @@ English as my second language is very poor to me. So I try to write some blogs o
 </p>
 
  '''}
+
+PROJECTS = [{
+     'name': 'L2R for BT',
+     'url': 'https://github.com/LixinZhang/advertisingLab',
+     'description': 'Learning to rank for behavioral : an algorithm helps longtail'
+     ' advertisers to select top-ranked audience according to their relevance with advertisements.'},
+     {'name': 'miniCrowler',
+     'url': 'https://github.com/LixinZhang/miniCrowler',
+     'description': 'MiniCrawler is a simple web crawler implemented by Python.'},
+     {'name':'ServerClusterManageTool',
+     'url':'https://github.com/LixinZhang/ServerClusterManageTool',
+     'description': 'A tool help users to manage machines on PaaS in web clients.'},
+     {'name':'DistributedCrawler',
+     'url':'https://github.com/LixinZhang/DistributedCrawler',
+     'description': 'This is a Distributed Web Crawler Project using C++ on Linux platform.'}]

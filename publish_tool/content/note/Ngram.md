@@ -31,8 +31,8 @@ $$P(w_i|w_{i-1}) = \frac{count(w\_{i-1}, w_i)}{count(w\_{i-1})}$$
 * It would be $$$zero$$$ when $$$count(w\_{i-1}, w_i)=0$$$. So, in order to avoid underflow, we do everything in <code>log</code> space, also adding is faster than multiplying.
 * $$log(p_1p_2p_3p_4) = log(p_1)+log(p_2)+log(p_3)+log(p_4)$$
 
-####Evaluation
-#####Perplexity
+###Evaluation
+####Perplexity
 > In information theory, perplexity is a measurement of how well a probability distribution or probability model predicts a sample. It may be used to compare probability models.
 
 The best language model is one that best predicts an unseen test set. Give the highest <code>P(sentence)</code>.
@@ -41,7 +41,7 @@ $$PP(W)=P(w_1w_2...w_N)^{-\frac{1}{N}}$$
 
 Lower perplexity = better model
 
-####The perils(危险) of overfitting
+###The perils(危险) of overfitting
 * N-grams only work well for word prediction if the test corpus looks like the training corpus.
     * In real life, it often doesn't
     * We need to train robust models that generalise!
@@ -51,8 +51,8 @@ Lower perplexity = better model
         * mean that we will assign 0 probability to the test set!
         * can not compute <code>perplexity</code>(can't divide by 0)
         
-###Smoothing
-####Add-one(Laplace) smoothing(拉普拉斯平滑)
+##Smoothing
+###Add-one(Laplace) smoothing(拉普拉斯平滑)
 * Pretend we saw each word one more time than we did.（比实际多一次）
 * MLE estimate
   $$P\_{MLE}(w_i|w_{i-1})=\frac{c(w\_{i-1},w_i)}{c(w\_{i-1})}$$

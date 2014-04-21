@@ -85,8 +85,8 @@ $$P(w_i|w_{i-1}) = \frac{count(w_{i-1}, w_i)}{count(w_{i-1})}$$</li>
 <li>It would be $$$zero$$$ when $$$count(w_{i-1}, w_i)=0$$$. So, in order to avoid underflow, we do everything in <code>log</code> space, also adding is faster than multiplying.</li>
 <li>$$log(p_1p_2p_3p_4) = log(p_1)+log(p_2)+log(p_3)+log(p_4)$$</li>
 </ul>
-<h4>Evaluation</h4>
-<h5>Perplexity</h5>
+<h3>Evaluation</h3>
+<h4>Perplexity</h4>
 <blockquote>
 <p>In information theory, perplexity is a measurement of how well a probability distribution or probability model predicts a sample. It may be used to compare probability models.</p>
 </blockquote>
@@ -94,7 +94,7 @@ $$P(w_i|w_{i-1}) = \frac{count(w_{i-1}, w_i)}{count(w_{i-1})}$$</li>
 Perplexity is the inverse probability of the test set, normalised by the number of words. Minimizing perplexity is the same as maximising probability.
 $$PP(W)=P(w_1w_2...w_N)^{-\frac{1}{N}}$$</p>
 <p>Lower perplexity = better model</p>
-<h4>The perils(危险) of overfitting</h4>
+<h3>The perils(危险) of overfitting</h3>
 <ul>
 <li>N-grams only work well for word prediction if the test corpus looks like the training corpus.<ul>
 <li>In real life, it often doesn't</li>
@@ -111,8 +111,8 @@ $$PP(W)=P(w_1w_2...w_N)^{-\frac{1}{N}}$$</p>
 </ul>
 </li>
 </ul>
-<h3>Smoothing</h3>
-<h4>Add-one(Laplace) smoothing(拉普拉斯平滑)</h4>
+<h2>Smoothing</h2>
+<h3>Add-one(Laplace) smoothing(拉普拉斯平滑)</h3>
 <ul>
 <li>Pretend we saw each word one more time than we did.（比实际多一次）</li>
 <li>
