@@ -12,13 +12,12 @@ Tags: NLP
     * Suggest lists
 
 ###Types of Spelling errors
-####Non-word Errors
-Is not a word.
-#####Detection
+####Non-word Errors: Is not a word.
+####Detection
 * Any word not in a <code>dictionary</code> is an error.
 * The larger the dictionary the better.
 
-#####Correction
+####Correction
 * Generate candidates: real words that are similar to error.
 * Choose the one which is best :
     * Shortest weighted edit distance
@@ -73,8 +72,11 @@ where $$$W2$$$ is the word to be corrected.
 ####Noisy channel for real-world spell correction
 * Given a sentence $$$w_1,w_2,w_3,...w_n$$$   
 * Generate a set of candidates for each word $$$w_i$$$
+
   ![](https://sdcf7q.dm2302.livefilestore.com/y2plp808aW2LUETb-u6nWJLf8F5iipqhxUKp4Ofp7eimv-no68FE9psdR7ilZe_oYeJO3S4lGZI95p8CqOn2V7ZQVJx6oXqmVwngTSQRUgkFxs/QQ20140422-2.png?psid=1)
 * Choose the sequence W that maximizes $$$P(W)$$$
+
+
   ![](https://sdfpaw.dm2302.livefilestore.com/y2pb7_V0YTFYvE-kupXxFdLuix0Ar3TS_fcf6bNGzalxS0qFIJYpJNpS0W-KRuS89GuM-lUnP7u6P0dPBz3VFy6fIvM5APBS-icfpQjDjA6LMM/QQ20140422-4.png?psid=1) 
 * <code>two of the</code> should get a higher probability. 
 

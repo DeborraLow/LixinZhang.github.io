@@ -71,14 +71,13 @@
 </li>
 </ul>
 <h3>Types of Spelling errors</h3>
-<h4>Non-word Errors</h4>
-<p>Is not a word.</p>
-<h5>Detection</h5>
+<h4>Non-word Errors: Is not a word.</h4>
+<h4>Detection</h4>
 <ul>
 <li>Any word not in a <code>dictionary</code> is an error.</li>
 <li>The larger the dictionary the better.</li>
 </ul>
-<h5>Correction</h5>
+<h4>Correction</h4>
 <ul>
 <li>Generate candidates: real words that are similar to error.</li>
 <li>Choose the one which is best :<ul>
@@ -148,12 +147,12 @@ where $$$W2$$$ is the word to be corrected.</p>
 <h4>Noisy channel for real-world spell correction</h4>
 <ul>
 <li>Given a sentence $$$w_1,w_2,w_3,...w_n$$$   </li>
-<li>Generate a set of candidates for each word $$$w_i$$$
-  <img alt="" src="https://sdcf7q.dm2302.livefilestore.com/y2plp808aW2LUETb-u6nWJLf8F5iipqhxUKp4Ofp7eimv-no68FE9psdR7ilZe_oYeJO3S4lGZI95p8CqOn2V7ZQVJx6oXqmVwngTSQRUgkFxs/QQ20140422-2.png?psid=1" /></li>
-<li>Choose the sequence W that maximizes $$$P(W)$$$
-  <img alt="" src="https://sdfpaw.dm2302.livefilestore.com/y2pb7_V0YTFYvE-kupXxFdLuix0Ar3TS_fcf6bNGzalxS0qFIJYpJNpS0W-KRuS89GuM-lUnP7u6P0dPBz3VFy6fIvM5APBS-icfpQjDjA6LMM/QQ20140422-4.png?psid=1" /> </li>
-<li><code>two of the</code> should get a higher probability. </li>
+<li>Generate a set of candidates for each word $$$w_i$$$</li>
 </ul>
+<p><img alt="" src="https://sdcf7q.dm2302.livefilestore.com/y2plp808aW2LUETb-u6nWJLf8F5iipqhxUKp4Ofp7eimv-no68FE9psdR7ilZe_oYeJO3S4lGZI95p8CqOn2V7ZQVJx6oXqmVwngTSQRUgkFxs/QQ20140422-2.png?psid=1" />
+* Choose the sequence W that maximizes $$$P(W)$$$</p>
+<p><img alt="" src="https://sdfpaw.dm2302.livefilestore.com/y2pb7_V0YTFYvE-kupXxFdLuix0Ar3TS_fcf6bNGzalxS0qFIJYpJNpS0W-KRuS89GuM-lUnP7u6P0dPBz3VFy6fIvM5APBS-icfpQjDjA6LMM/QQ20140422-4.png?psid=1" /> 
+* <code>two of the</code> should get a higher probability. </p>
 <p>Now, how to calculate $$$P(W)$$$?</p>
 <ul>
 <li>Language model<ul>
