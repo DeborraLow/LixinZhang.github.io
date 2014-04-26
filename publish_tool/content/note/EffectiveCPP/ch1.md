@@ -21,6 +21,7 @@ Tags: CPP
             }
             static const int NumTruns = 1;
         };
+        
 * 使用enum hack的方法，这个hack方法不错。
 
         :::cpp
@@ -31,6 +32,7 @@ Tags: CPP
             enum {numTurns = 5};
             int arr[numTurns];
         };
+        
 * 用inline替换<code>#define 函数</code>，如<code>#define CALL_WITH_MAX(a,b) f((a)>(b) ? (a) : (b))</code>，在定义，切记对括号的正确使用，因为define是替换，如果不加括号，就容易出问题。使用<code>inline</code>来替换它
         
         :::cpp
@@ -48,7 +50,6 @@ Tags: CPP
         const char * p = greeting; //non-const pointer, const data
         char * const p = greeting; /const pointer, non-const data
         const char * const p = greeting; //const pointer, const data
-        
         
   理解的方法，<code>const</code>在<code>*</code>号左边指const值，在星号右边指pointer本身是const的。
        

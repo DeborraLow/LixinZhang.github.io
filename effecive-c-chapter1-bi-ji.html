@@ -84,25 +84,29 @@
 </pre></div>
 
 
-<ul>
+</li>
 <li>
 <p>使用enum hack的方法，这个hack方法不错。</p>
-<p>:::cpp
-class Test{
-public :
-    Test(){
-    }
-    enum {numTurns = 5};
-    int arr[numTurns];
-};
-* 用inline替换<code>#define 函数</code>，如<code>#define CALL_WITH_MAX(a,b) f((a)&gt;(b) ? (a) : (b))</code>，在定义，切记对括号的正确使用，因为define是替换，如果不加括号，就容易出问题。使用<code>inline</code>来替换它</p>
-<p>:::cpp
-template<typename T>
-inline void callWithMax(const T&amp; a, const T&amp; b){
-    f(a&gt;b?a:b);
-}</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Test</span><span class="p">{</span>
+<span class="k">public</span> <span class="o">:</span>
+    <span class="n">Test</span><span class="p">(){</span>
+    <span class="p">}</span>
+    <span class="k">enum</span> <span class="p">{</span><span class="n">numTurns</span> <span class="o">=</span> <span class="mi">5</span><span class="p">};</span>
+    <span class="kt">int</span> <span class="n">arr</span><span class="p">[</span><span class="n">numTurns</span><span class="p">];</span>
+<span class="p">};</span>
+</pre></div>
+
+
 </li>
-</ul>
+<li>
+<p>用inline替换<code>#define 函数</code>，如<code>#define CALL_WITH_MAX(a,b) f((a)&gt;(b) ? (a) : (b))</code>，在定义，切记对括号的正确使用，因为define是替换，如果不加括号，就容易出问题。使用<code>inline</code>来替换它</p>
+<div class="highlight"><pre><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">callWithMax</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">){</span>
+    <span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="o">&gt;</span><span class="n">b</span><span class="o">?</span><span class="n">a</span><span class="o">:</span><span class="n">b</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
 </li>
 </ul>
 <h3>尽可能使用const</h3>
