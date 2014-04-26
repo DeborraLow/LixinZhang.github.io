@@ -48,11 +48,14 @@ Tags: CPP
         const char * p = greeting; //non-const pointer, const data
         char * const p = greeting; /const pointer, non-const data
         const char * const p = greeting; //const pointer, const data
+        
+        
   理解的方法，<code>const</code>在<code>*</code>号左边指const值，在星号右边指pointer本身是const的。
        
         :::cpp
         const std::vector<int>::iterator iter; //const pointer
         std::vector<int>::const_iterator iter; // const data, 一般用于遍历的时候用
+        
         
 * <strong>const 成员函数不能修改类的成员变量，怎么理解？ </strong></code> 因为，对于const成员函数，const改变了隐含的<code>this</code>形参的类型，即将this指针改变成了指向其对象本身的const指针，即<code>const ClassA * const this</code>，因此this所指向的对象值是不能改变的，即<code>this->member = rhs</code>非法。<code>mutable</code>可以解决这个问题，即将成员变量声明为mutable即可。mutable的中文意思是“可变的，易变的”，跟constant（既C++中的const）是反义词。在C++中，mutable也是为了突破const的限制而设置的。被mutable修饰的变量，将永远处于可变的状态，即使在一个const函数中。
   
