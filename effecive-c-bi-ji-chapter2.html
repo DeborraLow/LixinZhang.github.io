@@ -6,8 +6,8 @@
         <meta name="author" content="LixinZhang" />
         <meta name="copyright" content="LixinZhang" />
 
-<meta name="keywords" content="NLP, Note, " />
-        <title>NLP-Spelling Notes - LixinZhang
+<meta name="keywords" content="CPP, CPP, " />
+        <title>Effecive C++ 笔记 Chapter2 - LixinZhang
 </title>
         <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
@@ -52,128 +52,58 @@
 <article>
 <div class="row-fluid">
     <header class="page_header span10 offset2">
-    <h1><a href="http://lixinzhang.github.io/nlp-spelling-notes.html"> NLP-Spelling Notes  </a></h1>
+    <h1><a href="http://lixinzhang.github.io/effecive-c-bi-ji-chapter2.html"> Effecive C++ 笔记 Chapter2  </a></h1>
     </header>
 </div>
 
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <h2>SpellingNotes MOOC Stanford NLP Course</h2>
-<h3>Spelling Tasks</h3>
-<ul>
-<li>Spelling Error Detection</li>
-<li>Spelling Error Correction<ul>
-<li>Auto correct</li>
-<li>Suggest a correction</li>
-<li>Suggest lists</li>
-</ul>
-</li>
-</ul>
-<h3>Types of Spelling errors</h3>
-<h4>Non-word Errors: Is not a word.</h4>
-<h4>Detection</h4>
-<ul>
-<li>Any word not in a <code>dictionary</code> is an error.</li>
-<li>The larger the dictionary the better.</li>
-</ul>
-<h4>Correction</h4>
-<ul>
-<li>Generate candidates: real words that are similar to error.</li>
-<li>Choose the one which is best :<ul>
-<li>Shortest weighted edit distance</li>
-<li>Highest noisy channel probability</li>
-</ul>
-</li>
-</ul>
-<h4>Real word Errors</h4>
-<p>The word exists, but is used in some wrong way.</p>
-<ul>
-<li>For each word <em>w</em>, generate candidate set:<ul>
-<li>Find candidate words with similar <code>pronunciations</code>. Small edit distance.</li>
-<li>Find candidate words with similar <code>spelling</code></li>
-<li><strong>Include w in candidate set</strong></li>
-</ul>
-</li>
-<li>Choose best candidate<ul>
-<li>Noisy Channel</li>
-<li>Classifier</li>
-</ul>
-</li>
-</ul>
-<h3>Noisy Channel</h3>
-<p><img alt="Imgur" src="https://s6yqsa.dm2302.livefilestore.com/y2p8qVaKlvCEsx7dNtxfNHuolfhGMJUzsxsuoEVRhPGsGGvLdLDuuFVbJtE0e_f1NFNPQYUd2d-96MtOSjN7zLSVP9Gm9edeafIohAAxbc5C0g/noisychannel.png?psid=1" />
-We see an observation x of a misspelled word, and find the correct word w :
-$$\widehat{w} = argmax_{w \in V}P(w|x) = argmax_{w \in V}\frac{P(x|w)P(w)}{P(x)}=argmax_{w \in V}P(x|w)P(w)$$</p>
-<h4>Damerau-Levenshtein edit distance</h4>
-<ul>
-<li>Minimal edit distance between tow strings, where edits are <code>Insertion(插入)</code>, <code>Deletion(删除)</code>, <code>Substitution(替换)</code>, <code>Transposition of two adjacent letters(交换相邻位置)</code>.</li>
-<li>Candidate generation :80% of errors are within edit distance 1, almost all errors within edit distance 2.</li>
-</ul>
-<h4>Channel model probability</h4>
-<ul>
-<li>Unigram prior probability $$$P(w)$$$</li>
-<li>Given Misspelled word $$$x=x_1,x_2,x_3,...x_m$$$, and correct word $$$w=w_1,w_2,w_3,...w_m$$$, to calculate probability of edit $$$P(x|w)$$$</li>
-<li>Computing error probability : confusion matrix(混淆矩阵)<ul>
-<li><code>del[x,y]</code> count(xy typed as x)</li>
-<li><code>ins[x,y]</code> count(x typed as xy)</li>
-<li><code>sub[x,y]</code> count(x typed as y)</li>
-<li><code>trans[x,y]</code> count(xy typed as yx)
-<img alt="img" src="https://s6xavq.dm2304.livefilestore.com/y2pRxY3vcuwsks7XL72J2tqYli8rKoTDtcM3BT7rGyRST4iYe-1_o_obAGeCc4SDxfjsTe_NorDmhzd4wEAITOfZgZikPzjOViZTRRgnSGKiHM/QQ20140422-1.png?psid=1" />    </li>
-</ul>
-</li>
-<li>Finally, choose one maximum $$$P(x|w)P(w)$$$</li>
-</ul>
-<h4>Using a bigram language model</h4>
-<p>$$P(W_1W_2W_3) = P(W_2|W_1)P(W_3|W_2)$$
-where $$$W2$$$ is the word to be corrected.</p>
-<h3>Solving real-word spelling errors</h3>
-<ul>
-<li>For each word in sentence <ul>
-<li>Generate candidate set<ul>
-<li>the word itself</li>
-<li>all single-letter edits that are English words</li>
-<li>words that are homophones(同音异构词)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Choose best candidates<ul>
-<li>Noisy channel models</li>
-<li>Task-specific classifier</li>
-</ul>
-</li>
-</ul>
-<h4>Noisy channel for real-world spell correction</h4>
-<ul>
-<li>Given a sentence $$$w_1,w_2,w_3,...w_n$$$   </li>
-<li>Generate a set of candidates for each word $$$w_i$$$</li>
-</ul>
-<p><img alt="" src="https://sdcf7q.dm2302.livefilestore.com/y2plp808aW2LUETb-u6nWJLf8F5iipqhxUKp4Ofp7eimv-no68FE9psdR7ilZe_oYeJO3S4lGZI95p8CqOn2V7ZQVJx6oXqmVwngTSQRUgkFxs/QQ20140422-2.png?psid=1" />
-* Choose the sequence W that maximizes $$$P(W)$$$</p>
-<p><img alt="" src="https://sdfpaw.dm2302.livefilestore.com/y2pb7_V0YTFYvE-kupXxFdLuix0Ar3TS_fcf6bNGzalxS0qFIJYpJNpS0W-KRuS89GuM-lUnP7u6P0dPBz3VFy6fIvM5APBS-icfpQjDjA6LMM/QQ20140422-4.png?psid=1" /> 
-* <code>two of the</code> should get a higher probability. </p>
-<p>Now, how to calculate $$$P(W)$$$?</p>
-<ul>
-<li>Language model<ul>
-<li>Unigram, Bigram</li>
-</ul>
-</li>
-<li>Channel model<ul>
-<li>Same as for non-word spelling correction</li>
-<li>Plus need probability for no error, $$$P(w|w)$$$. That is depends on the application, $$$P(w|w)=0.95$$$ when 1 error in 20 documents.</li>
-</ul>
-</li>
-</ul>
-<h3>Reference:</h3>
-<p><a href="https://class.coursera.org/nlp/lecture">Coursera Natural Language Processing</a></p>
+            <h2>构造/析构/赋值预算</h2>
+<h3>了解C++默默编写并调用的哪些函数</h3>
+<p>当创建一个空的类，构造函数默认会为该类创建4个public的inline函数。</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Empty</span><span class="p">{};</span>
+<span class="c1">//等价于</span>
+<span class="k">class</span> <span class="nc">Empty</span> <span class="p">{</span>
+<span class="k">public</span> <span class="o">:</span>
+    <span class="n">Empty</span><span class="p">(){...}</span> <span class="c1">//默认构造函数</span>
+    <span class="n">Empty</span><span class="p">(</span><span class="k">const</span> <span class="n">Empty</span> <span class="o">&amp;</span> <span class="n">rhs</span><span class="p">)</span> <span class="p">{...}</span> <span class="c1">//拷贝构造函数</span>
+    <span class="o">~</span><span class="n">Empty</span><span class="p">(){...}</span> <span class="c1">//析构函数</span>
+    <span class="n">Empty</span> <span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">Empty</span> <span class="o">&amp;</span> <span class="n">rhs</span><span class="p">){...}</span> <span class="c1">//拷贝赋值操作符</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>编译器创建的拷贝构造函数、赋值函数只是将来源对象的每个non-static对象成员变量拷贝到目标对象。因此，当类成员变量包含引用和常量的时候，简单靠编译器自动创建的拷贝构造函数与赋值函数变无法使用，需要自己手动定义。</p>
+<h3>若不想使用编译器自动生成的函数，就该明确拒绝</h3>
+<p>由于编译器会自动创建默认的构造、拷贝、赋值、析构等函数，如果我们要求某个类不能被调用这些函数，该怎么办？ 一个直接的想法是将这些函数定义成private成员变量，但是这个方法有个问题，就是通过友元的方式仍可以调用。另一种方法是定义一个base class.</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Uncopyable</span><span class="p">{</span>
+<span class="k">protected</span> <span class="o">:</span> <span class="c1">//允许继承对象构造和析构</span>
+    <span class="n">Uncopyable</span><span class="p">(){}</span>
+    <span class="o">~</span><span class="n">Uncopyable</span><span class="p">(){}</span>
+<span class="k">private</span> <span class="o">:</span>
+    <span class="n">Uncopyable</span><span class="p">(</span><span class="n">cosnt</span> <span class="n">Uncopyable</span> <span class="o">&amp;</span><span class="p">);</span>
+    <span class="n">Uncopyable</span> <span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">Uncopyable</span> <span class="o">&amp;</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="k">class</span> <span class="nc">Test</span><span class="o">:</span><span class="k">private</span> <span class="n">Uncopyable</span><span class="p">{</span>
+    <span class="p">...</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<p>通过该继承该base class，可以实现拒绝调用拷贝和赋值拷贝函数的调用的作用。</p>
+<h3>为多态基类声明virtual析构函数</h3>
+<p>若基类含有的是非虚析构函数，那么当<code>Base * p = new Derived(); delete p;</code>时，p默认只会调用Base的析构函数，那么在Derived中出现的内存资源不会被释放，造成内存泄露。因此将Base类中的析构函数定义为虚析构函数，且在继承类中继承该虚函数，并实现，这样delete的时候，就会先调用继承类虚构函数，然后再调用Base类虚构函数。</p>
+<p>关于虚函数：</p>
+<blockquote>
+<p>预实现出virtual函数，对象必须携带某种信息，主要用来在运行期决定哪个virtual函数该被调用。这份信息通常是由一个所谓的vptr(virtual table pointer)指针指出。vptr指向一个由函数指针构成的数组，称为vtbl（virtual table）。每个带有virtual函数的class都有一个相应的vtbl。当对象调用某一virtual函数，实际被调用的函数取决于该对象的vptr所指的那个vtbl——编译器在其中寻找适当的函数指针。</p>
+</blockquote>
+<p>STL中很多类不存在虚构造函数，如string， vector， list， set， tr1:unordered_map等。 因此继承他们的时候要格外小心。</p>
             <aside>
             <nav>
             <ul class="articles_timeline">
  
-                <li class="previous_article">« <a href="http://lixinzhang.github.io/n-grams-notes.html" title="Previous: N—grams Notes">N—grams Notes</a></li>
- 
-                <li class="next_article"><a href="http://lixinzhang.github.io/effecive-c-bi-ji-chapter1.html" title="Next: Effecive C++ 笔记 Chapter1">Effecive C++ 笔记 Chapter1</a> »</li>
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/effecive-c-bi-ji-chapter1.html" title="Previous: Effecive C++ 笔记 Chapter1">Effecive C++ 笔记 Chapter1</a></li>
             </ul>
             </nav>
             </aside>
@@ -182,7 +112,7 @@ where $$$W2$$$ is the word to be corrected.</p>
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
-                href="http://lixinzhang.github.io/nlp-spelling-notes.html/#disqus_thread">
+                href="http://lixinzhang.github.io/effecive-c-bi-ji-chapter2.html/#disqus_thread">
                 Comments
             </a>
         </div>
@@ -192,8 +122,8 @@ where $$$W2$$$ is the word to be corrected.</p>
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'zhanglixinseu';
-        var disqus_identifier = 'http://lixinzhang.github.io/nlp-spelling-notes.html';
-    var disqus_url = 'http://lixinzhang.github.io/nlp-spelling-notes.html';
+        var disqus_identifier = 'http://lixinzhang.github.io/effecive-c-bi-ji-chapter2.html';
+    var disqus_url = 'http://lixinzhang.github.io/effecive-c-bi-ji-chapter2.html';
 
     (function() {
          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -213,12 +143,12 @@ where $$$W2$$$ is the word to be corrected.</p>
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2014-04-22T13:20:00">Apr 22, 2014</time>
+            <time pubdate="pubdate" datetime="2014-04-26T19:23:00">Apr 26, 2014</time>
             <h4>Category</h4>
-            <a class="category-link" href="/categories.html#Note-ref">Note</a> 
+            <a class="category-link" href="/categories.html#CPP-ref">CPP</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
-                <li><a href="/tags.html#NLP-ref">NLP
+                <li><a href="/tags.html#CPP-ref">CPP
                     <span>2</span>
 </a></li>
             </ul>
