@@ -1,4 +1,4 @@
-Title: Effecive C++ 笔记 Chapter1 
+Title: Effective C++ 笔记 Chapter1 
 Date: 2014-04-26 16:23
 Category: CPP
 Tags: CPP
