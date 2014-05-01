@@ -6,7 +6,8 @@
         <meta name="author" content="LixinZhang" />
         <meta name="copyright" content="LixinZhang" />
 
-        <title>LixinZhang
+<meta name="keywords" content="面试题, Algorithm, " />
+        <title>Linked List Cycle 循环链表环问题 - LixinZhang
 </title>
         <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
@@ -48,103 +49,97 @@
             <div class="row-fluid">
                 <div class="span1"></div>
                 <div class="span10">
+<article>
 <div class="row-fluid">
-    <header class="page_header span12">
-    <h1><a href="http://lixinzhang.github.io">LixinZhang' Blog</a></h1>
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/linked-list-cycle-xun-huan-lian-biao-huan-wen-ti.html"> Linked List Cycle 循环链表环问题  </a></h1>
     </header>
+</div>
 
-    <div class="row-fluid">
-        <div class="span8">
-            <header>
-            <h1 id="about-me">About me</h1>
-            </header>
-            <div class="article-content">
-                
-<p>My name is Lixin Zhang. I am now a master student majoring in Computer Science in Beihang University, Beijing, China.</p>
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
 
-<p>
-You could find me in <a href="https://github.com/LixinZhang" title="Github">Github</a>,
- <a href="https://www.facebook.com/zhanglixin.peter" title="Facebook">Facebook</a>,
- <a href="http://www.linkedin.com/pub/lixin-zhang/72/bb/66a" title="Linkedin">Linkedin</a>,
-or reach me via <a href="mailto:zhanglixinseu@gmail.com" title="My email address" itemprop="email">Email</a>.
-If you are in China, you also could find me in <a href="http://weibo.com/zhanglixin5566" title="新浪微博">新浪微博</a> and <a href="http://www.cnblogs.com/coser" title="博客园">博客园</a> which are popular in China.
-</p>
-
-<p>
-I mostly work in Python, C++/C on Mac OS, UNIX-style OS, windows. I also have ever used JAVA and C#. I have rich
-intern experience in different companies, like Yahoo, Alibaba and Innovation Works.
-Engineering technoledge like Web Development, Network Programming, Mysql, system architecture are my interest.
-I also focus on fields such as Computational Advertising, Recommender System, Data Mining which are now very pupular in industry and academia.
-They help make Computers more intelligent. 
-</p>
-
-<p>
-My hobbies are Winning Eleven computer game and music of Linkin Park, Taylor Swift, Avril Lavigne, Taiwan Mayday. 
-English as my second language is very poor to me. So I try to write some blogs or notes in English to improve my language skill.
-</p>
-
+            <h2>Linked List Cycle 循环链表环问题</h2>
+<p>循环链表环问题，非常非常经典的题目，应该已经被问烂了，面试的时候如果5分钟之内写不出来，绝对说不过去的。我主要想写一下这个问题的证明思路。</p>
+<h4>Leetcode链接</h4>
+<p><a href="http://oj.leetcode.com/problems/linked-list-cycle/">linked-list-cycle</a></p>
+<p><a href="http://oj.leetcode.com/problems/linked-list-cycle-ii/">linked-list-cycle-ii</a></p>
+<h4>解法</h4>
+<ol>
+<li>
+<p>最好的方法是时间复杂度 O(n),空间复杂度 O(1) 的。设置两个指针,一个快一个慢,快的指针每次走两步,慢的指针每次走一步,如果快指针和慢指针相遇,则说明有环。</p>
+</li>
+<li>
+<p>从1中的相遇点与起点同时这是两个指针，每次前进一步，相遇点即为环的入口点。</p>
+</li>
+</ol>
+<h3>证明</h3>
+<p><img alt="pic" src="https://sdfpaw.dm2303.livefilestore.com/y2pITGzfyaJwtYVgaA9Q78xmJdFTkc46JHO2zcn4yQs_b_8Iz3mKmJ0L9uoTuYhSa6wtdh6Z9bjV6Lvej-hwixDx00KpUfD7SXaw_GHkUh_lys/%E6%97%A0%E6%A0%87%E9%A2%98.png?psid=1" /></p>
+<p>不妨设慢的指针为p1, 快的指针为p2。 则当p1与p2同时进入环时，进行k次移动两个指针相遇则有$$$2k-k&lt;(L2+L3)$$$，即p1肯定走不完一圈，便与p2相遇在meetnode节点。于是，p2所走步数$$$S_2$$$及p1所走步数$$$S_1$$$有
+$$S_2 = L1+m(L2+L3)+L2$$
+$$S_1 = L1+L2$$
+$$S_2 = 2 * S_1$$
+化简后，可以得到如下式子：
+$$L1=(m-1)(L2+L3) + L3$$
+从上式可以看出L1比L3多了一些环，于是我们可以从meetcode以及起始点设置指针，然后每次走一步，保证两者会环的入口处相遇。</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
  
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/effective-c-bi-ji-chapter3.html" title="Previous: Effective C++ 笔记 Chapter3">Effective C++ 笔记 Chapter3</a></li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/linked-list-cycle-xun-huan-lian-biao-huan-wen-ti.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/linked-list-cycle-xun-huan-lian-biao-huan-wen-ti.html';
+    var disqus_url = 'http://lixinzhang.github.io/linked-list-cycle-xun-huan-lian-biao-huan-wen-ti.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
             </div>
-        </div>
-
-        <div class="span4">
-            <header>
-            <h1 id="my-projects">My Projects</h1>
-            <ul class="list-all-articles">
-                <li>
-                <a href="https://github.com/LixinZhang/advertisingLab" title="L2R for BT">L2R for BT</a> <span class="proj_desc">Learning to rank for behavioral : an algorithm helps longtail advertisers to select top-ranked audience according to their relevance with advertisements.</span>
-                </li>
-            </ul>
-            <ul class="list-all-articles">
-                <li>
-                <a href="https://github.com/LixinZhang/miniCrowler" title="miniCrowler">miniCrowler</a> <span class="proj_desc">MiniCrawler is a simple web crawler implemented by Python.</span>
-                </li>
-            </ul>
-            <ul class="list-all-articles">
-                <li>
-                <a href="https://github.com/LixinZhang/ServerClusterManageTool" title="ServerClusterManageTool">ServerClusterManageTool</a> <span class="proj_desc">A tool help users to manage machines on PaaS in web clients.</span>
-                </li>
-            </ul>
-            <ul class="list-all-articles">
-                <li>
-                <a href="https://github.com/LixinZhang/DistributedCrawler" title="DistributedCrawler">DistributedCrawler</a> <span class="proj_desc">This is a Distributed Web Crawler Project using C++ on Linux platform.</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="row-fluid">
-        <div class="span12">
-            <header>
-            <h1 id="recent-posts">Recent Posts <a id="allposts" href="http://lixinzhang.github.io/archives.html">all posts</a></h1>
-            </header>
-            <ul class="list-all-articles">
-                <li>
-                <a href="http://lixinzhang.github.io/linked-list-cycle-xun-huan-lian-biao-huan-wen-ti.html">Linked List Cycle 循环链表环问题  </a> 
-                <time pubdate="pubdate" datetime="2014-05-01T09:23:00">Thu 01 May 2014</time>
-                </li>
-            </ul>
-            <ul class="list-all-articles">
-                <li>
-                <a href="http://lixinzhang.github.io/qiu-xde-mci-fang-gen.html">求x的m次方根  </a> 
-                <time pubdate="pubdate" datetime="2014-03-27T19:53:00">Thu 27 March 2014</time>
-                </li>
-            </ul>
-            <ul class="list-all-articles">
-                <li>
-                <a href="http://lixinzhang.github.io/implementation-of-okapi-bm25-on-python.html">Implementation of Okapi BM25 on Python  </a> 
-                <time pubdate="pubdate" datetime="2014-03-19T12:53:00">Wed 19 March 2014</time>
-                </li>
-            </ul>
-            <ul class="list-all-articles">
-                <li>
-                <a href="http://lixinzhang.github.io/wei-di-gui.html">尾递归  </a> 
-                <time pubdate="pubdate" datetime="2014-03-07T10:20:00">Fri 07 March 2014</time>
-                </li>
-            </ul>
         </div>
     </div>
 </div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2014-05-01T09:23:00">May 1, 2014</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#Algorithm-ref">Algorithm</a> 
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article"> 
+                <li><a href="/tags.html#面试题-ref">面试题
+                    <span>1</span>
+</a></li>
+            </ul>
+
+        </div>
+        </section>
+    </div>
+    </article>
                 </div>
                 <div class="span1"></div>
             </div>
@@ -156,7 +151,7 @@ English as my second language is very poor to me. So I try to write some blogs o
         <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
     </ul>
 </div>
-</footer>        <script src="http://code.jquery.com/jquery.min.js"></script>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
 <!-- Using MathJax, with the delimiters $ -->
 <!-- Conflict with pygments for the .mo and .mi -->
@@ -192,5 +187,16 @@ English as my second language is very poor to me. So I try to write some blogs o
                 return (query.length > 0);
             }
         </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
     </body>
 </html>
