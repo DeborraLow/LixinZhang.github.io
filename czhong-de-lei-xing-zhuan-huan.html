@@ -59,7 +59,7 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <h3>隐式类型转换(implicit type conversion)</h3>
+            <h2>隐式类型转换(implicit type conversion)</h2>
 <p>如：</p>
 <div class="highlight"><pre><span class="kt">int</span> <span class="n">ival</span><span class="p">;</span> <span class="kt">double</span> <span class="n">dval</span><span class="p">;</span>
 <span class="n">ival</span><span class="o">&gt;=</span><span class="n">dval</span><span class="p">;</span> <span class="c1">//convert ival to double</span>
@@ -73,8 +73,8 @@
 </pre></div>
 
 
-<h3>显示转换</h3>
-<h4>dynamic_cast</h4>
+<h2>显示转换</h2>
+<h3>dynamic_cast</h3>
 <p>dynamic_cast 支持运行时识别指针或引用所指向的对象。 其将基类类型对象的引用或指针转换为同一继承层次中其他类型的引用和指针。与<code>dynamic_cast</code>一起使用的指针必须是有效的——它必须为0或者指向某一对象。</p>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Base</span><span class="p">{</span>
 <span class="nl">public:</span>
@@ -116,7 +116,7 @@
 
 <p>当按如下创建一个对象b，<code>Base * derived = new Derived(10);</code> 。则默认<code>derived-&gt;sayhi()</code>无法通过编译，因为derived默认所指向的base类中不包含<code>sayhi()</code>。这时候可以利用<code>dynamic_cast</code>将其转换为Derived对象，使<code>sayhi</code>函数可用。</p>
 <p>与其他强制转换类型不同，<code>dynamic_cast</code>涉及运行时类型检查，如果绑定到引用或指针的对象不是目标类型的对象，则dynamic_cast失败，返回值为0或抛出一个bad_cast异常。因此上述代码中，<code>Derived * staticDerived = static_cast<Derived *> (base);</code>转换并不考虑类型检查，因此上述转换为错误的，将一个base对象强制转换成Derived，必然缺失了Derived具有的函数。使用<code>dynamic_cast</code>由于做类型检查，因此非法转换后的值为NULL，而static_cast不能检查转换类型。</p>
-<h4>const_cast</h4>
+<h3>const_cast</h3>
 <p>转换掉表达式的const性质。</p>
 <div class="highlight"><pre><span class="k">const</span> <span class="kt">char</span> <span class="n">str</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;hello&quot;</span><span class="p">;</span>
 <span class="kt">char</span> <span class="n">nonconstStr</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;world&quot;</span><span class="p">;</span>
@@ -127,13 +127,13 @@
 <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">newstr</span> <span class="o">=</span> <span class="n">str</span><span class="p">;</span>
 <span class="kt">char</span> <span class="o">*</span> <span class="n">newstr2</span> <span class="o">=</span> <span class="k">const_cast</span><span class="o">&lt;</span><span class="kt">char</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">str</span><span class="p">);</span>
 <span class="kt">char</span> <span class="o">*</span> <span class="n">newstr3</span> <span class="o">=</span> <span class="n">nonconstStr</span><span class="p">;</span>
-<span class="c1">//newstr3[0] = &#39;T&#39;; //error</span>
+<span class="c1">//newstr3[0] = &#39;T&#39;; //合法</span>
 <span class="c1">//newstr2[0] = &#39;T&#39;; //error, 就算强制移除了const，其指针指向的对象仍然是const的，不能改变其值</span>
 </pre></div>
 
 
 <p>默认const对象是无法赋值给非const变量的，因此<code>const_cast</code>提供去掉const值的const属性，即可以赋值给非const变量。这里记录下<code>const int number = 10; int tmp = number;</code>是合法，因为tmp与number并非指向同一个对象，而引用和指针则不行。</p>
-<h4>static_cast</h4>
+<h3>static_cast</h3>
 <p>编译器隐式执行的任何类型转换都可以由<code>static_cast</code>显示完成。 </p>
 <div class="highlight"><pre><span class="kt">double</span> <span class="n">d</span> <span class="o">=</span> <span class="mf">97.0</span><span class="p">;</span>
 <span class="kt">char</span> <span class="n">ch</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span><span class="p">(</span><span class="n">d</span><span class="p">);</span> <span class="c1">//也可以用隐式转换替换</span>
@@ -143,7 +143,7 @@
 </pre></div>
 
 
-<h4>reinterpret_cast</h4>
+<h3>reinterpret_cast</h3>
 <p>以下来至<a href="http://baike.baidu.com/view/1263731.htm">reinterpret_cast</a></p>
 <p>操作符修改了操作数类型,但仅仅是重新解释了给出的对象的比特模型而没有进行二进制转换。</p>
 <div class="highlight"><pre><span class="kt">int</span> <span class="o">*</span><span class="n">n</span><span class="o">=</span> <span class="k">new</span> <span class="kt">int</span> <span class="p">;</span>
@@ -158,7 +158,6 @@
     <span class="nl">public:</span>
     <span class="kt">int</span> <span class="n">m_a</span><span class="p">;</span>
 <span class="p">};</span>
-
 <span class="k">class</span> <span class="nc">B</span> <span class="p">{</span>
     <span class="nl">public:</span>
     <span class="kt">int</span> <span class="n">m_b</span><span class="p">;</span>
@@ -172,7 +171,7 @@
 
 <p>前两个的输出值是相同的，最后一个则会在原基础上偏移4个字节，这是因为static_cast计算了父子类指针转换的偏移量，并将之转换到正确的地址（c里面有m_a,m_b，转换为B*指针后指到m_b处），而reinterpret_cast却不会做这一层转换。</p>
 <p>因此, 你需要谨慎使用 reinterpret_cast.    </p>
-<h4>旧式强制类型转换</h4>
+<h3>旧式强制类型转换</h3>
 <div class="highlight"><pre><span class="kt">int</span> <span class="p">(</span><span class="n">num</span><span class="p">);</span>
 <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">num</span><span class="p">;</span>
 </pre></div>
