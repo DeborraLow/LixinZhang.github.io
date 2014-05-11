@@ -6,7 +6,9 @@
         <meta name="author" content="LixinZhang" />
         <meta name="copyright" content="LixinZhang" />
 
-        <title>LixinZhang - Authors</title>
+<meta name="keywords" content="面试题, Algorithm, " />
+        <title>两道概率题目 - LixinZhang
+</title>
         <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
@@ -47,8 +49,96 @@
             <div class="row-fluid">
                 <div class="span1"></div>
                 <div class="span10">
-    <h1>Authors on LixinZhang</h1>        <li><a href="http://lixinzhang.github.io/author/lixinzhang.html">LixinZhang</a> (21)</li>
-        <li><a href="http://lixinzhang.github.io/author/tang-ban-xian-yu.html">糖拌咸鱼</a> (107)</li>
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/liang-dao-gai-lu-ti-mu.html"> 两道概率题目  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <h2>投针问题（求$$$\pi$$$)</h2>
+<h3>描述</h3>
+<blockquote>
+<p>18世纪，布丰提出以下问题：设我们有一个以平行且等距木纹铺成的地板（如右图），现在随意抛一支长度比木纹之间距离小的针，求针和其中一条木纹相交的概率。这就是布丰投针问题（又译“蒲丰投针问题”）。</p>
+</blockquote>
+<h3>Wkipedia上解法</h3>
+<p><a href="http://zh.wikipedia.org/wiki/%E5%B8%83%E8%B1%90%E6%8A%95%E9%87%9D%E5%95%8F%E9%A1%8C">布豐投針問題</a></p>
+<h3>用条件概率的方法</h3>
+<p>我觉得这样解，也应该是对的。不确定。</p>
+<p>设针的长度是$$$\ell$$$，平行线之间的距离为t，x为针的中心和最近的平行线的距离，$$$\theta$$$为针和线之间的锐角。</p>
+<p>设在角度为$$$\theta$$$并且相交的概率为$$$p(相交,\theta)$$$，则有：
+$$p(相交,\theta) = p(相交|\theta)p(\theta)$$
+$$p(相交|\theta)=\frac{\sin\theta \times \ell}{t}$$
+$$p(相交) = \int_0^{\frac{\pi}{2}}p(相交,\theta)$$
+$$p(相交) = \int_0^{\frac{\pi}{2}}\frac{\sin\theta \times \ell}{t} \times \frac{d\theta}{\frac{\pi}{2} - 0} = \frac{2\ell}{\pi d}$$</p>
+<h2>平均要取多少个(0,1)中的随机数才能让和超过1</h2>
+<h3>解法</h3>
+<p>一个特例即求$$$x+y+z&lt;=1$$$的概率
+抽象为一个立方体，然后$$$x+y+z=1$$$平面围成另一个三棱锥，求这个三棱锥的体积与立方体体检的比。即1/6。</p>
+<p>小时候学三棱锥的体积公式为"三分之一底乘高"，其实就是积分$$$ \int_0^{1}\frac{1}{2} x^2 dx $$$。</p>
+<p>这题可以推广，为n个数，和小于1。详细分析见: 
+<a href="http://www.matrix67.com/blog/archives/3507">惊人的答案：平均要取多少个(0,1)中的随机数才能让和超过1</a></p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/czhong-de-lei-xing-zhuan-huan.html" title="Previous: C++中的类型转换">C++中的类型转换</a></li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/liang-dao-gai-lu-ti-mu.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/liang-dao-gai-lu-ti-mu.html';
+    var disqus_url = 'http://lixinzhang.github.io/liang-dao-gai-lu-ti-mu.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2014-05-11T12:23:00">May 11, 2014</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#Algorithm-ref">Algorithm</a> 
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article"> 
+                <li><a href="/tags.html#面试题-ref">面试题
+                    <span>2</span>
+</a></li>
+            </ul>
+
+        </div>
+        </section>
+    </div>
+    </article>
                 </div>
                 <div class="span1"></div>
             </div>
@@ -60,7 +150,7 @@
         <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
     </ul>
 </div>
-</footer>        <script src="http://code.jquery.com/jquery.min.js"></script>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
 <!-- Using MathJax, with the delimiters $ -->
 <!-- Conflict with pygments for the .mo and .mi -->
@@ -96,5 +186,16 @@
                 return (query.length > 0);
             }
         </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
     </body>
 </html>
