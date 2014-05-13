@@ -7,10 +7,8 @@ Tags: CPP
 ###绝对不要以多态方式处理数组
 这节主要就是在讲解数组的取地址的访问形式。
 直接在代码上看这个问题：
+    
     :::cpp
-    #include<iostream>
-    using namespace std;
-
     class Base{
     public:
         virtual void print(){
@@ -125,11 +123,13 @@ C++提供自定义类的<code>++A与A++</code>的支持
 通过上面的代码，可以看出以下几点：
 
 1. C++为了提供<code>++A与A++</code>的支持，提供使用<code>operator++(int)</code>中的默认int参数来区分前置与后置。
+
 2. <code>++A与A++</code>区别，通过代码很容易看出来，<code>++A</code>返回的是处理过后的源对象引用，而<code>A++</code>则是返回的旧值，而且在实际实现过程中是调用了前置的实现，这样的好处是，维护同一个自增的逻辑。且很明显后置要比前置耗费资源，因此建议使用前置提高效率。
+
 3. 第2条的说明也解释了为什么<code>++++i</code>合法，而<code>i++++</code>是非法的。因为<code>i++</code>返回的是一个旧值，你对旧值++是与原意不符的，容易产生混淆。
 
 ###了解各种不同意义的new和delete
-主要提及了<code>new<code>和<code>delete</code>操作符的三种用法：
+主要提及了<code>new</code>和<code>delete</code>操作符的三种用法：
 
 ####new operator
 做两件事情：第一，分配足够的内存，用来放置某类型的对象。第二，调用一个constructor，为刚才分配的内存中的那个对象设置初值。

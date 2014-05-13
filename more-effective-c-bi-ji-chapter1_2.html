@@ -61,27 +61,24 @@
 
             <h3>绝对不要以多态方式处理数组</h3>
 <p>这节主要就是在讲解数组的取地址的访问形式。
-直接在代码上看这个问题：
-    :::cpp
-    #include<iostream>
-    using namespace std;</p>
-<div class="highlight"><pre><span class="n">class</span> <span class="n">Base</span><span class="p">{</span>
+直接在代码上看这个问题：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Base</span><span class="p">{</span>
 <span class="nl">public:</span>
-    <span class="n">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">(){</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">(){</span>
         <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;base&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="n">virtual</span> <span class="o">~</span><span class="n">Base</span><span class="p">(){</span>
+    <span class="k">virtual</span> <span class="o">~</span><span class="n">Base</span><span class="p">(){</span>
         <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Destructor Base&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
-<span class="n">class</span> <span class="n">Derived</span> <span class="o">:</span> <span class="n">public</span> <span class="n">Base</span><span class="p">{</span>
+<span class="k">class</span> <span class="nc">Derived</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Base</span><span class="p">{</span>
 <span class="nl">public:</span>
-    <span class="n">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">(){</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">(){</span>
         <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;derived&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="kt">int</span> <span class="n">tmp</span><span class="p">;</span>
-    <span class="n">virtual</span> <span class="o">~</span><span class="n">Derived</span><span class="p">(){</span>
+    <span class="k">virtual</span> <span class="o">~</span><span class="n">Derived</span><span class="p">(){</span>
         <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Destructor Derived&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
@@ -103,8 +100,8 @@
 
     <span class="c1">//引用和指针是实现多态的基本方式</span>
     <span class="n">Base</span> <span class="o">&amp;</span><span class="n">bb</span> <span class="o">=</span> <span class="n">derives</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-    <span class="n">Base</span> <span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Derived</span><span class="p">();</span>
-    <span class="n">Base</span> <span class="o">*</span> <span class="n">parr</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Derived</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+    <span class="n">Base</span> <span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Derived</span><span class="p">();</span>
+    <span class="n">Base</span> <span class="o">*</span> <span class="n">parr</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Derived</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
     <span class="n">havefun</span><span class="p">(</span><span class="n">parr</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span> <span class="c1">//错误，与上诉类似</span>
 
     <span class="c1">//delete [] parr; //错误，引文delete数组可以理解为 for 1 to n : delete object. 仍然要进行类似arr[i]的操作。</span>
@@ -177,12 +174,18 @@
 
 <p>通过上面的代码，可以看出以下几点：</p>
 <ol>
-<li>C++为了提供<code>++A与A++</code>的支持，提供使用<code>operator++(int)</code>中的默认int参数来区分前置与后置。</li>
-<li><code>++A与A++</code>区别，通过代码很容易看出来，<code>++A</code>返回的是处理过后的源对象引用，而<code>A++</code>则是返回的旧值，而且在实际实现过程中是调用了前置的实现，这样的好处是，维护同一个自增的逻辑。且很明显后置要比前置耗费资源，因此建议使用前置提高效率。</li>
-<li>第2条的说明也解释了为什么<code>++++i</code>合法，而<code>i++++</code>是非法的。因为<code>i++</code>返回的是一个旧值，你对旧值++是与原意不符的，容易产生混淆。</li>
+<li>
+<p>C++为了提供<code>++A与A++</code>的支持，提供使用<code>operator++(int)</code>中的默认int参数来区分前置与后置。</p>
+</li>
+<li>
+<p><code>++A与A++</code>区别，通过代码很容易看出来，<code>++A</code>返回的是处理过后的源对象引用，而<code>A++</code>则是返回的旧值，而且在实际实现过程中是调用了前置的实现，这样的好处是，维护同一个自增的逻辑。且很明显后置要比前置耗费资源，因此建议使用前置提高效率。</p>
+</li>
+<li>
+<p>第2条的说明也解释了为什么<code>++++i</code>合法，而<code>i++++</code>是非法的。因为<code>i++</code>返回的是一个旧值，你对旧值++是与原意不符的，容易产生混淆。</p>
+</li>
 </ol>
 <h3>了解各种不同意义的new和delete</h3>
-<p>主要提及了<code>new<code>和<code>delete</code>操作符的三种用法：</p>
+<p>主要提及了<code>new</code>和<code>delete</code>操作符的三种用法：</p>
 <h4>new operator</h4>
 <p>做两件事情：第一，分配足够的内存，用来放置某类型的对象。第二，调用一个constructor，为刚才分配的内存中的那个对象设置初值。</p>
 <div class="highlight"><pre><span class="n">string</span> <span class="o">*</span> <span class="n">str</span> <span class="o">=</span> <span class="k">new</span> <span class="n">string</span><span class="p">(</span><span class="s">&quot;hello world&quot;</span><span class="p">);</span>
