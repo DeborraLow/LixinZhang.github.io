@@ -63,16 +63,16 @@
 <h3>谨记80-20法则</h3>
 <p><code>80-20</code>法则是说一个程序的80%的资源用在了20%的代码上。 因此，优化程序需要找到程序的瓶颈问题，比如<code>I/O</code>bound 还是<code>CPU</code>bound的。书中建议使用一些程序分析器（program profiler)，分析那些函数最耗时，被调用的最频繁，从而找到优化方法。</p>
 <h3>考虑使用lazy evaluation (缓式评估)</h3>
-<p><code>lazy evalution</code>即尽量延迟实际运算的时间，除非必须立即返回结果或是进行真正的运算，可以fake。</p>
+<p><code>lazy evalution</code>即尽量延迟实际运算的时间，除非必须立即返回结果或是进行真正的运算。</p>
 <h4>引用计数</h4>
 <div class="highlight"><pre><span class="n">string</span> <span class="n">s1</span> <span class="o">=</span> <span class="s">&quot;helloworld&quot;</span><span class="p">;</span>
 <span class="n">string</span> <span class="n">s2</span> <span class="o">=</span> <span class="n">s1</span><span class="p">;</span>
 </pre></div>
 
 
-<p>当执行到<code>s2 = s1;</code> 的时候，调用string的复制运算符，理论上应该进行一份新数据的拷贝。 当出现大量的频繁的copy constructor的时候，成本代价是非常大的。于是考虑通过引用计数的形式，使s2与s1同时指向一份数据，这样就可以避免频繁的copy constructor了。但，当必须使用不同的副本的情况下，例如调用<code>s2.upper()</code>之类的函数之时，我们再在其实现中构造一个新的副本，这样延缓了新副本构造的时间。</p>
+<p>当执行到<code>s2 = s1;</code> 的时候，调用string的复制运算符，理论上应该进行一份新数据的拷贝。 当出现大量的频繁的copy constructor的时候，成本代价是非常大的。于是考虑通过引用计数的形式，使s2与s1同时指向一份数据，这样就可以避免频繁的copy constructor了。但，当必须使用副本的情况下，例如调用<code>s2.upper()</code>之类的函数之时，我们再在其实现中构造一个新的副本，这样延缓了新副本构造的时间。</p>
 <h4>区分读与写</h4>
-<p>一般读操作由于不修改内部值，因此引用计数很好用，但写的时候再进行副本创建。但是如果区分读与写很困难，比如<code>opetartor[]</code>既可以读也可以写。</p>
+<p>一般读操作由于不修改内部值，因此引用计数很好用，但写的时候再进行副本创建。但是如何区分读与写很困难，比如<code>opetartor[]</code>既可以读也可以写。</p>
 <h4>Lazy Fetching(缓式取出)</h4>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Object</span><span class="p">{</span>
 <span class="nl">public:</span>
@@ -115,7 +115,7 @@
 <p>使用cache技术</p>
 </li>
 <li>
-<p>预开启富裕的空间，如stl中stack等的实现，当空间不足时，会预开辟一块空间，而不是值适应当前需求。</p>
+<p>预开启富裕的空间，如stl中stack等的实现，当空间不足时，会预开辟一较大块空间，而不是只适应当前需求，开一小块。</p>
 </li>
 </ol>
 <h3>了解临时对象的来源</h3>
@@ -147,7 +147,7 @@
 </pre></div>
 
 
-<p>从上面代码很容易看出，teststr传递到参数之后，将会产生一个临时变量，且该临时变量会construct和destroy，这是一种类型转换造成的临时变量。注意一点，只用参数值是<code>reference to const</code>即<code>by value</code>的情况下，才会发生这种转换，而<code>reference to non-const</code>则不可以。为什么？假设编译器为此产生一个临时对象，然后该临时对象被传递给函数内部，从表面上看，传递的是引用类型，那么函数对该对象的修改，应该会影响到传入的原始值。然而，由于是产生的临时对象，因此与直观的假设是矛盾的，因此C++禁止对非const引用的对象进行隐式类型转换。</p>
+<p>从上面代码很容易看出，teststr作为参数传递到函数之后，将会产生一个临时变量，且该临时变量会construct和destroy，这是一种隐式类型转换造成的临时变量。注意一点，只用参数值是<code>reference to const</code>以及<code>by value</code>的情况下，才会发生这种转换，而<code>reference to non-const</code>则不可以。为什么？假设编译器为此产生一个临时对象，然后该临时对象被传递给函数内部，从表面上看，传递的是引用类型，那么函数对该对象的修改，应该会影响到传入的原始值。然而，由于影响的只是临时对象，与直观的假设是矛盾的，因此C++禁止对非const引用的对象进行隐式类型转换。</p>
 <h4>当函数返回一个对象时，也会产生临时变量</h4>
 <p>例如：</p>
 <div class="highlight"><pre><span class="k">const</span> <span class="n">number</span> <span class="k">operator</span><span class="o">+</span><span class="p">(</span><span class="k">const</span> <span class="n">Number</span> <span class="o">&amp;</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">cosnt</span> <span class="n">Number</span> <span class="o">&amp;</span> <span class="n">rhs</span><span class="p">);</span>
@@ -158,13 +158,13 @@
 <p>协助编译器产生优化效果，如：</p>
 <div class="highlight"><pre><span class="k">const</span> <span class="n">Rational</span> <span class="o">&amp;</span> <span class="k">operator</span><span class="o">*</span> <span class="p">(</span><span class="k">const</span> <span class="n">Rational</span> <span class="o">&amp;</span> <span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Rational</span> <span class="o">&amp;</span> <span class="n">rhs</span><span class="p">){</span>
     <span class="c1">// Rational result(.....); return result; //低效，一定会产生临时对象</span>
-    <span class="k">return</span> <span class="n">Rational</span><span class="p">(......);</span> <span class="c1">//编译器可以优化其，避免临时对象的构建</span>
+    <span class="k">return</span> <span class="n">Rational</span><span class="p">(......);</span> <span class="c1">//编译器可以对其进行优化，避免临时对象的构建</span>
 <span class="p">}</span>
 </pre></div>
 
 
 <h3>利用重载技术避免隐式类型转换</h3>
-<p>由于隐式类型转换，需要进行大量的临时变量的构造与析构，因此可以利用重载避免。尤其是，a = a + 4, 可以重载<code>opetrator +</code>，是一个参数为int类型，而不是利用int隐式转换为a类型。</p>
+<p>由于隐式类型转换，需要进行大量的临时变量的构造与析构，因此可以利用重载避免。尤其是，a = a + 4, 可以重载<code>opetrator +(A &amp; , int )</code>，使一个参数为int类型，而不是利用int隐式转换为a类型。</p>
 <h3>了解虚函数、多重继承、虚基类、runtime type identification的成本</h3>
 <h4>每个包含虚函数的类，都会对应一个虚函数表，这个表有链表或是数组实现，与编译器有关。</h4>
 <p><img alt="picture" src="https://sdfpaw.dm2302.livefilestore.com/y2pANtJ3ZmNUgGlEB37XGG2KzE5N0yDaXNDEM_4cW_b7ADy-JHQ2zea_clXyjBdR5guw2QhLMR2jMoSA6VIUzKXxJZZDXG60h5EL-hMPPTC9PU/QQ20140518-1.png?psid=1" /></p>
