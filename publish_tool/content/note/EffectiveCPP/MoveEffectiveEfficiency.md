@@ -46,7 +46,7 @@ Tags: CPP
 
 所谓的缓式取出，其实就是说当你构造一个对象的时候，里面可能很多成员函数用来得到某些值，而这些成员函数都需要一定的计算才将构造好的成员对象返还给你。然而，很多情况，我们并没有使用所有的构造好的成员变量，那么这些没有使用的成员变量的构造代价就useless了。因此，我们只在实际需要的情况下，才去构造这些值。注意一下<code>mutable</code>的使用，其含义是其可被任意函数修改，默认const函数是不能修改成员变量的，因此必须用<code>mutable</code>来修饰成员变量，才可以在const函数中对其进行修改。
 
-这节还提到了一个很hack的C语言的方法来替代<code>mutable</code>——fack一个this指针，然后取出其const。
+这节还提到了一个很hack的C语言的方法来替代<code>mutable</code>——fack一个this指针，然后去除其const。
 
     :::cpp
     const string& field2() const{
@@ -121,18 +121,18 @@ Tags: CPP
 
 ###了解虚函数、多重继承、虚基类、runtime type identification的成本
 
-每个包含虚函数的类，都会对应一个虚函数表，这个表有链表或是数组实现，与编译器有关。
+####每个包含虚函数的类，都会对应一个虚函数表，这个表有链表或是数组实现，与编译器有关。
 ![picture](https://sdfpaw.dm2302.livefilestore.com/y2pANtJ3ZmNUgGlEB37XGG2KzE5N0yDaXNDEM_4cW_b7ADy-JHQ2zea_clXyjBdR5guw2QhLMR2jMoSA6VIUzKXxJZZDXG60h5EL-hMPPTC9PU/QQ20140518-1.png?psid=1)
 
-继承类，虚函数表结构如下：
+####继承类，虚函数表结构如下：
 ![pic](https://sdfpaw.dm2303.livefilestore.com/y2pMC4Q5Htu-TQoYwDePZzyzSeUzCXRZSOFZYsFlN6AtHlsIFgiXRexhnLp3pAbDk5c_3lPjQdIjdxZNOnHSDdKGTUykHH9cpVmb6kB-PIINPs/QQ20140518-2.png?psid=1)
 
 ![pic](https://sdfpaw.dm2302.livefilestore.com/y2p6oUJ-5v5hXXbMrFp9Dsk2HuhnJea_yORzrNLOekaN6zDsnS4toaqRzyiue6P_yLtW2Rs-YJg0fqv0w7IsnxJq03WgkHC1V3x1NwgBakwQlA/QQ20140518-3.png?psid=1)
 
-菱形继承类，即多重继承：
+####菱形继承类，即多重继承：
 ![pic](https://sdfpaw.dm2302.livefilestore.com/y2p6oUJ-5v5hXXbMrFp9Dsk2HuhnJea_yORzrNLOekaN6zDsnS4toaqRzyiue6P_yLtW2Rs-YJg0fqv0w7IsnxJq03WgkHC1V3x1NwgBakwQlA/QQ20140518-3.png?psid=1)
 
 ![pic](https://sdfpaw.dm2304.livefilestore.com/y2pwMWp0DYbLUNMJAiuRhyhY68QR2GCZg39F5KBoeQ0fzO-JpGklK3M9HFkF3BL2AYN6CtIbFA0LUrJk9EvQ03GM_5lBZKBROCyHwmw58AeeLs/QQ20140518-5.png?psid=1)
 
-总结：
+####总结：
 ![summary](https://sdfpaw.dm2302.livefilestore.com/y2p5fCMZ52fHvyFn5hupNL1WSPJ5qtvXr6Ch4af5wg5Mw0wfFr646XT7p-FQgTynzOC_kmJ97fgCxn55zu2AvxXPUflf1nfbHA2v9VYpfm3Hgw/QQ20140518-7.png?psid=1)
