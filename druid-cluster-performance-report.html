@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="LixinZhang" />
+        <meta name="copyright" content="LixinZhang" />
+
+<meta name="keywords" content="Druid, opensource, " />
+        <title>Druid Cluster Performance Report - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.html">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/druid-cluster-performance-report.html"> Druid Cluster Performance Report  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <h2>Background</h2>
+<p>Druid has five key components: <strong>Historical Node</strong>, <strong>Realtime Node</strong>, <strong>Coordinator Node</strong>, <strong>Broker Node</strong>, and <strong>Indexer Node</strong>. In this report, we didn't setup Realtime nodes and  builded index only through batch way.</p>
+<p>Aside from these nodes, there are 3 external dependencies to the system : <strong>ZooKeeper</strong>, <strong>MySQL instance</strong>, <strong>"deep storage"</strong>. We used HDFS as "deep storage".</p>
+<p>Get more detailed description of these components, please visit the official website: <a href="http://druid.io/docs/0.6.105/Design.html">Design of Druid</a> or the <a href="http://static.druid.io/docs/druid.pdf">White paper</a>.</p>
+<p>This performance report is based on the application of <a href="https://docs.google.com/a/yahoo-inc.com/document/d/1O46sJhNWI-B5ToXY96BGPTNZZNCAXH633PHKz2b3GaM/edit?usp=drive_web">D&amp;A Analytic Tool</a>.</p>
+<h3>Data Set</h3>
+<p><strong>89G</strong> data containing 59837541 instances with Json format. We imported the data into HDFS, and build index through a Hadoop job.</p>
+<p>Size of the data is too large to build index in local model. We tried to setup a standalone Hadoop cluster to build index, it failed due to out of memory of JVM. We also tried to optimize the setting of JVM memory and count of MR tasks, it still could't work. So a distributed Hadoop cluster is needed. </p>
+<h2>Cluster Setup</h2>
+<h4>Machine Summary</h4>
+<p><pre>
+Summary:    HP DL160 G6, 2 x Xeon X5650 2.67GHz, 15.7GB / 16GB 1333MHz DDR3, 1 x 500GB SATA
+System:     HP ProLiant DL160 G6, C-2P/16/500, ySPEC 39.5
+Processors: 2 x Xeon X5650 2.67GHz (HT enabled, 12 cores, 24 threads) - Gulftown B1, 64-bit, six-core, 32nm, L3: 12MB
+Memory:     15.7GB / 16GB 1333MHz DDR3 == 4 x 4GB - 4GB PC3-10600 Hynix DDR3-1333 ECC Registered CL9 2Rx4
+                                      14 x empty
+Disk:       sda (ahci0): 500GB (33%) JBOD == 1 x 500GB 7.2K SATA/300 HP/Seagate Constellation ES 32MB
+Disk-Control:   ahci0: HP/Intel ICH10 82801J 6 Port SATA/300 AHCI
+Chipset:    Intel 5520 IOH-36D B3 (Tylersburg), 82801JIR A0 (ICH10R)
+Network:    eth0 (igb): HP NC362i/Intel 82576 Gigabit, 1Gb/s <full-duplex>
+Network:    eth1 (igb): HP NC362i/Intel 82576 Gigabit, no carrier
+OS:     YLinux 6.5.0_84, RHEL Server 6.5, Linux 2.6.32-431.3.1.el6.YAHOO.20140110.x86_64 x86_64, 64-bit
+BIOS:       HP O33 08/16/2010, rev 8.15
+Hostname:   raptorsim0017.rm.bf1.yahoo.com
+</pre></p>
+<h4>Druid Service Cluster</h4>
+<ul>
+<li>10 Historical Nodes; </li>
+<li>1 Zookeeper Node; </li>
+<li>1 Broker Node;</li>
+<li>1 Mysql;</li>
+<li>1 Coodinator Node; </li>
+<li>1 index Node </li>
+<li>Deep Storage(HDFS)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th>Nodes Hostname</th>
+<th align="right">Role</th>
+<th align="right">Dependencies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td>raptorsim0008.rm.bf1.yahoo.com</td>
+<td align="right">Coodinator, Historical</td>
+<td align="right">Hadoop Client, Mysql, Zookeeper</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td>raptorsim0009.rm.bf1.yahoo.com</td>
+<td align="right">Mysql, Historical</td>
+<td align="right">Hadoop Client, Zookeeper</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td>raptorsim0010.rm.bf1.yahoo.com</td>
+<td align="right">Zookeeper, Historical</td>
+<td align="right">Hadoop Client, Zookeeper</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td>raptorsim0011.rm.bf1.yahoo.com</td>
+<td align="right">Broker</td>
+<td align="right">Mysql, Zookeeper</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td>raptorsim0012.rm.bf1.yahoo.com</td>
+<td align="right">Historical</td>
+<td align="right">Hadoop Client, Zookeeper</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td>raptorsim0013.rm.bf1.yahoo.com</td>
+<td align="right">Historical</td>
+<td align="right">Hadoop Client, Zookeeper</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td>raptorsim0014.rm.bf1.yahoo.com</td>
+<td align="right">Historical</td>
+<td align="right">Hadoop Client, Zookeeper</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td>raptorsim0015.rm.bf1.yahoo.com</td>
+<td align="right">Historical</td>
+<td align="right">Hadoop Client, Zookeeper</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td>raptorsim0016.rm.bf1.yahoo.com</td>
+<td align="right">index, Hadoop Master</td>
+<td align="right">Hadoop, Mysql, Zookeeper</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td>raptorsim0017.rm.bf1.yahoo.com</td>
+<td align="right">Historical</td>
+<td align="right">Hadoop Client, Zookeeper</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td>raptorsim0018.rm.bf1.yahoo.com</td>
+<td align="right">Historical</td>
+<td align="right">Hadoop Client, Zookeeper</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td>raptorsim0019.rm.bf1.yahoo.com</td>
+<td align="right">Historical</td>
+<td align="right">Hadoop Client, Zookeeper</td>
+</tr>
+</tbody>
+</table>
+<h4>Hadoop[yarn] Index Builder Cluster</h4>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th>Nodes Hostname</th>
+<th align="right">Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td>raptorsim0012.rm.bf1.yahoo.com</td>
+<td align="right">Slave</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td>raptorsim0013.rm.bf1.yahoo.com</td>
+<td align="right">Slave</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td>raptorsim0014.rm.bf1.yahoo.com</td>
+<td align="right">Slave</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td>raptorsim0015.rm.bf1.yahoo.com</td>
+<td align="right">Slave</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td>raptorsim0016.rm.bf1.yahoo.com</td>
+<td align="right">Master, Druid Indexer</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td>raptorsim0017.rm.bf1.yahoo.com</td>
+<td align="right">Slave</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td>raptorsim0018.rm.bf1.yahoo.com</td>
+<td align="right">Slave</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td>raptorsim0019.rm.bf1.yahoo.com</td>
+<td align="right">Slave</td>
+</tr>
+</tbody>
+</table>
+<h4>Hadoop(yarn) Setting</h4>
+<p>MIN_CONTAINER_SIZE should be 1024 MB if total RAM per Node is between 8 GB and 24 GB.</p>
+<p>containers = min (2*CORES, 1.8*DISKS, (Total available RAM) / MIN_CONTAINER_SIZE) = 5</p>
+<p>RAM-per-container = max(MIN_CONTAINER_SIZE, (Total Available RAM) / containers)) = 2048m</p>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th>Configuration File</th>
+<th align="right">Configuration Setting</th>
+<th align="right">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td>yarn-site.xml</td>
+<td align="right">yarn.nodemanager.resource.memory-mb</td>
+<td align="right">containers * RAM-per-container = 6 * 2048 = 12288</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td>yarn-site.xml</td>
+<td align="right">yarn.scheduler.minimum-allocation-mb</td>
+<td align="right">RAM-per-container = 2048</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td>yarn-site.xml</td>
+<td align="right">yarn.scheduler.maximum-allocation-mb</td>
+<td align="right">containers * RAM-per-container = 6 * 2048 = 12288</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td>mapred-site.xml</td>
+<td align="right">mapreduce.map.memory.mb</td>
+<td align="right">RAM-per-container = 2048 * 0.25 = 512</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td>mapred-site.xml</td>
+<td align="right">mapreduce.reduce.memory.mb</td>
+<td align="right">2 * RAM-per-container = 2 * 2048 * 1.5 = 6144</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td>mapred-site.xml</td>
+<td align="right">mapreduce.map.java.opts</td>
+<td align="right">-Xmx512m * 0.8 = 384</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td>mapred-site.xml</td>
+<td align="right">mapreduce.reduce.java.opts</td>
+<td align="right">-Xmx6144m * 0.8 = 5120</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td>hadoop-env.sh</td>
+<td align="right">HADOOP_DATANODE_OPTS</td>
+<td align="right">-Xmx12g</td>
+</tr>
+</tbody>
+</table>
+<h4>Property setting to make Druid faster</h4>
+<h5>JVM Heap</h5>
+<p>Broker nodes can use the JVM heap as a query cache and thus, the size of the heap will affect on the number of results that can be cached. </p>
+<p>Historical nodes use off-heap memory to store intermediate results, and by default, all segments are memory mapped before they can be queried. The more off-heap memory is available, the more segments can be served without the possibility of data being paged onto disk. </p>
+<p>Coordinator nodes do not require off-heap memory and the heap is used for loading information about all segments to determine what segments need to be loaded, dropped, moved, or replicated.</p>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th>Node</th>
+<th align="right">Setting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td>Broker nodes</td>
+<td align="right">-Xmx8192m</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td>Historical nodes</td>
+<td align="right">-Xmx4096m</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td>Coordinator nodes</td>
+<td align="right">-Xmx4096m</td>
+</tr>
+</tbody>
+</table>
+<h5>Historical Nodes</h5>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th>Property</th>
+<th align="right">Description</th>
+<th align="right">Setting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td>druid.processing.buffer.sizeBytes</td>
+<td align="right">This specifies a buffer size for the storage of intermediate results. The computation engine in both the Historical and Realtime nodes will use a scratch buffer of this size to do all of their intermediate computations off-heap. Larger values allow for more aggregations in a single pass over the data while smaller values can require more passes depending on the query that is being executed.</td>
+<td align="right"><strong>2147483648(2GB)</strong></td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td>druid.processing.numThreads</td>
+<td align="right">The number of processing threads to have available for parallel processing of segments.</td>
+<td align="right"><strong>5</strong></td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td>druid.segmentCache.locations</td>
+<td align="right">Segments assigned to a Historical node are first stored on the local file system (in a disk cache) and then served by the Historical node. These locations define where that local cache resides.</td>
+<td align="right"><strong>40000000000(40GB)</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>Performance</h2>
+<h3>Query Latency</h3>
+<h4>Queries Construction</h4>
+<p>Druid has its own query languages and accepts queries as POST requests. The body of the POST request is a JSON object containing key-value pairs specifying various query parameters.</p>
+<p>We developed a tool to construct 100 queries with random filters. </p>
+<h4>Latency</h4>
+<table>
+<thead>
+<tr>
+<th align="center">Metrics</th>
+<th align="center">Cost Time</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Average(100 random queries)</td>
+<td align="center">1.708s</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">Full table scan, no filters</td>
+<td align="center">3.799s</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">Query with hundreds of segment id.</td>
+<td align="center">4.843s</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>Building index</h3>
+<p>Druid would run three Hadoop Jobs for finishing index building.</p>
+<h4>Cost Time</h4>
+<p>It took about <strong>1hour 47mins</strong> to finish index building.</p>
+<h4>CPU and I/O</h4>
+<p>Building index should be an <strong>IO bound</strong> task through analysing the CPU and I/O status during Map and Reduce. I/O writing and reading during both map and reduce tasks is almost 100%. Map tasks occupied more CPU resource than Reduce tasks and Reduce tasks cost more memory.</p>
+<p>The number of Reduce tasks depends on the Granularity setting in Druid index task configuration. For instance, it would be 24 reduce tasks if we set granularity as HOUR.</p>
+<h3>Disk and Memory Usage by Druid</h3>
+<p>Raw data in HDFS could be removed after finishing index building.</p>
+<table>
+<thead>
+<tr>
+<th align="center">No.</th>
+<th>Nodes Hostname</th>
+<th align="right">Disk usage</th>
+<th align="right">Memory Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td>raptorsim0012.rm.bf1.yahoo.com</td>
+<td align="right">9.2G</td>
+<td align="right">10G</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td>raptorsim0013.rm.bf1.yahoo.com</td>
+<td align="right">8.6G</td>
+<td align="right">10G</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td>raptorsim0014.rm.bf1.yahoo.com</td>
+<td align="right">8.5G</td>
+<td align="right">10G</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td>raptorsim0015.rm.bf1.yahoo.com</td>
+<td align="right">8.5G</td>
+<td align="right">10G</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td>raptorsim0017.rm.bf1.yahoo.com</td>
+<td align="right">8.3G</td>
+<td align="right">10G</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td>raptorsim0018.rm.bf1.yahoo.com</td>
+<td align="right">8.8G</td>
+<td align="right">10G</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td>raptorsim0019.rm.bf1.yahoo.com</td>
+<td align="right">8.4G</td>
+<td align="right">10G</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td>raptorsim0008.rm.bf1.yahoo.com</td>
+<td align="right">8.7G</td>
+<td align="right">10G</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td>raptorsim0009.rm.bf1.yahoo.com</td>
+<td align="right">8.5G</td>
+<td align="right">10G</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td>raptorsim0010.rm.bf1.yahoo.com</td>
+<td align="right">8.3G</td>
+<td align="right">10G</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td>Deep Storage (hdfs)</td>
+<td align="right">28.8G(segments data)</td>
+<td align="right">--</td>
+</tr>
+<tr>
+<td align="center">Total</td>
+<td>--</td>
+<td align="right">114.6G</td>
+<td align="right">100G</td>
+</tr>
+</tbody>
+</table>
+<h2>Conclusion</h2>
+<h3>Strengths of Druid performance</h3>
+<ol>
+<li>Advantage of Hadoop makes ingest data into Druid faster. </li>
+<li>Deep storage (HDFS) makes service highly available. When a historical node fails, others can pull missed data from HDFS to keep serving. Do not lose data.</li>
+<li>Support timeseries query. We can get result given any time interval quickly.</li>
+<li>The size of processed data after index building is about 3~4 times smaller than raw data due to some compression algorithm. So, we could store more data, and provided services for more days.</li>
+<li>Cost less memory. Druid take advantage of memory-mapping technology to make memory usage effective. </li>
+</ol>
+<h3>Weaknesses of Druid performance</h3>
+<ol>
+<li>Less documents or instructions could be found.</li>
+<li>Druid is memory-based and not so stable. A lot of exceptions occurred due to out of memory error.</li>
+<li>There is no monitoring methods to help monitor running status of Druid cluster. We can't guarantee the correctness of querying result.</li>
+<li>Consistency and correctness are weak. Historical nodes need pull data from deep storage, so the latency during data transmission and loading to memory causes the problem.</li>
+</ol>
+<h2>Appendix</h2>
+<p><strong>iostat -x 1 10 </strong> during map and reduce.</p>
+<h5>Map:</h5>
+<p><pre>
+Linux 2.6.32-431.3.1.el6.YAHOO.20140110.x86_64 (raptorsim0017.rm.bf1.yahoo.com)     05/22/14    <em>x86_64</em>    (24 CPU)</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          17.32    0.00    1.38    7.76    0.00   73.54</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda              16.00   604.00  263.00   64.00 69440.00  5352.00   228.72    16.80   51.97   2.68  87.50</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          23.94    0.00    2.47    0.00    0.00   73.58</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               0.00     0.00   50.00    0.00 11672.00     0.00   233.44     0.06    1.28   1.24   6.20</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          52.01    0.00    1.22    0.34    0.00   46.44</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               1.00     0.00  123.00    0.00 29952.00     0.00   243.51     0.27    2.18   1.40  17.20</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          37.32    0.00    3.65    1.05    0.00   57.99</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               6.00    10.00  252.00    6.00 62264.00   120.00   241.80     0.73    2.84   1.83  47.30</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          39.50    0.00    3.40    0.67    0.00   56.44</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               5.00     0.00  149.00    0.00 36480.00     0.00   244.83     0.77    5.19   2.36  35.20</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          62.70    0.00    1.93    1.72    0.00   33.65</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               2.00  2256.00    6.00  193.00  2048.00 19656.00   109.07     8.66   43.51   2.83  56.40</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          46.50    0.00    1.93    0.21    0.00   51.36</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               0.00     0.00   24.00    0.00  4416.00     0.00   184.00     0.12    5.17   3.83   9.20</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          49.77    0.00    2.01    0.42    0.00   47.80</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               2.00     6.00  109.00    3.00 24720.00    72.00   221.36     0.48    4.28   2.95  33.00</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          46.52    0.00    1.63    3.81    0.00   48.03</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda              28.00     0.00  211.00    1.00 56704.00     0.00   267.47     2.82   11.64   4.65  98.60</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          55.95    0.00    1.17    6.78    0.00   36.10</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda              35.00     0.00  331.00    0.00 87520.00     0.00   264.41     5.18   15.02   3.02 100.00
+</pre></p>
+<h5>Reduce</h5>
+<p><pre>
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           1.73    0.00    0.53    0.85    0.00   96.89</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               1.04   195.55   10.18   10.99  1578.37  2062.87   171.95     0.18    8.46   5.29  11.20</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          10.29    0.00    1.00   13.26    0.00   75.44</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               6.00   394.00   61.00   75.00  5400.00 48096.00   393.35   233.44  905.21   7.35 100.00</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          11.84    0.00    0.59    9.75    0.00   77.82</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda              15.00     0.00  200.00   69.00 13776.00 54464.00   253.68   167.97 1064.57   3.72 100.00</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          11.44    0.00    1.68   13.74    0.00   73.15</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda              17.00  7326.00  225.00   51.00 22816.00 37640.00   219.04   158.86 1649.70   3.63 100.10</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           9.50    0.00    1.21    7.92    0.00   81.37</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda              32.00  3680.00  427.00   34.00 48880.00 29336.00   169.67   160.18  671.39   2.17  99.90</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           4.15    0.00    0.75   11.36    0.00   83.73</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda              12.00 27454.00  133.00  166.00 15688.00 130352.00   488.43   225.93  643.60   3.34 100.00</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.50    0.00    0.38    9.25    0.00   89.87</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               0.00 15968.00   26.00  165.00  3424.00 140464.00   753.34   264.42 1360.66   5.24 100.00</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.63    0.00    0.21   11.55    0.00   87.61</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               0.00 13316.00   29.00  153.00  4984.00 115752.00   663.38   244.47 1513.18   5.49 100.00</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.80    0.00    0.42   13.66    0.00   85.13</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               0.00 15027.00   22.00  174.00  3752.00 134056.00   703.10   223.53  956.06   5.11 100.10</p>
+<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           1.17    0.00    0.29   11.56    0.00   86.97</p>
+<p>Device:         rrqm/s   wrqm/s     r/s     w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+sda               1.00 13681.00   30.00  129.00  4760.00 106760.00   701.38   216.07 1236.13   6.29 100.00
+</pre></p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/druid-introduction-and-usage-in-sd-analytic-tool.html" title="Previous: Druid Introduction and usage in S&D Analytic Tool">Druid Introduction and usage in S&D Analytic Tool</a></li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/druid-cluster-performance-report.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/druid-cluster-performance-report.html';
+    var disqus_url = 'http://lixinzhang.github.io/druid-cluster-performance-report.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2014-06-03T12:53:00">Jun 3, 2014</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#opensource-ref">opensource</a> 
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article"> 
+                <li><a href="/tags.html#Druid-ref">Druid
+                    <span>2</span>
+</a></li>
+            </ul>
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>
