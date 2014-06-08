@@ -64,7 +64,7 @@ English as my second language is very poor to me. So I try to write some blogs o
 PROJECTS = [{
      'name': 'L2R for BT',
      'url': 'https://github.com/LixinZhang/advertisingLab',
-     'description': 'Learning to rank for behavioral : an algorithm helps longtail'
+     'description': 'Audience Ranking : an algorithm helps longtail'
      ' advertisers to select top-ranked audience according to their relevance with advertisements.'},
      {'name': 'miniCrowler',
      'url': 'https://github.com/LixinZhang/miniCrowler',
