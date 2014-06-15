@@ -183,7 +183,7 @@ article p a:hover, article ol a:hover {
 }
 
 .article-content li {
-    margin:1px 0px 1px 20px;
+    margin:8px 4px 1px -10px;
 }
 
 .article-content dl {
@@ -454,19 +454,19 @@ table {
 		  font-size: inherit; }
 
 		h1 {
-		  font-size: 28px;
+		  font-size: 30px;
 		  color: black; }
 
 		h2 {
-		  font-size: 24px;
+		  font-size: 26px;
 		  border-bottom: 1px solid #cccccc;
 		  color: black; }
 
 		h3 {
-		  font-size: 18px; }
+		  font-size: 20px; }
 
 		h4 {
-		  font-size: 16px; }
+		  font-size: 18px; }
 
 		h5 {
 		  font-size: 14px; }
@@ -474,3 +474,15 @@ table {
 		h6 {
 		  color: #777777;
 		  font-size: 14px; }
+		 
+		  pre {
+		    background-color: #f8f8f8;
+		    border: 1px solid #cccccc;
+		    font-size: 13px;
+		    line-height: 19px;
+		    overflow: auto;
+		    padding: 6px 10px;
+		    border-radius: 3px; }
+		    pre code, pre tt {
+		      background-color: transparent;
+		      border: none; }
