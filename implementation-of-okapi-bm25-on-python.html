@@ -70,9 +70,7 @@
 <p>where f(q_i, D) is q_i's term frequency in the document D, |D| is the length of the document D in words, and avgdl is the average document length in the text collection from which documents are drawn. k_1 and b are free parameters, usually chosen, in absence of an advanced optimization, as k_1 \in [1.2,2.0] and b = 0.75. {IDF}(q_i) is the IDF (inverse document frequency) weight of the query term q_i. It is usually computed as:</p>
 <p><img src="http://images.cnblogs.com/cnblogs_com/coser/561971/t_2.png" width="250px"/></p>
 <h2>Implementation of Okapi BM25 on Python</h2>
-<div class="highlight"><pre><span class="p">:</span><span class="n">linenos</span><span class="p">:</span> <span class="n">table</span>
-
-<span class="kn">import</span> <span class="nn">gensim</span>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">gensim</span>
 <span class="kn">from</span> <span class="nn">gensim</span> <span class="kn">import</span> <span class="n">corpora</span>
 <span class="kn">import</span> <span class="nn">math</span>
 
