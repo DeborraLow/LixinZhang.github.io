@@ -365,6 +365,10 @@ img {
     border: 1px solid #EEEEEE;
 }
 
+table{
+    class:table;
+}
+
 .table-of-content .toc {
     font-size: 0.7em;
 }
