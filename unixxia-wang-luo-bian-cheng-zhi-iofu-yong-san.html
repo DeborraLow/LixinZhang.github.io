@@ -65,15 +65,7 @@
 <p><strong>poll函数原型：</strong></p>
 <p>``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .[头文件]; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}</p>
 <h1>include<poll.h>   int poll (struct pollfd * fdarray , unsigned long nfds , int timeout);   //返回：就需描述字的个数，0——超时，-1——出错</h1>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 ** **第一个参数是指向一个结构数组第一个元素的指针，每个数组元素都是一个pollfd结构。如下：
 
@@ -83,7 +75,7 @@
 ``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .<span class="cp">[</span><span class="err">头文件</span><span class="cp">]</span>; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 struct pollfd {  int fd; //descriptor to check    short events; //events of interest on fd`    short revents; //events tha occurred on fd}
 </pre></div>
-</td></tr></table>
+
 
 </p>
 

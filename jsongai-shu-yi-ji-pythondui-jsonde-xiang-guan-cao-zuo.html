@@ -97,32 +97,7 @@ decoding：</strong></span></p>
 <p>
 ``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .[头文件]; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 import jsonobj = [[1,2,3],123,123.123,'abc',{'key1':(1,2,3),'key2':(4,5,6)}]encodedjson = json.dumps(obj)print repr(obj)print encodedjson</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 输出：
 
@@ -149,7 +124,7 @@ json.dumps()方法返回了一个str对象encodedjson，我们接下来在对enc
 ``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .<span class="cp">[</span><span class="err">头文件</span><span class="cp">]</span>; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 decodejson = json.loads(encodedjson)print type(decodejson)print decodejson<span class="cp">[</span><span class="mi">4</span><span class="cp">][</span><span class="s1">&#39;key1&#39;</span><span class="cp">]</span>print decodejson
 </pre></div>
-</td></tr></table>
+
 
 </p>
 
@@ -178,30 +153,7 @@ decodejson = json.loads(encodedjson)print type(decodejson)print decodejson<span 
 <p>
 ``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .[头文件]; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 data1 = {'b':789,'c':456,'a':123}data2 = {'a':123,'b':789,'c':456}d1 = json.dumps(data1,sort_keys=True)d2 = json.dumps(data2)d3 = json.dumps(data2,sort_keys=True)print d1print d2print d3print d1==d2print d1==d3</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 输出：
 
@@ -226,7 +178,7 @@ indent参数是缩进的意思，它可以使得数据存储的格式变得更�
 ``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .<span class="cp">[</span><span class="err">头文件</span><span class="cp">]</span>; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 data1 = {&#39;b&#39;:789,&#39;c&#39;:456,&#39;a&#39;:123}d1 = json.dumps(data1,sort_keys=True,indent=4)print d1
 </pre></div>
-</td></tr></table>
+
 
 </p>
 
@@ -245,31 +197,7 @@ data1 = {&#39;b&#39;:789,&#39;c&#39;:456,&#39;a&#39;:123}d1 = json.dumps(data1,s
 <p>
 ``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .[头文件]; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 print 'DATA:', repr(data)print 'repr(data)             :', len(repr(data))print 'dumps(data)            :', len(json.dumps(data))print 'dumps(data, indent=2)  :', len(json.dumps(data, indent=4))print 'dumps(data, separators):', len(json.dumps(data, separators=(',',':')))</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 输出：
 
@@ -295,7 +223,7 @@ dumps方法存储dict对象时，key必须是str类型，如果出现了其他�
 ``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .<span class="cp">[</span><span class="err">头文件</span><span class="cp">]</span>; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 data = {&#39;b&#39;:789,&#39;c&#39;:456,(1,2):123}print json.dumps(data,skipkeys=True)
 </pre></div>
-</td></tr></table>
+
 
 </p>
 
@@ -318,18 +246,7 @@ data = {&#39;b&#39;:789,&#39;c&#39;:456,(1,2):123}print json.dumps(data,skipkeys
 <p>
 ``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .[头文件]; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 class Person(object):    def <strong>init</strong>(self,name,age):        self.name = name        self.age = age    def <strong>repr</strong>(self):        return 'Person Object name : %s , age : %d' % (self.name,self.age)if <strong>name</strong>  == '<strong>main</strong>':    p = Person('Peter',22)    print p</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 如果直接通过json.dumps方法对Person的实例进行处理的话，会报错，因为json无法支持这样的自动转化。通过上面所提到的json和python的类型转化对照表，可以发现，object类型是和dict相关联的，所以我们需要把我们自定义的类型转化为dict，然后再进行处理。这里，有两种方法可以使用。
 
@@ -342,7 +259,7 @@ class Person(object):    def <strong>init</strong>(self,name,age):        self.n
 ``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .<span class="cp">[</span><span class="err">头文件</span><span class="cp">]</span>; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 &#39;&#39;&#39;Created on 2011-12-14@author: Peter&#39;&#39;&#39;import Personimport jsonp = Person.Person(&#39;Peter&#39;,22)def object2dict(obj):    #convert object to a dict    d = {}    d<span class="cp">[</span><span class="s1">&#39;__class__&#39;</span><span class="cp">]</span> = obj.__class__.__name__    d<span class="cp">[</span><span class="s1">&#39;__module__&#39;</span><span class="cp">]</span> = obj.__module__    d.update(obj.__dict__)    return ddef dict2object(d):    #convert dict to object    if&#39;__class__&#39; in d:        class_name = d.pop(&#39;__class__&#39;)        module_name = d.pop(&#39;__module__&#39;)        module = __import__(module_name)        class_ = getattr(module,class_name)        args = dict((key.encode(&#39;ascii&#39;), value) for key, value in d.items()) #get args        inst = class_(**args) #create new instance    else:        inst = d    return instd = object2dict(p)print d#{&#39;age&#39;: 22, &#39;__module__&#39;: &#39;Person&#39;, &#39;__class__&#39;: &#39;Person&#39;, &#39;name&#39;: &#39;Peter&#39;}o = dict2object(d)print type(o),o#<span class="nt">&lt;class</span> <span class="err">&#39;Person.Person&#39;</span><span class="nt">&gt;</span> Person Object name : Peter , age : 22dump = json.dumps(p,default=object2dict)print dump#{&quot;age&quot;: 22, &quot;__module__&quot;: &quot;Person&quot;, &quot;__class__&quot;: &quot;Person&quot;, &quot;name&quot;: &quot;Peter&quot;}load = json.loads(dump,object_hook = dict2object)print load#Person Object name : Peter , age : 22
 </pre></div>
-</td></tr></table>
+
 
 </p>
 

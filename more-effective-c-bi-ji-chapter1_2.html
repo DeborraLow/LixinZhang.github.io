@@ -63,51 +63,7 @@
             <h3>绝对不要以多态方式处理数组</h3>
 <p>这节主要就是在讲解数组的取地址的访问形式。
 直接在代码上看这个问题：</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Base</span><span class="p">{</span>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Base</span><span class="p">{</span>
 <span class="nl">public:</span>
     <span class="k">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">(){</span>
         <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;base&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
@@ -153,33 +109,11 @@
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
-</td></tr></table>
+
 
 <h3>对定制的“类型转换函数”保持警觉</h3>
 <p>两种函数允许编译器执行隐式类型转换：单自变量<code>constructors</code>和隐式类型转换操作符。所谓单自变量<code>constructors</code>是指能够以单一自变量成功调用的<code>constructors</code>。</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Name</span><span class="p">{</span>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Name</span><span class="p">{</span>
 <span class="nl">public:</span>
     <span class="n">Name</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span> <span class="n">s</span><span class="p">){</span>
     <span class="p">}</span>
@@ -203,7 +137,7 @@
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
-</td></tr></table>
+
 
 <p>有的时候，我们希望阻止这种隐式的类型转换。 有两种方式，例如如果我们想阻止<code>Name name = "peter";</code>所产生的隐式类型转换，可以只使用<code>Name(const string s)</code>，丢弃<code>Name(const char * s)</code>，使得string类型作为一种代理类（proxy classes）的方式解决隐式类型转换的问题。 其次，使用<code>explicit</code>关键字作用于构造函数，阻止其类型转换，如：
     :::cpp
@@ -214,28 +148,7 @@
     }</p>
 <h3>区别increment/decrement操作符的前置(prefix)与后置(postfix)形式</h3>
 <p>C++提供自定义类的<code>++A与A++</code>的支持</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">UPInt</span><span class="p">{</span>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">UPInt</span><span class="p">{</span>
 <span class="nl">public:</span>
     <span class="n">UPInt</span> <span class="o">&amp;</span> <span class="k">operator</span><span class="o">++</span><span class="p">();</span> <span class="c1">//++A</span>
     <span class="k">const</span> <span class="n">UPInt</span> <span class="k">operator</span><span class="o">++</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span> <span class="c1">//A++</span>
@@ -258,7 +171,7 @@
 <span class="n">i</span><span class="o">++</span><span class="p">;</span>
 <span class="o">++</span><span class="n">i</span><span class="p">;</span>
 </pre></div>
-</td></tr></table>
+
 
 <p>通过上面的代码，可以看出以下几点：</p>
 <ol>
@@ -276,15 +189,15 @@
 <p>主要提及了<code>new</code>和<code>delete</code>操作符的三种用法：</p>
 <h4>new operator</h4>
 <p>做两件事情：第一，分配足够的内存，用来放置某类型的对象。第二，调用一个constructor，为刚才分配的内存中的那个对象设置初值。</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">string</span> <span class="o">*</span> <span class="n">str</span> <span class="o">=</span> <span class="k">new</span> <span class="n">string</span><span class="p">(</span><span class="s">&quot;hello world&quot;</span><span class="p">);</span>
+<div class="highlight"><pre><span class="n">string</span> <span class="o">*</span> <span class="n">str</span> <span class="o">=</span> <span class="k">new</span> <span class="n">string</span><span class="p">(</span><span class="s">&quot;hello world&quot;</span><span class="p">);</span>
 </pre></div>
-</td></tr></table>
+
 
 <h4>operator new</h4>
 <p>C++提供了一种类似C语言中的<code>malloc与free</code>函数的功能。它唯一的任务就是分配内存</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">void</span> <span class="o">*</span> <span class="n">p</span><span class="o">=</span> <span class="k">operator</span> <span class="k">new</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<div class="highlight"><pre><span class="kt">void</span> <span class="o">*</span> <span class="n">p</span><span class="o">=</span> <span class="k">operator</span> <span class="k">new</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
 </pre></div>
-</td></tr></table>
+
 
 <h4>Placement new</h4>
 <p>引用<a href="http://stackoverflow.com/questions/222557/what-uses-are-there-for-placement-new">stackOverflow</a>中的解释</p>
@@ -292,13 +205,11 @@
 <blockquote>
 <p>Standard C++ also supports placement new operator, which constructs an object on a pre-allocated buffer. This is useful when building a memory pool, a garbage collector or simply when performance and exception safety are paramount (there's no danger of allocation failure since the memory has already been allocated, and constructing an object on a pre-allocated buffer takes less time):</p>
 </blockquote>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">char</span> <span class="o">*</span><span class="n">buf</span>  <span class="o">=</span> <span class="k">new</span> <span class="kt">char</span><span class="p">[</span><span class="k">sizeof</span><span class="p">(</span><span class="n">string</span><span class="p">)];</span> <span class="c1">// pre-allocated buffer</span>
+<div class="highlight"><pre><span class="kt">char</span> <span class="o">*</span><span class="n">buf</span>  <span class="o">=</span> <span class="k">new</span> <span class="kt">char</span><span class="p">[</span><span class="k">sizeof</span><span class="p">(</span><span class="n">string</span><span class="p">)];</span> <span class="c1">// pre-allocated buffer</span>
 <span class="n">string</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="k">new</span> <span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="n">string</span><span class="p">(</span><span class="s">&quot;hi&quot;</span><span class="p">);</span>    <span class="c1">// placement new</span>
 <span class="n">string</span> <span class="o">*</span><span class="n">q</span> <span class="o">=</span> <span class="k">new</span> <span class="n">string</span><span class="p">(</span><span class="s">&quot;hi&quot;</span><span class="p">);</span>          <span class="c1">// ordinary heap allocation</span>
 </pre></div>
-</td></tr></table>
+
 
 <p>You may also want to be sure there can be no allocation failure at a certain part of critical code (maybe you work on a pacemaker for example). In that case you would want to use placement new.</p>
 <p>Deallocation in placement new</p>

@@ -76,30 +76,19 @@
 <li>使用如下<code>#define ASPECT_RATIO 1.653</code>语句时，程序在编译时会将所有的<code>ASPECT_RATIO</code>替换为<code>1.653</code>。这样，在调试程序的时候，很难确定<code>1.653</code>到底是哪来的，是<code>ASPECT_RATIO</code>定义的，还是从其他define过来的。其原因是<strong>你所使用的名称并为进入记号表</strong>。 解决的方法是使用常量替换上述宏<code>const double AspectRatio = 1.653</code>。</li>
 <li>
 <p>无法使用define来创建类的专属变量，因为<code>#define</code>并不重视作用域。</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Test</span><span class="p">{</span>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Test</span><span class="p">{</span>
 <span class="k">public</span> <span class="o">:</span>
     <span class="n">Test</span><span class="p">(){</span>
     <span class="p">}</span>
     <span class="k">static</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">NumTruns</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">};</span>
 </pre></div>
-</td></tr></table>
+
 
 </li>
 <li>
 <p>使用enum hack的方法，这个hack方法不错。</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Test</span><span class="p">{</span>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Test</span><span class="p">{</span>
 <span class="k">public</span> <span class="o">:</span>
     <span class="n">Test</span><span class="p">(){</span>
     <span class="p">}</span>
@@ -107,20 +96,17 @@
     <span class="kt">int</span> <span class="n">arr</span><span class="p">[</span><span class="n">numTurns</span><span class="p">];</span>
 <span class="p">};</span>
 </pre></div>
-</td></tr></table>
+
 
 </li>
 <li>
 <p>用inline替换<code>#define 函数</code>，如<code>#define CALL_WITH_MAX(a,b) f((a)&gt;(b) ? (a) : (b))</code>，在定义，切记对括号的正确使用，因为define是替换，如果不加括号，就容易出问题。使用<code>inline</code>来替换它</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<div class="highlight"><pre><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="kr">inline</span> <span class="kt">void</span> <span class="n">callWithMax</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">){</span>
     <span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="o">&gt;</span><span class="n">b</span><span class="o">?</span><span class="n">a</span><span class="o">:</span><span class="n">b</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
-</td></tr></table>
+
 
 </li>
 </ul>
@@ -128,28 +114,22 @@
 <ul>
 <li>
 <p>const常出现的问题</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">char</span> <span class="n">greeting</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;hello&quot;</span><span class="p">;</span>
+<div class="highlight"><pre><span class="kt">char</span> <span class="n">greeting</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;hello&quot;</span><span class="p">;</span>
 <span class="kt">char</span> <span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span>
 <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span> <span class="c1">//non-const pointer, const data</span>
 <span class="kt">char</span> <span class="o">*</span> <span class="k">const</span> <span class="n">p</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span> <span class="o">/</span><span class="k">const</span> <span class="n">pointer</span><span class="p">,</span> <span class="n">non</span><span class="o">-</span><span class="k">const</span> <span class="n">data</span>
 <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="k">const</span> <span class="n">p</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span> <span class="c1">//const pointer, const data</span>
 </pre></div>
-</td></tr></table>
+
 
 </li>
 </ul>
 <p>理解的方法，<code>const</code>在<code>*</code>号左边指const值，在星号右边指pointer本身是const的。</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3</pre></div></td><td class="code"><div class="highlight"><pre>    <span class="p">:::</span><span class="nl">cpp</span>
+<div class="highlight"><pre>    <span class="p">:::</span><span class="nl">cpp</span>
     <span class="nx">const</span> <span class="nx">std</span><span class="p">::</span><span class="nl">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span><span class="p">::</span><span class="nl">iterator</span> <span class="nx">iter</span><span class="p">;</span> <span class="c1">//const pointer</span>
     <span class="nx">std</span><span class="p">::</span><span class="nl">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span><span class="p">::</span><span class="nl">const_iterator</span> <span class="nx">iter</span><span class="p">;</span> <span class="c1">// const data, 一般用于遍历的时候用</span>
 </pre></div>
-</td></tr></table>
+
 
 <ul>
 <li><strong>const 成员函数不能修改类的成员变量，怎么理解？ </strong></code> 因为，对于const成员函数，const改变了隐含的<code>this</code>形参的类型，即将this指针改变成了指向其对象本身的const指针，即<code>const ClassA * const this</code>，因此this所指向的对象值是不能改变的，即<code>this-&gt;member = rhs</code>非法。<code>mutable</code>可以解决这个问题，即将成员变量声明为mutable即可。mutable的中文意思是“可变的，易变的”，跟constant（既C++中的const）是反义词。在C++中，mutable也是为了突破const的限制而设置的。被mutable修饰的变量，将永远处于可变的状态，即使在一个const函数中。</li>
@@ -158,20 +138,7 @@
 <ul>
 <li>
 <p>先看一段代码：</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ABEntry</span><span class="p">{</span>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">ABEntry</span><span class="p">{</span>
 <span class="k">public</span> <span class="o">:</span>
     <span class="n">AbEntry</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span> <span class="n">name</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">PhoneNumber</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">phones</span><span class="p">);</span>
 <span class="k">private</span> <span class="o">:</span>
@@ -186,7 +153,7 @@
     <span class="n">numTimesConsulted</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
-</td></tr></table>
+
 
 </li>
 <li>
@@ -194,9 +161,9 @@
 </li>
 <li>
 <p>使用成员初始化列表（member initialisation list）,且如果成员变量为const或references，由于一定需要初始值，就必须使用成员初始化列表。</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">ABEntry</span><span class="o">::</span><span class="n">ABEntry</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span> <span class="n">name</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">PhoneNumber</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">phones</span><span class="p">,</span> <span class="kt">int</span> <span class="n">numTimesConsulted</span><span class="p">)</span><span class="o">:</span><span class="n">theName</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">thePhones</span><span class="p">(</span><span class="n">phones</span><span class="p">),</span> <span class="n">numTimesConsulted</span><span class="p">(</span><span class="mi">0</span><span class="p">){}</span>
+<div class="highlight"><pre><span class="n">ABEntry</span><span class="o">::</span><span class="n">ABEntry</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span> <span class="n">name</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">PhoneNumber</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">phones</span><span class="p">,</span> <span class="kt">int</span> <span class="n">numTimesConsulted</span><span class="p">)</span><span class="o">:</span><span class="n">theName</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">thePhones</span><span class="p">(</span><span class="n">phones</span><span class="p">),</span> <span class="n">numTimesConsulted</span><span class="p">(</span><span class="mi">0</span><span class="p">){}</span>
 </pre></div>
-</td></tr></table>
+
 
 </li>
 </ul>

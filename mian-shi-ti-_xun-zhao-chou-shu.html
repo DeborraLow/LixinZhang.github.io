@@ -75,23 +75,7 @@ Number）。例如6、8都是丑数，但14不是，因为它包含因子7。习
 <p>
 ``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 bool IsUgly(int number){    while(number % 2 == 0)        number /= 2;    while(number % 3 == 0)        number /= 3;    while(number % 5 == 0)        number /= 5;    return (number == 1) ? true : false;}int Method1(int index){    if(index &lt;= 0)        return 0;     int number = 0;    int uglyFound = 0;    while(uglyFound &lt; index)    {        ++number;         if(IsUgly(number))        {            ++uglyFound;        }    }     return number;}</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
       
 上面的方法，效率低的无法让人接受。于是，我们在寻求更好的解决办法。仔细阅读题目，会发现这题貌似有点像找素数的问题，对了，就是这样，我们换个思路，不是去枚举所有符合条件的数，而是去通过条件生成这些数字。根据丑数的定义，丑数应该是另一个丑数乘以2、3或者5的结果（1除外）。因此我们可以创建一个数组，里面的数字是排好序的丑数。里面的每一个丑数是前面的丑数乘以2、3或者5得到的。这个思路的关键点，就是要保证数组里面的丑数是排好序的。假设arr<span class="cp">[</span><span class="mi">1</span><span class="bp">..</span><span class="nx">i</span><span class="cp">]</span>是已经排好序的数组，则arr<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span>一定是这里面最大的数，那么我们只要去寻找新生成的数字中比arr<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span>大的的最小的数。新生成的数是由前面的数字\*2或\*3或\*5得到的。我们定义index2为前面数字\*2中的所有数字中满足大于arr<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span>的最小的数的下标，index3,index5类似定义，则应该放在arr<span class="cp">[</span><span class="nx">i</span><span class="o">+</span><span class="mi">1</span><span class="cp">]</span>位置的数字便是min(arr<span class="cp">[</span><span class="nx">index2</span><span class="cp">]</span>\*2,arr<span class="cp">[</span><span class="nx">index3</span><span class="cp">]</span>\*3,arr<span class="cp">[</span><span class="nx">index5</span><span class="cp">]</span>\*5)。
@@ -109,21 +93,18 @@ bool IsUgly(int number){    while(number % 2 == 0)        number /= 2;    while(
 ``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 int Min(int a, int b , int c){    a=a<span class="nt">&lt;b</span><span class="err">?a:b;</span>    <span class="err">if(c&lt;a)</span> <span class="err">return</span> <span class="err">c;</span> <span class="err">else</span> <span class="err">return</span> <span class="err">a;}int</span> <span class="err">Method2(int</span> <span class="err">Mindex){</span>  <span class="err">int</span> <span class="na">index=</span><span class="s">1;</span> <span class="err">int</span> <span class="err">*</span><span class="na">arr=</span> <span class="s">new</span> <span class="err">int</span><span class="cp">[</span><span class="nx">Mindex</span><span class="cp">]</span><span class="err">;</span>   <span class="na">arr</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span><span class="na">=</span><span class="s">1;</span>    <span class="err">int</span> <span class="na">index2=</span><span class="s">0,</span> <span class="na">index3=</span><span class="s">0,</span> <span class="na">index5=</span><span class="s">0;</span>    <span class="err">while(index&lt;Mindex)</span>   <span class="err">{</span>        <span class="err">int</span> <span class="na">min=</span><span class="s">Min(arr</span><span class="cp">[</span><span class="nx">index2</span><span class="cp">]</span><span class="s">*2,arr</span><span class="cp">[</span><span class="nx">index3</span><span class="cp">]</span><span class="s">*3,arr</span><span class="cp">[</span><span class="nx">index5</span><span class="cp">]</span><span class="s">*5);</span>      <span class="na">arr</span><span class="cp">[</span><span class="nb">index</span><span class="cp">]</span><span class="na">=</span><span class="s">min;</span>      <span class="err">while(arr</span><span class="cp">[</span><span class="nx">index2</span><span class="cp">]</span><span class="err">*2&lt;=arr</span><span class="cp">[</span><span class="nb">index</span><span class="cp">]</span><span class="err">)</span> <span class="err">index2++;</span>        <span class="err">while(arr</span><span class="cp">[</span><span class="nx">index3</span><span class="cp">]</span><span class="err">*3&lt;=arr</span><span class="cp">[</span><span class="nb">index</span><span class="cp">]</span><span class="err">)</span> <span class="err">index3++;</span>        <span class="err">while(arr</span><span class="cp">[</span><span class="nx">index5</span><span class="cp">]</span><span class="err">*5&lt;=arr</span><span class="cp">[</span><span class="nb">index</span><span class="cp">]</span><span class="err">)</span> <span class="err">index5++;</span>        <span class="err">index++;</span> <span class="err">}</span>
 </pre></div>
-</td></tr></table>
+
 
 <p></p>
 <p>
 ``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 　　　int ans=arr[Mindex-1];</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 <span class="nt">&lt;p&gt;</span>
 ``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 　　　delete arr; return ans;}
 </pre></div>
-</td></tr></table>
+
 
 </p>
             <aside>

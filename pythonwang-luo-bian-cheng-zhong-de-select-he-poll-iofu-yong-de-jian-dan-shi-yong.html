@@ -117,18 +117,7 @@ completion）。当有可读、可写或是异常事件产生时，select可以�
 <p>
 ``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .[头文件]; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 '''Created on 2012-1-6The echo server example from the socket section can be extanded to watche for more thanone connection at a time by using select() .The new version starts out by creating a nonblockingTCP/IP socket and configuring it to listen on an address@author: xiaojay'''import selectimport socketimport Queue#create a socketserver = socket.socket(socket.AF_INET,socket.SOCK_STREAM)server.setblocking(False)#set option reusedserver.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR  , 1)server_address= ('192.168.1.102',10001)server.bind(server_address)server.listen(10)#sockets from which we except to readinputs = [server]#sockets from which we expect to writeoutputs = []#Outgoing message queues (socket:Queue)message_queues = {}#A optional parameter for select is TIMEOUTtimeout = 20while inputs:    print "waiting for next event"    readable , writable , exceptional = select.select(inputs, outputs, inputs, timeout)    # When timeout reached , select return three empty lists    if not (readable or writable or exceptional) :        print "Time out ! "        break;        for s in readable :        if s is server:            # A "readable" socket is ready to accept a connection            connection, client_address = s.accept()            print "    connection from ", client_address            connection.setblocking(0)            inputs.append(connection)            message_queues[connection] = Queue.Queue()        else:            data = s.recv(1024)            if data :                print " received " , data , "from ",s.getpeername()                message_queues[s].put(data)                # Add output channel for response                    if s not in outputs:                    outputs.append(s)            else:                #Interpret empty result as closed connection                print "  closing", client_address                if s in outputs :                    outputs.remove(s)                inputs.remove(s)                s.close()                #remove message queue                 del message_queues[s]    for s in writable:        try:            next_msg = message_queues[s].get_nowait()        except Queue.Empty:            print " " , s.getpeername() , 'queue empty'            outputs.remove(s)        else:            print " sending " , next_msg , " to ", s.getpeername()            s.send(next_msg)        for s in exceptional:        print " exception condition on ", s.getpeername()        #stop listening for input on the connection        inputs.remove(s)        if s in outputs:            outputs.remove(s)        s.close()        #Remove message queue        del message_queues[s]                            </p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 **Client端程序：**   
 Client端创建多个socket进行server链接，用于观察使用select函数的server端如何进行处理。
@@ -141,7 +130,7 @@ Client端创建多个socket进行server链接，用于观察使用select函数�
 ``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .<span class="cp">[</span><span class="err">头文件</span><span class="cp">]</span>; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 &#39;&#39;&#39;Created on 2012-1-5The example client program uses some sockets to demonstrate how the serverwith select() manages multiple connections at the same time . The clientstarts by connecting each TCP/IP socket to the server@author: peter&#39;&#39;&#39;import socketmessages = <span class="cp">[</span><span class="s2">&quot;This is the message&quot;</span> <span class="p">,</span>            <span class="s2">&quot;It will be sent&quot;</span> <span class="p">,</span>            <span class="s2">&quot;in parts &quot;</span><span class="cp">]</span>print &quot;Connect to the server&quot;server_address = (&quot;192.168.1.102&quot;,10001)#Create a TCP/IP socksocks = <span class="cp">[]</span>for i in range(10):    socks.append(socket.socket(socket.AF_INET,socket.SOCK_STREAM))for s in socks:    s.connect(server_address)counter = 0for message in messages :    #Sending message from different sockets    for s in socks:        counter+=1        print &quot;  %s sending %s&quot; % (s.getpeername(),message+&quot; version &quot;+str(counter))        s.send(message+&quot; version &quot;+str(counter))    #Read responses on both sockets    for s in socks:        data = s.recv(1024)        print &quot; %s received %s&quot; % (s.getpeername(),data)        if not data:            print &quot;closing socket &quot;,s.getpeername()            s.close()        
 </pre></div>
-</td></tr></table>
+
 
 </p>
 

@@ -85,23 +85,7 @@ style="font-size: small;">1、首先建立一个抽象类SchoolUser，用做学�
 <p>
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 package SimpleFacotryTest;public abstract class SchoolUser {    public String UserName="";   public String UserType="";   public abstract void Describe();}</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 <span class="nt">&lt;span</span> <span class="na">size=</span><span class="s">&quot;3&quot;</span> <span class="na">style=</span><span class="s">&quot;font-size: small;&quot;</span><span class="nt">&gt;</span> <span class="nt">&lt;/span&gt;</span>
 
@@ -119,7 +103,7 @@ package SimpleFacotryTest;public abstract class SchoolUser {    public String Us
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 package SimpleFacotryTest;public class Student extends SchoolUser{   public Student(String id)    {        //通过id查询详细信息     this.UserName=&quot;Tom&quot;;     this.UserType=&quot;Student&quot;; }    public void Describe()   {        System.out.println(&quot;User &quot;+this.UserName+&quot; is &quot;+this.UserType);  }}
 </pre></div>
-</td></tr></table>
+
 
 </p>
 
@@ -128,15 +112,7 @@ package SimpleFacotryTest;public class Student extends SchoolUser{   public Stud
 <p>
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 package SimpleFacotryTest;public class Teacher extends SchoolUser{  public Teacher(String id )   {        //通过id查询详细信息     this.UserName="Peter";       this.UserType="Teacher"; }    public void Describe()   {        System.out.println("User "+this.UserName+" is a "+this.UserType);    }}</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 <span class="nt">&lt;span</span> <span class="na">size=</span><span class="s">&quot;3&quot;</span>
 <span class="na">style=</span><span class="s">&quot;font-size: small;&quot;</span><span class="nt">&gt;</span>3、接下来就要开始实现我们的工厂了。正如我们前面在定义里所说的一样，简单工厂是通过传进的参数来动态决定应该创建出哪一个产品类的实例。那么他就需要一个逻辑判断的过程，具体问题具体分析。<span class="nt">&lt;/span&gt;</span>
@@ -146,7 +122,7 @@ package SimpleFacotryTest;public class Teacher extends SchoolUser{  public Teach
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 package SimpleFacotryTest;public class Factory { public static SchoolUser createUser(String id){      //假设id为11111的为学生号码，id为00000的为老师的号码       //编写逻辑判断     if(id.equals(&quot;11111&quot;)){          return new Student(id);      }else if (id.equals(&quot;00000&quot;)){           return new Teacher(id);      }else {          return null;     }    }}
 </pre></div>
-</td></tr></table>
+
 
 </p>
 

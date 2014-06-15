@@ -89,14 +89,7 @@ style="font-size: medium;">1、首先定义实体结点类、虚拟结点类。�
 <p>
 ``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 /<em>实体结点</em>/class CNode_s{public: /<em>构造函数</em>/ CNode_s();   CNode_s(char * pIden , int pVNodeCount , void * pData);   /<em>获取结点标示</em>/   const char * getIden();   /<em>获取实体结点的虚拟结点数量</em>/    int getVNodeCount();  /<em>设置实体结点数据值</em>/    void setData(void * data);    /<em>获取实体结点数据值</em>/    void * getData();private: void setCNode_s(char * pIden, int pVNodeCount , void * pData);   char iden[100];/<em>结点标示串</em>/ int vNodeCount; /<em>虚拟结点数目</em>/   void * data;/<em>数据结点</em>/};</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7
-8</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
    **虚拟结点 CVirtualNode\_s：**虚拟结点有一指针指向实体结点
 
@@ -105,7 +98,7 @@ style="font-size: medium;">1、首先定义实体结点类、虚拟结点类。�
 ``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 /*虚拟结点*/class CVirtualNode_s{public: /*构造函数*/ CVirtualNode_s();    CVirtualNode_s(CNode_s * pNode);  /*设置虚拟结点所指向的实体结点*/   void setNode_s(CNode_s * pNode);  /*获取虚拟结点所指向的实体结点*/   CNode_s * getNode_s();    /*设置虚拟结点hash值*/  void setHash(long pHash); /*获取虚拟结点hash值*/  long getHash();private:   long hash; /*hash值*/ CNode_s * node; /*虚拟结点所指向的实体结点*/};
 </pre></div>
-</td></tr></table>
+
 
 </p>
 
@@ -129,14 +122,7 @@ style="font-size: medium;">2、hash算法具有可选择性，定义一个hash�
 <p>
 ``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 /<em>定义Hash函数类接口，用于计算结点的hash值</em>/class CHashFun{public:  virtual long getHashVal(const char *) = 0;};</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7
-8</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 **CMD5HashFun 类继承CHashFun接口，实现获取hash值的getHashVal函数：**
 
@@ -145,7 +131,7 @@ style="font-size: medium;">2、hash算法具有可选择性，定义一个hash�
 ``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .<span class="cp">[</span><span class="err">头文件</span><span class="cp">]</span>; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 /*用MD5算法计算结点的hash值，继承CHashFun父类*/class CMD5HashFun : public CHashFun{public:   virtual long getHashVal (const char * );};long CMD5HashFun::getHashVal(const char * instr){  int i;    long hash = 0;    unsigned char digest<span class="cp">[</span><span class="mi">16</span><span class="cp">]</span>;   /*调用MD5相关函数，生成instr的MD5码，存入digest*/  md5_state_t md5state;    md5_init(<span class="ni">&amp;md5state);</span>    md5_append(<span class="err">&amp;</span>md5state, (const unsigned char *)instr, strlen(instr));    md5_finish(<span class="err">&amp;</span>md5state, digest);    /* 每四个字节构成一个32位整数，  将四个32位整数相加得到instr的hash值（可能溢出） */    for(i = 0; i <span class="nt">&lt; 4</span><span class="err">;</span> <span class="err">i++)</span>    <span class="err">{</span>        <span class="err">hash</span> <span class="err">+=</span> <span class="err">((long)(digest</span><span class="cp">[</span><span class="nx">i</span><span class="o">*</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">3</span><span class="cp">]</span><span class="err">&amp;0xFF)</span> <span class="err">&lt;&lt;</span> <span class="err">24)</span>            <span class="err">|</span> <span class="err">((long)(digest</span><span class="cp">[</span><span class="nx">i</span><span class="o">*</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">2</span><span class="cp">]</span><span class="err">&amp;0xFF)</span> <span class="err">&lt;&lt;</span> <span class="err">16)</span>            <span class="err">|</span> <span class="err">((long)(digest</span><span class="cp">[</span><span class="nx">i</span><span class="o">*</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span><span class="cp">]</span><span class="err">&amp;0xFF)</span> <span class="err">&lt;&lt;</span>  <span class="err">8)</span>            <span class="err">|</span> <span class="err">((long)(digest</span><span class="cp">[</span><span class="nx">i</span><span class="o">*</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">0</span><span class="cp">]</span><span class="err">&amp;0xFF));</span>    <span class="err">}</span>  <span class="err">return</span> <span class="err">hash;}</span>
 </pre></div>
-</td></tr></table>
+
 
 </p>
 
@@ -157,20 +143,7 @@ style="font-size: medium;">3、扩展红黑树结构中的查找函数，用于�
 <p>
 ``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .[头文件]; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 util_rbtree_node_t<em> util_rbtree_lookup(util_rbtree_t </em>rbtree, long key){ if((rbtree != NULL) &amp;&amp; !util_rbtree_isempty(rbtree)) {        util_rbtree_node_t <em>node = NULL;        util_rbtree_node_t </em>temp = rbtree-&gt;root;       util_rbtree_node_t <em>null = _NULL(rbtree);        while(temp != null)      {            if(key &lt;= temp-&gt;key)            {                node = temp; /</em> update node <em>/                temp = temp-&gt;left;            }          else if(key &gt; temp-&gt;key)            {                temp = temp-&gt;right;            }      }        /</em> if node==NULL return the minimum node */        return ((node != NULL) ? node : util_rbtree_min(rbtree));  }    return NULL;}</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 <span class="nt">&lt;span</span>
 <span class="na">style=</span><span class="s">&quot;font-size: medium;&quot;</span><span class="nt">&gt;</span>4、创建一致性hash类。使其具有插入、删除、查找实体结点的功能。<span class="nt">&lt;/span&gt;</span>
@@ -185,7 +158,7 @@ util_rbtree_node_t<em> util_rbtree_lookup(util_rbtree_t </em>rbtree, long key){ 
 ``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .<span class="cp">[</span><span class="err">头文件</span><span class="cp">]</span>; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 class CConHash{public:  /*构造函数*/ CConHash(CHashFun * pFunc);   /*设置hash函数*/ void setFunc(CHashFun * pFunc);   /*增加实体结点 , 0代表成功 , -1代表失败*/  int addNode_s(CNode_s * pNode);   /*删除实体结点 , 0代表成功 , -1代表失败*/  int delNode_s(CNode_s * pNode);   /*查找实体结点*/   CNode_s * lookupNode_s(const char * object);  /*获取一致性hash结构的所有虚拟结点数量*/ int getVNodes();private:  /*Hash函数*/   CHashFun * func; /*虚拟结点总个数*/  int vNodes;  /*存储虚拟结点的红黑树*/   util_rbtree_t * vnode_tree;};/*辅助函数，虚拟结点转化为红黑树结点*/util_rbtree_node_t * vNode2RBNode(CVirtualNode_s * vnode);CConHash::CConHash(CHashFun * pFunc){   /*设置hash函数*/ assert(pFunc!=NULL); this-&gt;func = pFunc;   this-&gt;vNodes = 0; /*初始化红黑树*/   vnode_tree = new util_rbtree_s();    util_rbtree_init(vnode_tree);}int CConHash::addNode_s(CNode_s * pNode){  if(pNode==NULL) return -1;   int vCount = pNode-&gt;getVNodeCount();  if(vCount<span class="err">&lt;</span>=0) return -1;  CVirtualNode_s * virtualNode ;   util_rbtree_node_t * rbNode; char str <span class="cp">[</span><span class="mi">100</span><span class="cp">]</span>;  char num<span class="cp">[</span><span class="mi">10</span><span class="cp">]</span>;    strcpy(str,pNode-&gt;getIden()); long hash = 0;   /*生成虚拟结点并插入到红黑树中*/   for(int i=0;i<span class="nt">&lt;vCount</span><span class="err">;i++)</span> <span class="err">{</span>        <span class="na">virtualNode =</span> <span class="s">new</span> <span class="err">CVirtualNode_s(pNode);</span>     <span class="err">/*采用str+“i”的方法产生不同的iden串，用于后面的hash值计算*/</span>      <span class="err">itoa(i,num,10);</span>      <span class="err">strcat(str,num);</span>     <span class="na">hash =</span> <span class="s">func-</span><span class="nt">&gt;</span>getHashVal(str);     virtualNode-&gt;setHash(hash);       if(!util_rbtree_search(vnode_tree,hash))     {            /*生成红黑树结点*/          rbNode = vNode2RBNode(virtualNode);          if(rbNode!=NULL)         {                /*将该结点插入到红黑树中*/              util_rbtree_insert(vnode_tree,rbNode);               this-&gt;vNodes++;           }        }    }    return 0;}int CConHash::delNode_s(CNode_s * pNode){  if(pNode==NULL) return -1;   util_rbtree_node_t * rbNode; char str <span class="cp">[</span><span class="mi">100</span><span class="cp">]</span>;  char num <span class="cp">[</span><span class="mi">10</span><span class="cp">]</span>;   strcpy(str,pNode-&gt;getIden());     int vCount = pNode-&gt;getVNodeCount();  long hash = 0;   CVirtualNode_s * node = NULL;    /*将该实体结点产生的所有虚拟结点进行删除*/  for(int i=0;i<span class="nt">&lt;vCount</span><span class="err">;i++)</span> <span class="err">{</span>        <span class="err">itoa(i,num,10);</span>      <span class="err">strcat(str,num);/*采用该方法产生不同的iden串*/</span>      <span class="na">hash =</span> <span class="s">func-</span><span class="nt">&gt;</span>getHashVal(str);     rbNode = util_rbtree_search(vnode_tree,hash);        if(rbNode!=NULL)     {            node = (CVirtualNode_s *) rbNode-&gt;data;           if(node-&gt;getNode_s()==pNode <span class="err">&amp;&amp;</span> node-&gt;getHash()==hash)          {                this-&gt;vNodes--;               /*将该结点从红黑树中删除*/              util_rbtree_delete(vnode_tree,rbNode);               delete rbNode;               delete node;         }        }    }    return 0;}CNode_s * CConHash::lookupNode_s(const char * object){ if(object==NULL||this-&gt;vNodes==0) return NULL;    util_rbtree_node_t * rbNode; int key = this-&gt;func-&gt;getHashVal(object);  /*在红黑树中查找key值比key大的最小的结点*/   rbNode = util_rbtree_lookup(vnode_tree,key); if(rbNode!=NULL) {        return ((CVirtualNode_s *) rbNode-&gt;data)-&gt;getNode_s(); }    return NULL;}int CConHash::getVNodes(){  return this-&gt;vNodes;}util_rbtree_node_t * vNode2RBNode(CVirtualNode_s * vnode){    if(vnode==NULL) return NULL; util_rbtree_node_t *rbNode = new util_rbtree_node_t();   rbNode-&gt;key = vnode-&gt;getHash();    rbNode-&gt;data = vnode; return rbNode;}  
 </pre></div>
-</td></tr></table>
+
 
 </p>
 
