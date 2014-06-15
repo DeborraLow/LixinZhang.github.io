@@ -378,3 +378,46 @@ img {
      border-bottom: medium none;
      color: rgb(0, 85, 128);
 }
+
+
+table {
+  padding: 0;border-collapse: collapse; }
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0; }
+    table tr:nth-child(2n) {
+      background-color: #f8f8f8; }
+    table tr th {
+      font-weight: bold;
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr td {
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr th :first-child, table tr td :first-child {
+      margin-top: 0; }
+    table tr th :last-child, table tr td :last-child {
+      margin-bottom: 0; }
+	  
+	  
+	  
+	  body > h2:first-child {
+	    margin-top: 0;
+	    padding-top: 0; }
+	  body > h1:first-child {
+	    margin-top: 0;
+	    padding-top: 0; }
+	    body > h1:first-child + h2 {
+	      margin-top: 0;
+	      padding-top: 0; }
+	  body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+	    margin-top: 0;
+	    padding-top: 0; }
+
+	  a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+	    margin-top: 0;
+	    padding-top: 0; }
