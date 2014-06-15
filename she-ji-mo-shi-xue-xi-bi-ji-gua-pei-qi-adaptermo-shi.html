@@ -91,7 +91,14 @@ Class）实现的，另外类适配器实现客户类所需要的接口。当客
 <p>
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 public interface AddressValidator { public boolean isValidAddress(String address);}</p>
-<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 2、定义一个USAddress的验证类，用来验证地址是否符合US标准
 
@@ -100,7 +107,7 @@ public interface AddressValidator { public boolean isValidAddress(String address
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 public class USAddress implements AddressValidator{   public boolean isValidAddress(String address){       //对address逻辑逻辑验证     return true; }}
 </pre></div>
-
+</td></tr></table>
 
 </p>
 
@@ -109,7 +116,14 @@ public class USAddress implements AddressValidator{   public boolean isValidAddr
 <p>
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 public class Customer {   String CustomerType; String Address;  public Customer(String type,String address){     this.CustomerType=type;      this.Address=address;    }    public boolean isValidAddress(){     AddressValidator validator;      validator=getValidator(CustomerType);        return validator.isValidAddress(Address);    }    private AddressValidator getValidator(String type){      AddressValidator validator = null;       if(type.equals("US")){           validator=new USAddress();       }        return validator;    }}</p>
-<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 4、接下来问题来了，如果现在要添加一个加拿大地址的验证类的话，该怎么办呢？可以自己定义一个CAAddress类然后实现AddressValidator接口，再去编辑逻辑的验证代码。但是如果现在的情况是，已经有一个写好的工具类，但是它提供的接口不能直接用于Customer类的使用，例如下面的类：
 
@@ -118,7 +132,7 @@ public class Customer {   String CustomerType; String Address;  public Customer(
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 public class CAAddress {  public boolean isValidCanadianAddr(String address){      //对address进行逻辑验证     return true; }}
 </pre></div>
-
+</td></tr></table>
 
 </p>
 
@@ -130,7 +144,14 @@ public class CAAddress {  public boolean isValidCanadianAddr(String address){   
 <p>
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 public class CAAddressAdapter extends CAAddress implements AddressValidator{   @Override    public boolean isValidAddress(String address) {      //调用父类CAAddress中的验证方法        return isValidCanadianAddr(address); }   }</p>
-<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 5、我们再修改一下Customer类中getValidator的方法，应用CAAddressAdapter设计和对AddressValidator（声明期望的接口）对象的多态调用使Customer可以利用接口不兼容CAAddress类提供的服务。
 
@@ -139,7 +160,7 @@ public class CAAddressAdapter extends CAAddress implements AddressValidator{   @
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 private AddressValidator getValidator(String type){    AddressValidator validator = null;   if(type.equals(&quot;US&quot;)){       validator=new USAddress();   }else if(type.equals(&quot;Canada&quot;)){     validator= new CAAddressAdapter();   }    return validator;}
 </pre></div>
-
+</td></tr></table>
 
 </p>
 

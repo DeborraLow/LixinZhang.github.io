@@ -110,7 +110,14 @@
 <p>
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 /<strong> * 定义实现部分的接口，可以与抽象部分接口的方法不一样 */public interface Implementor { /</strong>   * 示例方法，实现抽象部分需要的某些具体功能   */  public void operationImpl();}</p>
-<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 （2）再看看Abstraction接口的定义，注意一点，虽然说是接口定义，但其实是实现成为抽象类。示例代码如下：
 
@@ -119,7 +126,7 @@
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 /** * 定义抽象部分的接口 */public abstract class Abstraction {    /**   * 持有一个实现部分的对象    */  protected Implementor impl;  /**   * 构造方法，传入实现部分的对象     * @param impl 实现部分的对象    */  public Abstraction(Implementor impl){        this.impl = impl;    }    /**   * 示例操作，实现一定的功能，可能需要转调实现部分的具体实现方法     */  public void operation() {        impl.operationImpl();    }}
 </pre></div>
-
+</td></tr></table>
 
 </p>
 
@@ -128,7 +135,14 @@
 <p>
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 /*<em> * 真正的具体实现对象 </em>/public class ConcreteImplementorA implements Implementor {   public void operationImpl() {        //真正的实现  }}</p>
-<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 <span class="nt">&lt;p&gt;</span>
     另外一个实现，示例代码如下：
 
@@ -137,7 +151,7 @@
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 /** * 真正的具体实现对象 */public class ConcreteImplementorB implements Implementor {  public void operationImpl() {        //真正的实现  }}
 </pre></div>
-
+</td></tr></table>
 
 </p>
 
@@ -146,23 +160,29 @@
 <p>
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 /<strong> * 扩充由Abstraction定义的接口功能 */public class RefinedAbstraction extends Abstraction { public RefinedAbstraction(Implementor impl) {        super(impl); }    /</strong>   * 示例操作，实现一定的功能   */  public void otherOperation(){        //实现一定的功能，可能会使用具体实现部分的实现方法，      //但是本方法更大的可能是使用Abstraction中定义的方法，        //通过组合使用Abstraction中定义的方法来完成更多的功能    }}</p>
-<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 <span class="nt">&lt;p&gt;</span>
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 （5）一个测试类：
 </pre></div>
-
+</td></tr></table>
 
 <p></p>
 <p>
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 public class Test{  public static void main(String [] args){     ConcreteImplementorA implA = new ConcreteImplementorA();     ConcreteImplementorB implB = new ConcreteImplementorB();     RefinedAbstraction client = new RefinedAbstraction(implA);       client.operation();//调用implA方法       client=new RefinedAbstraction(implB);        client.operation();//调用implB方法   }}</p>
-<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 <span class="nt">&lt;p&gt;</span>
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 实现了抽象和实现的完美分离。
 </pre></div>
-
+</td></tr></table>
 
 </p>
 

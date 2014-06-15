@@ -88,7 +88,15 @@ style="font-size: x-small;">1、在工厂方法模式里，关于产品部分与
 <p>
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 //定义抽象产品类，父类public abstract class SchoolUser {   public String UserName="";   public String UserType="";   public abstract void Describe();}//////////////////////////////////////////定义具体产品Studentpublic class Student extends SchoolUser{ public Student(){        this.UserName="Tom";     this.UserType="Student"; }    public void Describe(){      System.out.println("User "+this.UserName+" is "+this.UserType);  }}/////////////////////////////////////////定义具体产品Teacherpublic class Teacher extends SchoolUser{ public Teacher(){        this.UserName="Peter";       this.UserType="Teacher"; }    public void Describe(){      System.out.println("User "+this.UserName+" is a "+this.UserType);    }}</p>
-<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 <span class="nt">&lt;span</span> <span class="na">size=</span><span class="s">&quot;2&quot;</span>
 <span class="na">style=</span><span class="s">&quot;font-size: x-small;&quot;</span><span class="nt">&gt;</span>2、接下来就是与简单工厂模式不同的地方了，在简单工厂模式中所有产品的创建都集中在了一个工厂里，而工厂方法模式则是需要创建多个不同类别的工厂实例的。我们首先定义一个抽象工厂接口，其实工厂方法模式的核心<span class="nt">&lt;/span&gt;</span>
@@ -98,7 +106,7 @@ style="font-size: x-small;">1、在工厂方法模式里，关于产品部分与
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 public  interface Factory { public SchoolUser createUser();}
 </pre></div>
-
+</td></tr></table>
 
 </p>
 
@@ -108,7 +116,15 @@ style="font-size: x-small;">3、实现步骤2中的抽象工厂，定义具体�
 <p>
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 public class TeacherFactory implements Factory{  public SchoolUser createUser(){      return new Teacher();    }}////////////////////////////////////////////////public class StudentFactory implements Factory {  public SchoolUser createUser(){      return new Student();    }}</p>
-<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 <span class="nt">&lt;span</span> <span class="na">size=</span><span class="s">&quot;2&quot;</span>
 <span class="na">style=</span><span class="s">&quot;font-size: x-small;&quot;</span><span class="nt">&gt;</span>4、最后，创建客户端进行使用测试<span class="nt">&lt;/span&gt;</span>
@@ -118,7 +134,7 @@ public class TeacherFactory implements Factory{  public SchoolUser createUser(){
 ``` {.brush: .java; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 public class Client {  public static void main(String<span class="cp">[]</span> args) {     //创建一个学生工厂，并产生一个学生实例     Factory factory;     factory = new StudentFactory();      SchoolUser student = factory.createUser();       student.Describe();      //创建一个教师工厂，并产生一个教师 实例        factory = new TeacherFactory();      SchoolUser teacher = factory.createUser();       teacher.Describe();  }}
 </pre></div>
-
+</td></tr></table>
 
 </p>
 

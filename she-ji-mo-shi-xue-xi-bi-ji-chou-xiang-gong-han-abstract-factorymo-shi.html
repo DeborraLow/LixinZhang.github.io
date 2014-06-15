@@ -133,7 +133,79 @@ Product）角色</span>：抽象工厂模式所创建的任何产品对象都是
 <p>
 ``` {.brush: .csharp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
 // Abstract Factory pattern -- Structural example  using System;// "AbstractFactory"abstract class AbstractFactory{  // Methods  abstract public AbstractProductA CreateProductA();  abstract public AbstractProductB CreateProductB();}// "ConcreteFactory1"class ConcreteFactory1 : AbstractFactory{  // Methods  override public AbstractProductA CreateProductA()  {    return new ProductA1();  }  override public AbstractProductB CreateProductB()  {    return new ProductB1();  }}// "ConcreteFactory2"class ConcreteFactory2 : AbstractFactory{  // Methods  override public AbstractProductA CreateProductA()  {    return new ProductA2();  }  override public AbstractProductB CreateProductB()  {    return new ProductB2();  }}// "AbstractProductA"abstract class AbstractProductA{}// "AbstractProductB"abstract class AbstractProductB{  // Methods  abstract public void Interact( AbstractProductA a );}// "ProductA1"class ProductA1 : AbstractProductA{}// "ProductB1"class ProductB1 : AbstractProductB{  // Methods  override public void Interact( AbstractProductA a )  {    Console.WriteLine( this + " interacts with " + a );  }}// "ProductA2"class ProductA2 : AbstractProductA{}// "ProductB2"class ProductB2 : AbstractProductB{  // Methods  override public void Interact( AbstractProductA a )  {    Console.WriteLine( this + " interacts with " + a );  }}// "Client" - the interaction environment of the productsclass Environment{  // Fields  private AbstractProductA AbstractProductA;  private AbstractProductB AbstractProductB;  // Constructors  public Environment( AbstractFactory factory )  {    AbstractProductB = factory.CreateProductB();    AbstractProductA = factory.CreateProductA();  }   // Methods  public void Run()  {    AbstractProductB.Interact( AbstractProductA );  }}/// <summary>/// ClientApp test environment/// </summary>class ClientApp{  public static void Main(string[] args)  {    AbstractFactory factory1 = new ConcreteFactory1();    Environment e1 = new Environment( factory1 );    e1.Run();    AbstractFactory factory2 = new ConcreteFactory2();    Environment e2 = new Environment( factory2 );    e2.Run();  }}</p>
-<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
 
 #### <span class="nt">&lt;span</span> <span class="na">style=</span><span class="s">&quot;font-weight: bold;&quot;</span><span class="nt">&gt;</span>四、 在什么情形下使用抽象工厂模式：<span class="nt">&lt;/span&gt;</span>
 
@@ -207,7 +279,7 @@ Bison：<span class="cp">[</span><span class="s1">&#39;baisn]，美洲或欧洲�
 <span class="s1">``` {.brush: .csharp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}</span>
 <span class="s1">// Abstract Factory pattern -- Real World example  using System;// &quot;AbstractFactory&quot;abstract class ContinentFactory{  // Methods  abstract public Herbivore CreateHerbivore();  abstract public Carnivore CreateCarnivore();}// &quot;ConcreteFactory1&quot;class AfricaFactory : ContinentFactory{  // Methods  override public Herbivore CreateHerbivore()  { return new Wildebeest(); }  override public Carnivore CreateCarnivore()  { return new Lion(); }}// &quot;ConcreteFactory2&quot;class AmericaFactory : ContinentFactory{  // Methods  override public Herbivore CreateHerbivore()  { return new Bison(); }  override public Carnivore CreateCarnivore()  { return new Wolf(); }}// &quot;AbstractProductA&quot;abstract class Herbivore{}// &quot;AbstractProductB&quot;abstract class Carnivore{  // Methods  abstract public void Eat( Herbivore h );}// &quot;ProductA1&quot;class Wildebeest : Herbivore{}// &quot;ProductB1&quot;class Lion : Carnivore{  // Methods  override public void Eat( Herbivore h )  {    // eat wildebeest    Console.WriteLine( this + &quot; eats &quot; + h );  }}// &quot;ProductA2&quot;class Bison : Herbivore{}// &quot;ProductB2&quot;class Wolf : Carnivore{  // Methods  override public void Eat( Herbivore h )  {    // Eat bison    Console.WriteLine( this + &quot; eats &quot; + h );  }}// &quot;Client&quot;class AnimalWorld{  // Fields  private Herbivore herbivore;  private Carnivore carnivore;  // Constructors  public AnimalWorld( ContinentFactory factory )  {    carnivore = factory.CreateCarnivore();    herbivore = factory.CreateHerbivore();  }  // Methods  public void RunFoodChain()  { carnivore.Eat(herbivore); }}/// &lt;summary&gt;///  GameApp test class/// &lt;/summary&gt;class GameApp{  public static void Main( string[] args )  {    // Create and run the Africa animal world    ContinentFactory africa = new AfricaFactory();    AnimalWorld world = new AnimalWorld( africa );    world.RunFoodChain();    // Create and run the America animal world    ContinentFactory america = new AmericaFactory();    world = new AnimalWorld( america );    world.RunFoodChain();  }}</span>
 </pre></div>
-
+</td></tr></table>
 
 </p>
 

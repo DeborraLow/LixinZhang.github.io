@@ -63,7 +63,15 @@
             <h2>构造/析构/赋值运算</h2>
 <h3>了解C++默默编写并调用的哪些函数</h3>
 <p>当创建一个空的类，构造函数默认会为该类创建4个public的inline函数。</p>
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">Empty</span><span class="p">{};</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Empty</span><span class="p">{};</span>
 <span class="c1">//等价于</span>
 <span class="k">class</span> <span class="nc">Empty</span> <span class="p">{</span>
 <span class="k">public</span> <span class="o">:</span>
@@ -73,12 +81,22 @@
     <span class="n">Empty</span> <span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">Empty</span> <span class="o">&amp;</span> <span class="n">rhs</span><span class="p">){...}</span> <span class="c1">//拷贝赋值操作符</span>
 <span class="p">}</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>编译器创建的拷贝构造函数、赋值函数只是将来源对象的每个non-static对象成员变量拷贝到目标对象。因此，当类成员变量包含引用和常量的时候，简单靠编译器自动创建的拷贝构造函数与赋值函数变无法使用，需要自己手动定义。</p>
 <h3>若不想使用编译器自动生成的函数，就该明确拒绝</h3>
 <p>由于编译器会自动创建默认的构造、拷贝、赋值、析构等函数，如果我们要求某个类不能被调用这些函数，该怎么办？ 一个直接的想法是将这些函数定义成private成员函数，但是这个方法有个问题，就是通过友元的方式仍可以调用。另一种方法是定义一个base class.</p>
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">Uncopyable</span><span class="p">{</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Uncopyable</span><span class="p">{</span>
 <span class="k">protected</span> <span class="o">:</span> <span class="c1">//允许继承对象构造和析构</span>
     <span class="n">Uncopyable</span><span class="p">(){}</span>
     <span class="o">~</span><span class="n">Uncopyable</span><span class="p">(){}</span>
@@ -90,7 +108,7 @@
     <span class="p">...</span>
 <span class="p">};</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>通过私有继承该base class，可以实现拒绝调用拷贝和赋值拷贝函数的调用的作用。</p>
 <h3>为多态基类声明virtual析构函数</h3>
@@ -104,7 +122,54 @@
 <p>当析构函数释放多个资源的时候，如<code>vector<widget> v </code>如果第一个对象释放时抛出了异常，接下来的对象也应该进行释放，如果释放过程中又抛出了异常，多个异常对于c++会产生不明确的行为。因此，应该在析构函数中合理的捕捉异常，要么捕捉后，abort退出，要么打日志记录下来，即不让该异常传播。如果客户需要对某个操作函数运行期间抛出的异常做出反应，那么class应该提够一个普通函数（而非在析构函数中）执行该操作。</p>
 <h3>不在构造和析构函数过程中调用virtual函数</h3>
 <p>先看段代码：</p>
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">Base</span><span class="p">{</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Base</span><span class="p">{</span>
 <span class="nl">public:</span>
     <span class="n">Base</span><span class="p">(){</span>
         <span class="n">num</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
@@ -153,7 +218,7 @@
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>上面代码，执行后的结果：
 <pre>
@@ -175,41 +240,56 @@ base destructor
 <p>这个比较简单了，即完成类似<code>a=b=c</code>的连锁赋值，赋值操作符必须返回一个reference指向操作符的左侧实参。 如<code>Widget &amp; operator=(const Widget &amp; rhs)</code>。其他操作符也应该应用这种协议。</p>
 <h3>在<code>operator=</code>中处理"自我赋值"</h3>
 <p>这个也是常见的问题：</p>
-<div class="highlight"><pre><span class="n">Widget</span><span class="o">::</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">Widget</span> <span class="o">&amp;</span> <span class="n">rhs</span><span class="p">){</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Widget</span><span class="o">::</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">Widget</span> <span class="o">&amp;</span> <span class="n">rhs</span><span class="p">){</span>
     <span class="k">delete</span> <span class="n">pb</span><span class="p">;</span>
     <span class="n">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bitmap</span><span class="p">(</span><span class="o">*</span><span class="n">rhs</span><span class="p">.</span><span class="n">pb</span><span class="p">);</span>
     <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>如上述代码，如果rhs与this指向同一个对象，那么，在delete pb的时候，相当于也把rhs中的pb delete掉了。这样，在new新的对象的时候，就会出现问题了。一种解决方法：</p>
-<div class="highlight"><pre><span class="n">Widget</span><span class="o">::</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">Widget</span> <span class="o">&amp;</span> <span class="n">rhs</span><span class="p">){</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Widget</span><span class="o">::</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">Widget</span> <span class="o">&amp;</span> <span class="n">rhs</span><span class="p">){</span>
     <span class="k">if</span><span class="p">(</span><span class="k">this</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
     <span class="k">delete</span> <span class="n">pb</span><span class="p">;</span>
     <span class="n">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bitmap</span><span class="p">(</span><span class="o">*</span><span class="n">rhs</span><span class="p">.</span><span class="n">pb</span><span class="p">);</span>
     <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>上面的方法，保证了<code>自我赋值安全</code>，但没有保证<code>异常安全</code>。何为<code>异常安全</code>，即在<code>delete pb</code>之后的new操作出现问题时，pb被删除掉了，但也没有new成功，这样导致pb指向一块不明确的地址空间。如其他地方又进行了delete pb的，那么就会出现问题。 一个改进的方法是：</p>
-<div class="highlight"><pre><span class="n">Widget</span><span class="o">::</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">Widget</span> <span class="o">&amp;</span> <span class="n">rhs</span><span class="p">){</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Widget</span><span class="o">::</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">Widget</span> <span class="o">&amp;</span> <span class="n">rhs</span><span class="p">){</span>
     <span class="n">Bitmap</span> <span class="o">*</span> <span class="n">porig</span> <span class="o">=</span> <span class="n">pb</span><span class="p">;</span>
     <span class="n">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bitmap</span><span class="p">(</span><span class="o">*</span><span class="n">rhs</span><span class="p">.</span><span class="n">pb</span><span class="p">);</span>
     <span class="k">delete</span> <span class="n">porig</span><span class="p">;</span>
     <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>即把delete操作移到后面，这样即使new不成功，还有porig保存着原来的值，不会出现之前提到的问题，这也保证了所说的<code>异常安全</code>性。</p>
 <h3>复制对象时勿忘记其每一个成分</h3>
 <p>这一节主要说的就是当你自定义构造函数的时候，不要忘记了基类所需要的成员变量，因此在继承类的构造函数要记得调用base类的构造函数，类似 </p>
-<div class="highlight"><pre><span class="n">Derived</span><span class="o">::</span><span class="n">Derived</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">p</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">num</span> <span class="n">p2</span><span class="p">)</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Derived</span><span class="o">::</span><span class="n">Derived</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">p</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">num</span> <span class="n">p2</span><span class="p">)</span>
 <span class="o">:</span><span class="n">Base</span><span class="p">(</span><span class="n">p</span><span class="p">),</span><span class="n">p</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span> <span class="p">{...}</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>此外，对于拷贝构造函数、拷贝复制操作符等不要互相调用，应该创建一个公共的第三方函数，共两者调用，一般为<code>private init</code>函数之类的。</p>
             <aside>

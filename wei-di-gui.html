@@ -62,7 +62,14 @@
 
             <p>最近有同学去面试，被问到<a href="http://zh.wikipedia.org/zh/%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97">斐波那契数列</a>的递归求法。其实大多数人会认为这个非常简单，很快给出答案。如下：</p>
 <p>根据定义很容易写出的斐波那契数列:</p>
-<div class="highlight"><pre><span class="kt">int</span> <span class="nf">Fibonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="nf">Fibonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
     <span class="p">}</span>
@@ -71,7 +78,7 @@
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>但是面试官接着问这样不断的压栈很浪费内存空间，问是否可以优化？可能很多人给不出其他解法了，或者说感觉其他解法如果也是递归的话，也需要压栈，一样会占用内存空间。其实，面试官想考察的是<code>尾递归</code>。</p>
 <h3>什么是<a href="http://zh.wikipedia.org/wiki/%E5%B0%BE%E8%B0%83%E7%94%A8">尾递归</a> ？</h3>
@@ -84,7 +91,14 @@
 </blockquote>
 <p>简单理解，就是处于函数尾部的递归调用本身的情形下，前面的变量状态都不需要再保存了，可以释放，从而节省很大的内存空间。在前面的代码中，明显在调用递归调用<code>Fibonacci(n-1)</code>的时候，还有<code>Fibonacci(n-2)</code>没有执行，需要保存前面的状态，因此开销较大的。</p>
 <p>于是，我们可以改写这个斐波那契数列：</p>
-<div class="highlight"><pre><span class="kt">int</span> <span class="nf">Fibonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="nf">Fibonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
     <span class="p">}</span>
@@ -93,7 +107,7 @@
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>详细的可以参考上面给出的<a href="http://zh.wikipedia.org/wiki/%E5%B0%BE%E8%B0%83%E7%94%A8">尾递归</a>链接。</p>
             <aside>
