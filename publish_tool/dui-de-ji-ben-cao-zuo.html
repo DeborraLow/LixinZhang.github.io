@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>堆的基本操作 - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.pdf">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/dui-de-ji-ben-cao-zuo.html"> 堆的基本操作  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p>我们期望的数据结构能支持插入操作，并能方便地从中取出具有最小或最大关键码的记录，这样的数据结构即为优先级队列。在优先级队列的各种实现中，堆是最高效的一种数据结构。<br />
+　　最小堆：任一结点的关键码均小于或等于它的左右子女的关键码，位于堆顶的结点的关键码是整个元素集合的最小的，所以称它为最小堆。最大堆类似定义。</p>
+</p>
+
+<p><strong>创建堆：</strong>采用从下向上逐步调整形成堆得方法来创建堆。为下面的分支结点调用下调算法siftDown，将以它们为根的子树调整为最小堆。从局部到整体，将最小堆逐步扩大，直到将整个树调整为最小堆。</p>
+</p>
+
+<p><strong>插入一个元素：</strong>最小堆的插入算法调用了另一种堆得调整方法siftUp，实现自下而上的上滑调整。因为每次新结点总是插在已经建成的最小堆后面，这时必须遵守与sift相反的比较路径，从下向上，与父结点的关键码进行比较，对调。</p>
+</p>
+
+<p><strong>删除一个元素：</strong>从最小堆删除具有最小关键码记录的操作时将最小堆的堆顶元素，即其完全二叉树的顺序表示的第0号元素删去，去把这个元素取走后，一般以堆得最后一个结点填补取走的堆顶元素，并将堆的实际元素个数减1.但是用最后一个元素取代堆顶元素将破坏堆，需要调用siftDown算法进行调整堆。</p>
+</p>
+
+<p>本文代码均以最小堆的实现为例。</p>
+</p>
+
+<div class="cnblogs_code">
+
+</p>
+
+<div>
+
+<span style="color: #000000;">\#include</span><span
+style="color: #000000;">\<</span><span
+style="color: #000000;">iostream</span><span
+style="color: #000000;">\></span><span style="color: #000000;">  
+\#include</span><span style="color: #000000;">\<</span><span
+style="color: #000000;">assert.h</span><span
+style="color: #000000;">\></span><span style="color: #000000;">  
+</span><span style="color: #0000ff;">using</span><span
+style="color: #0000ff;">namespace</span><span style="color: #000000;">
+std;  
+
+</span><span style="color: #0000ff;">const</span><span
+style="color: #0000ff;">int</span><span style="color: #000000;">
+maxheapsize</span><span style="color: #000000;">=</span><span
+style="color: #800080;">100</span><span style="color: #000000;">;  
+</span><span style="color: #0000ff;">static</span><span
+style="color: #0000ff;">int</span><span style="color: #000000;">
+currentsize</span><span style="color: #000000;">=</span><span
+style="color: #800080;">0</span><span style="color: #000000;">;  
+
+</span><span style="color: #008000;">//</span><span
+style="color: #008000;">从上到下调整堆</span><span
+style="color: #008000;">  
+</span><span style="color: #0000ff;">void</span><span
+style="color: #000000;"> siftDown(</span><span
+style="color: #0000ff;">int</span><span
+style="color: #000000;">\*</span><span style="color: #000000;">
+heap,</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> currentPos,</span><span
+style="color: #0000ff;">int</span><span style="color: #000000;"> m)  
+{  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> i</span><span
+style="color: #000000;">=</span><span
+style="color: #000000;">currentPos;  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> j</span><span
+style="color: #000000;">=</span><span
+style="color: #000000;">currentPos</span><span
+style="color: #000000;">\*</span><span
+style="color: #800080;">2</span><span
+style="color: #000000;">+</span><span
+style="color: #800080;">1</span><span
+style="color: #000000;">;</span><span
+style="color: #008000;">//</span><span style="color: #008000;">i's
+leftChild</span><span style="color: #008000;">  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> temp</span><span
+style="color: #000000;">=</span><span style="color: #000000;">heap[i];  
+</span><span style="color: #0000ff;">while</span><span
+style="color: #000000;">(j</span><span
+style="color: #000000;">\<=</span><span style="color: #000000;">m)  
+{  
+</span><span style="color: #0000ff;">if</span><span
+style="color: #000000;">(j</span><span
+style="color: #000000;">\<</span><span
+style="color: #000000;">m</span><span
+style="color: #000000;">&&</span><span
+style="color: #000000;">heap[j]</span><span
+style="color: #000000;">\></span><span
+style="color: #000000;">heap[j</span><span
+style="color: #000000;">+</span><span
+style="color: #800080;">1</span><span style="color: #000000;">])
+j</span><span style="color: #000000;">++</span><span
+style="color: #000000;">;</span><span
+style="color: #008000;">//</span><span style="color: #008000;"> j points
+to minChild</span><span style="color: #008000;">  
+</span><span style="color: #0000ff;">if</span><span
+style="color: #000000;">(temp</span><span
+style="color: #000000;">\<=</span><span
+style="color: #000000;">heap[j])</span><span
+style="color: #0000ff;">break</span><span style="color: #000000;">;  
+</span><span style="color: #0000ff;">else</span><span
+style="color: #000000;">   
+{  
+heap[i]</span><span style="color: #000000;">=</span><span
+style="color: #000000;">heap[j];  
+i</span><span style="color: #000000;">=</span><span
+style="color: #000000;">j;  
+j</span><span style="color: #000000;">=</span><span
+style="color: #800080;">2</span><span
+style="color: #000000;">\*</span><span
+style="color: #000000;">i</span><span
+style="color: #000000;">+</span><span
+style="color: #800080;">1</span><span style="color: #000000;">;  
+}  
+}  
+heap[i]</span><span style="color: #000000;">=</span><span
+style="color: #000000;">temp;  
+}  
+
+</span><span style="color: #008000;">//</span><span
+style="color: #008000;">从下向上调整堆</span><span
+style="color: #008000;">  
+</span><span style="color: #0000ff;">void</span><span
+style="color: #000000;"> siftUp(</span><span
+style="color: #0000ff;">int</span><span
+style="color: #000000;">\*</span><span style="color: #000000;">
+heap,</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> start)  
+{  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> i</span><span
+style="color: #000000;">=</span><span
+style="color: #000000;">start,j</span><span
+style="color: #000000;">=</span><span
+style="color: #000000;">(i</span><span
+style="color: #000000;">-</span><span
+style="color: #800080;">1</span><span
+style="color: #000000;">)</span><span
+style="color: #000000;">/</span><span
+style="color: #800080;">2</span><span style="color: #000000;">;  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> temp</span><span
+style="color: #000000;">=</span><span style="color: #000000;">heap[i];  
+
+</span><span style="color: #0000ff;">while</span><span
+style="color: #000000;">(i</span><span
+style="color: #000000;">\></span><span
+style="color: #800080;">0</span><span style="color: #000000;">)  
+{  
+</span><span style="color: #0000ff;">if</span><span
+style="color: #000000;">(heap[j]</span><span
+style="color: #000000;">\></span><span style="color: #000000;">temp)   
+{  
+heap[i]</span><span style="color: #000000;">=</span><span
+style="color: #000000;">heap[j];  
+i</span><span style="color: #000000;">=</span><span
+style="color: #000000;">j;  
+j</span><span style="color: #000000;">=</span><span
+style="color: #000000;">(i</span><span
+style="color: #000000;">-</span><span
+style="color: #800080;">1</span><span
+style="color: #000000;">)</span><span
+style="color: #000000;">/</span><span
+style="color: #800080;">2</span><span style="color: #000000;">;  
+}  
+</span><span style="color: #0000ff;">else</span><span
+style="color: #0000ff;">break</span><span style="color: #000000;">;  
+}  
+heap[i]</span><span style="color: #000000;">=</span><span
+style="color: #000000;">temp;  
+}  
+
+</span><span style="color: #008000;">//</span><span
+style="color: #008000;">构建堆</span><span style="color: #008000;">  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;">\*</span><span style="color: #000000;">
+Heap(</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;">\*</span><span
+style="color: #000000;">arr,</span><span
+style="color: #0000ff;">int</span><span style="color: #000000;"> size)  
+{  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> i;  
+currentsize</span><span style="color: #000000;">=</span><span
+style="color: #000000;">size;  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;">\*</span><span style="color: #000000;">
+heap</span><span style="color: #000000;">=</span><span
+style="color: #0000ff;">new</span><span
+style="color: #0000ff;">int</span><span
+style="color: #000000;">[maxheapsize];  
+assert(heap</span><span style="color: #000000;">!=</span><span
+style="color: #000000;">NULL);  
+</span><span style="color: #0000ff;">for</span><span
+style="color: #000000;">(i</span><span
+style="color: #000000;">=</span><span
+style="color: #800080;">0</span><span
+style="color: #000000;">;i</span><span
+style="color: #000000;">\<</span><span
+style="color: #000000;">currentsize;i</span><span
+style="color: #000000;">++</span><span style="color: #000000;">)
+heap[i]</span><span style="color: #000000;">=</span><span
+style="color: #000000;">arr[i];  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> currentPos</span><span
+style="color: #000000;">=</span><span
+style="color: #000000;">(currentsize</span><span
+style="color: #000000;">-</span><span
+style="color: #800080;">2</span><span
+style="color: #000000;">)</span><span
+style="color: #000000;">/</span><span
+style="color: #800080;">2</span><span style="color: #000000;">;  
+</span><span style="color: #0000ff;">while</span><span
+style="color: #000000;">(currentPos</span><span
+style="color: #000000;">\>=</span><span
+style="color: #800080;">0</span><span style="color: #000000;">)  
+{  
+siftDown(heap,currentPos,currentsize</span><span
+style="color: #000000;">-</span><span
+style="color: #800080;">1</span><span style="color: #000000;">);  
+currentPos</span><span style="color: #000000;">--</span><span
+style="color: #000000;">;  
+}  
+</span><span style="color: #0000ff;">return</span><span
+style="color: #000000;"> heap;  
+}  
+
+
+</span><span style="color: #008000;">//</span><span
+style="color: #008000;">增加一个元素</span><span
+style="color: #008000;">  
+</span><span style="color: #0000ff;">void</span><span
+style="color: #000000;"> insert(</span><span
+style="color: #0000ff;">int</span><span
+style="color: #000000;">\*</span><span style="color: #000000;">
+heap,</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> value)  
+{  
+</span><span style="color: #0000ff;">if</span><span
+style="color: #000000;">(currentsize</span><span
+style="color: #000000;">\>=</span><span
+style="color: #000000;">maxheapsize)  
+{  
+cout</span><span style="color: #000000;">\<\<</span><span
+style="color: #800000;">"</span><span style="color: #800000;">Heap is
+full!</span><span style="color: #800000;">"</span><span
+style="color: #000000;">\<\<</span><span style="color: #000000;">endl;  
+</span><span style="color: #0000ff;">return</span><span
+style="color: #000000;"> ;  
+}  
+heap[currentsize]</span><span style="color: #000000;">=</span><span
+style="color: #000000;">value;  
+siftUp(heap,currentsize);  
+currentsize</span><span style="color: #000000;">++</span><span
+style="color: #000000;">;  
+}  
+
+</span><span style="color: #008000;">//</span><span
+style="color: #008000;">删除一个元素,并返回删除前的堆顶元素</span><span
+style="color: #008000;">  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> removemin(</span><span
+style="color: #0000ff;">int</span><span
+style="color: #000000;">\*</span><span style="color: #000000;"> heap)  
+{  
+assert(currentsize</span><span style="color: #000000;">\>=</span><span
+style="color: #800080;">0</span><span style="color: #000000;">);  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> removeValue</span><span
+style="color: #000000;">=</span><span
+style="color: #000000;">heap[</span><span
+style="color: #800080;">0</span><span style="color: #000000;">];  
+heap[</span><span style="color: #800080;">0</span><span
+style="color: #000000;">]</span><span
+style="color: #000000;">=</span><span
+style="color: #000000;">heap[currentsize</span><span
+style="color: #000000;">-</span><span
+style="color: #800080;">1</span><span style="color: #000000;">];  
+currentsize</span><span style="color: #000000;">--</span><span
+style="color: #000000;">;  
+siftDown(heap,</span><span style="color: #800080;">0</span><span
+style="color: #000000;">,currentsize</span><span
+style="color: #000000;">-</span><span
+style="color: #800080;">1</span><span style="color: #000000;">);  
+</span><span style="color: #0000ff;">return</span><span
+style="color: #000000;"> removeValue;  
+}  
+
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> main()  
+{  
+</span><span style="color: #0000ff;">const</span><span
+style="color: #0000ff;">int</span><span style="color: #000000;">
+size</span><span style="color: #000000;">=</span><span
+style="color: #800080;">10</span><span style="color: #000000;">;  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> arr[size]</span><span
+style="color: #000000;">=</span><span
+style="color: #000000;">{</span><span
+style="color: #800080;">2</span><span
+style="color: #000000;">,</span><span
+style="color: #800080;">1</span><span
+style="color: #000000;">,</span><span
+style="color: #800080;">3</span><span
+style="color: #000000;">,</span><span
+style="color: #800080;">0</span><span
+style="color: #000000;">,</span><span
+style="color: #800080;">8</span><span
+style="color: #000000;">,</span><span
+style="color: #800080;">1</span><span
+style="color: #000000;">,</span><span
+style="color: #800080;">6</span><span
+style="color: #000000;">,</span><span
+style="color: #800080;">9</span><span
+style="color: #000000;">,</span><span
+style="color: #800080;">7</span><span
+style="color: #000000;">,</span><span
+style="color: #800080;">10</span><span style="color: #000000;">};  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;">\*</span><span style="color: #000000;">
+heap</span><span style="color: #000000;">=</span><span
+style="color: #000000;">Heap(arr,size);  
+</span><span style="color: #008000;">//</span><span
+style="color: #008000;">堆排序</span><span style="color: #008000;">  
+</span><span style="color: #0000ff;">for</span><span
+style="color: #000000;">(</span><span
+style="color: #0000ff;">int</span><span style="color: #000000;">
+i</span><span style="color: #000000;">=</span><span
+style="color: #800080;">0</span><span
+style="color: #000000;">;i</span><span
+style="color: #000000;">\<</span><span
+style="color: #000000;">size;i</span><span
+style="color: #000000;">++</span><span style="color: #000000;">)  
+{  
+arr[i]</span><span style="color: #000000;">=</span><span
+style="color: #000000;">removemin(heap);  
+cout</span><span style="color: #000000;">\<\<</span><span
+style="color: #000000;">arr[i]</span><span
+style="color: #000000;">\<\<</span><span style="color: #000000;">endl;  
+}  
+delete []heap;  
+</span><span style="color: #0000ff;">return</span><span
+style="color: #800080;">0</span><span style="color: #000000;">;</span>
+
+</div>
+
+</p>
+
+<div>
+
+ 
+
+</div>
+
+</p>
+
+<div>
+
+ 
+
+</div>
+
+</p>
+
+<div>
+
+ 
+
+</div>
+
+</p>
+
+<div>
+
+<span style="color: #000000;"><span style="color: #000000;">  
+}</span></span>
+
+* * * * *
+
+面试百度时，遇到的一个面试题：
+
+</div>
+
+</p>
+
+<div>
+
+如何建堆，以及建堆的复杂度是多少？证明之。
+
+</div>
+
+</p>
+
+<div>
+
+复杂度为O(n)，不要凭空想象，因为凭空想象第一感觉是n\*logn的，但是显然是不准确的。
+
+</div>
+
+</p>
+
+<div>
+
+具体证明参考算法导论，第六章 77页。
+
+</div>
+
+</p>
+
+<p>
+
+</div>
+
+</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/he-fu-man-shu-bian-ma-wen-ti.html" title="Previous: 赫夫曼树编码问题">赫夫曼树编码问题</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/bing-cha-ji.html" title="Next: 并查集">并查集</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/dui-de-ji-ben-cao-zuo.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/dui-de-ji-ben-cao-zuo.html';
+    var disqus_url = 'http://lixinzhang.github.io/dui-de-ji-ben-cao-zuo.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2011-03-15T05:23:00">Mar 15, 2011</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

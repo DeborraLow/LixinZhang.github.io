@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>面试题_二分查找及其变形 - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.pdf">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/mian-shi-ti-_er-fen-cha-zhao-ji-qi-bian-xing.html"> 面试题_二分查找及其变形  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p>二分查找常用来查找指定有序集合中元素的位置，思路和代码都比较简单，所以大家都很熟练。二分查找貌似很多公司在面试或笔试的时候都会多少涉及到，经常会让你在纸上直接写代码，所以平常只知道原理而从来不自己写的人，可能不会太快写出来，或是代码有点小漏洞，所以经常敲敲常见的数据结构和代码还是很必要的。</p>
+</p>
+
+<p>很多问题，只要涉及到有序的数据结构，就可以往二分查找的思路上靠。
+下面的代码，可能不是很完善，仅供参考。</p>
+</p>
+
+<p><strong>经典二分查找的代码，在有序数组里面查找是否存在某个元素，如果存在，则返回相应元素所在索引号：</strong></p>
+</p>
+
+<div class="cnblogs_code">
+
+</p>
+
+<div>
+
+<span style="color: #0000ff;">int</span><span style="color: #000000;">
+Find(</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> arr[],</span><span
+style="color: #0000ff;">int</span><span style="color: #000000;">
+key,</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> length)  
+{  
+assert(arr</span><span style="color: #000000;">!=</span><span
+style="color: #000000;">NULL</span><span
+style="color: #000000;">&&</span><span
+style="color: #000000;">length</span><span
+style="color: #000000;">\></span><span
+style="color: #800080;">0</span><span style="color: #000000;">);  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> low</span><span
+style="color: #000000;">=</span><span
+style="color: #800080;">0</span><span
+style="color: #000000;">,high</span><span
+style="color: #000000;">=</span><span
+style="color: #000000;">length,mid;  
+</span><span style="color: #0000ff;">while</span><span
+style="color: #000000;">(low</span><span
+style="color: #000000;">\<=</span><span style="color: #000000;">high)  
+{  
+mid</span><span style="color: #000000;">=</span><span
+style="color: #000000;">(low</span><span
+style="color: #000000;">+</span><span
+style="color: #000000;">high)</span><span
+style="color: #000000;">/</span><span
+style="color: #800080;">2</span><span style="color: #000000;">;  
+</span><span style="color: #0000ff;">if</span><span
+style="color: #000000;">(arr[mid]</span><span
+style="color: #000000;">==</span><span
+style="color: #000000;">key)</span><span
+style="color: #0000ff;">return</span><span style="color: #000000;">
+mid;  
+</span><span style="color: #0000ff;">else</span><span
+style="color: #000000;">  
+{  
+</span><span style="color: #0000ff;">if</span><span
+style="color: #000000;">(arr[mid]</span><span
+style="color: #000000;">\></span><span style="color: #000000;">key)
+high</span><span style="color: #000000;">=</span><span
+style="color: #000000;">mid</span><span
+style="color: #000000;">-</span><span
+style="color: #800080;">1</span><span style="color: #000000;">;  
+</span><span style="color: #0000ff;">else</span><span
+style="color: #000000;"> low</span><span
+style="color: #000000;">=</span><span
+style="color: #000000;">mid</span><span
+style="color: #000000;">+</span><span
+style="color: #800080;">1</span><span style="color: #000000;">;  
+}  
+}  
+</span><span style="color: #0000ff;">return</span><span
+style="color: #000000;">-</span><span
+style="color: #800080;">1</span><span style="color: #000000;">;  
+}</span>
+
+</div>
+
+</p>
+
+<p>
+
+</div>
+
+</p>
+
+<p><strong>变形1：</strong></p>
+</p>
+
+<p>问题来了：在循环有序数组中查找指定元素，也就是说在类似这样的{12,16,18,20,41,100,1,4,6,9}数组中查找指定的元素。</p>
+</p>
+
+<p>分析一下，这里所说的循环有序数组，就是把一个有序数组从某个（未知）位置处截为两段，把前一段放到后一段的后面（数组里的元素还是有序的，只不过最小值不一定是数组的第一个元素，而可能是其中的任何一项，从它开始逐项递增，到数组的最后一个元素时再回到第一个元素）。<br />
+显然传统的二分法已经无法直接使用了，但考虑一下，如果已经知道分界点位置，那问题就简单多了，只要先判断一下待查元素是在分界点的左侧还是右侧，然后直接对那一侧的半个数组使用二分查找。</p>
+</p>
+
+<p>那么重点就是判定待测元素在分界点的左侧还是右侧的问题了，可以发现每次取mid后，就会形成两种情况的子序列。一种情况是类似{4,6,9}，他是一个正常有序的子集合，另一种情况是类似{12,16,18,20,41,100,1}的与源问题类似结构的相对复杂的子集合。显然第一种情况是简单的，那么判定待测元素在分界点的简单一侧会比较容易。</p>
+</p>
+
+<p>第一种情况（arr[mid]>=arr[low]）：当key\&lt;=arr[mid]&amp;&amp;key>=arr[low]时，待测元素肯定会在mid的左侧；其他情形则会在mid的右侧。</p>
+</p>
+
+<p>第二种情况（arr[mid]\&lt;arr[low]）：当key\&lt;=arr[low]&amp;&amp;key>=arr[mid]时，待测元素肯定会在mid的右侧，其他情形则会在mid的左侧。</p>
+</p>
+
+<p>上面两个子条件的选择比较重要。</p>
+</p>
+
+<p>最后给出代码：</p>
+</p>
+
+<div class="cnblogs_Highlighter">
+
+</p>
+<p>
+``` {.brush:cpp;gutter:false;}
+int find ( int * arr, int low , int high, int key){    int mid ;    while(low<=high)  {        mid = (low+high)/2;      if (arr[mid] == key ) return mid;        if(arr[mid]>=arr[low])        {            if(key<=arr[mid]&&key>=arr[low]) high = mid -1;            else low = mid +1;       }        else     {            if(key<=arr[high]&&key>=arr[mid]) low = mid + 1;           else high = mid -1;          }    }    return -1;}
+```
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+</p>
+
+<p><strong>变形2：假如集合中的元素有重复，要找到key首次出现的位置。</strong></p>
+</p>
+
+<div class="cnblogs_code">
+
+</p>
+<p>
+    int find(int * arr , int length, int key){    int low = 0,high = length-1,mid;    while(low <= high){        mid = (low + high)/2;        if (arr[mid] < key){            low = mid + 1;        }else if(arr[mid] > key){            high = mid - 1;        }else{            if (mid == 0) return mid;            if (mid >= 1 && arr[mid-1] != key) return mid;            else high = mid - 1;        }    }    return -1;}
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+<p><strong>变形3：在一个有序的数组里，查找不小于key的最小的数的索引，如果key值存在，则返回key第一次出现的位置，如果不存在则返回-1。（类似的查找比key小的最大的数） </strong></p>
+</p>
+
+<div class="cnblogs_code">
+
+</p>
+<p>
+    #include<iostream>using namespace std;int find(int * arr, int low, int high, int key){    if(arr[low] >= key) return low;    if (low > high) return -1;    int mid = (low + high) / 2;    if (arr[mid] < key) return find(arr,mid+1,high,key);    else if(arr[mid] >= key){        if(mid >= low && arr[mid-1]>=key)            return find(arr,low, mid-1, key);        return mid;    }}int main(){    int arr[] = {1,3,3,3,3,3,6,6,7,9,11,12};    int length = sizeof(arr) / sizeof(int);    cout<<"KEY"<<"\t"<<"索引"<<"\t"<<"对应值"<<endl;    for(int i=0;i<15;i++){        int idx = find(arr,0,length-1,i);        if (idx >= 0)            cout<<i<<"\t"<<idx<<"\t"<<arr[idx]<<endl;        else cout<<i<<"\t"<<idx<<"\t"<<"None"<<endl;    }    return 0;}
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+<p><strong><img alt="" src="http://images.cnitblog.com/blog/146443/201304/21151201-ad30627a1c274496abc74d35a5dd41a0.jpg" /></strong></p>
+</p>
+
+<p><strong>变形4：在一个有序的数组里，数据里面元素可能有重复的，查找指定key所在的索引范围。</strong></p>
+</p>
+
+<p><strong>例如：int arr[] = {1,2,2,2,2,3,3,3,3,3,6,6,7,9,11,12};
+查找3的话，应该返回（5,9）</strong></p>
+</p>
+
+<p>分析一下：<strong> </strong>一个思路是，先随意找到一个key所在的索引i，然后从i的左右两侧查找，直到左右两侧遇到不等于key的值为止，然后返回两边的索引号。</p>
+</p>
+
+<p>但是，这样存在一个问题，考虑一下如果一个数组是{1,2,3,3,3,3,3,3,3,4}，这样按照上面的想法就很扯淡了，因为与key相等的值太多了，比较代价太大。</p>
+</p>
+
+<p>于是可以考虑，用两次二分查找，找两个边界，这里我们可以使用变形3中所写好的find函数，我们去找比key+1大的最小的索引right，以及比key大的最小值得索引left。</p>
+</p>
+
+<p>返回结果，即为\&lt;left,right-1></p>
+</p>
+
+<p>这里有个问题必须指出，在变形3我们写的函数中，如果key存在则返回key第一次出现的位置。</p>
+</p>
+
+</p>
+
+<div class="cnblogs_code">
+
+</p>
+<p>
+    int find(int * arr, int low, int high, int key){    if(arr[low] >= key) return low;    if (low > high) return -1;    int mid = (low + high) / 2;    if (arr[mid] < key) return find(arr,mid+1,high,key);    else if(arr[mid] >= key){        if(mid >= low && arr[mid-1]>=key)            return find(arr,low, mid-1, key);        return mid;    }}pair<int,int> findRange(int * arr, int length, int key){    pair<int,int> res(-1,-1);    int l = find(arr, 0,length-1, key);    if(l<0 || arr[l] != key) return res;    res.first = l;    int r = find(arr, 0, length-1, key+1);    if(r-1<0 || arr[r-1] != key) return res;    res.second = r-1;    return res;}int main(){    int arr[] = {1,2,2,2,2,3,3,3,3,3,6,6,7,9,11,12};    int length = sizeof(arr) / sizeof(int);    for (int i=0;i<15;i++){        pair<int,int> res = findRange(arr, length,i);        cout<<i<<"\t"<<res.first<<"\t"<<res.second<<endl;    }    return 0;}
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+<p><img alt="" src="http://images.cnitblog.com/blog/146443/201304/21161933-58c31473115743e28ec06545d7959ffb.jpg" /></p>
+</p>
+
+</p>
+
+</p>
+
+</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/wei-ruan-shi-xi-sheng-bi-shi-gui-lai.html" title="Previous: 微软实习生笔试归来">微软实习生笔试归来</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/she-ji-mo-shi-xue-xi-bi-ji-jian-dan-gong-han-mo-shi.html" title="Next: 设计模式学习笔记——简单工厂模式">设计模式学习笔记——简单工厂模式</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/mian-shi-ti-_er-fen-cha-zhao-ji-qi-bian-xing.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/mian-shi-ti-_er-fen-cha-zhao-ji-qi-bian-xing.html';
+    var disqus_url = 'http://lixinzhang.github.io/mian-shi-ti-_er-fen-cha-zhao-ji-qi-bian-xing.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2011-04-11T14:26:00">Apr 11, 2011</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

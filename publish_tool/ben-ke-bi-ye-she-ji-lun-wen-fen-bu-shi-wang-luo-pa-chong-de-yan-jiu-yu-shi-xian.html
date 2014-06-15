@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>【本科毕业设计论文】分布式网络爬虫的研究与实现 - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.pdf">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/ben-ke-bi-ye-she-ji-lun-wen-fen-bu-shi-wang-luo-pa-chong-de-yan-jiu-yu-shi-xian.html"> 【本科毕业设计论文】分布式网络爬虫的研究与实现  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p><span style="font-size: 18pt;"><strong>分布式网络爬虫的研究与实现</strong></span></p>
+</p>
+
+<h1 style="text-align: center;"><span style="font-size: 16px;">摘 要</span></h1>
+</p>
+
+<p>随着互联网的高速发展，在互联网搜索服务中，搜索引擎扮演着越来越重要的角色。网络爬虫是搜索引擎系统中十分重要的组成部分，它负责从互联网中搜集网页，这些页面用于建立索引从而为搜索引擎提供支持。面对当前极具膨胀的网络信息，集中式的单机爬虫早已无法适应目前的互联网信息规模，因此高性能的分布式网络爬虫系统成为目前信息采集领域研究的重点。</p>
+</p>
+
+<p>本文对网络爬虫原理、分布式架构设计以及网络爬虫中的关键模块、瓶颈问题及解决办法进行了相关研究。论文工作主要表现为：</p>
+</p>
+
+<p>1、引入一致性哈希算法，用于解决URL任务分发策略、爬虫主机间负载均衡、单机热点问题，确保分布式爬虫系统具有良好的可扩展性、平衡性、容错性。</p>
+</p>
+
+<p>2、针对爬虫系统的礼貌性、优先级特性给出了基于Mercator模型的URL队列的设计和实现；</p>
+</p>
+
+<p>3、针对大规模URL去重、DNS解析、页面抓取与解析等关键瓶颈问题给出了解决办法；</p>
+</p>
+
+<p>4、设计并实现了一种线程池模型，用于多线程并行高效的进行页面采集；</p>
+</p>
+
+<p>5、提出一种基于文件方式的页面存储方案，通过建立索引文件与数据文件进行有效的页面存储与管理。</p>
+</p>
+
+<p>在上述工作的基础上，本文设计实现了一个高性能的分布式网络爬虫原型系统。实验表明，该网络爬虫系统不仅具有高页面抓取效率、高可配置、运行稳定的特点，而且具有良好的可扩展性、容错性、负载平衡性的分布式特性。 </p>
+</p>
+
+<p><strong>关键词：</strong>网络爬虫；分布式；一致性哈希算法；信息采集；线程池</p>
+</p>
+
+</p>
+
+<p><span style="font-size: 16px;"><strong>The Research and Implementation of
+Distributed Web Crawler</strong></span></p>
+</p>
+
+<h1 style="text-align: center;"><span style="font-size: 16px;">Abstract</span></h1>
+</p>
+
+<p>With the rapid development of Internet, search engines as the main
+entrance of the Internet plays a more and more important role. Web
+crawler is a very important part of the search engines, which is
+responsible to collect web pages from Internet. These pages are used to
+build index and provide support for search engines. Because of the great
+expansion of Internet Information, a centralized and stand-alone web
+crawler has not long been able to adapt to the Internet scale. So
+high-performance distributed web crawler system is becoming the focus of
+current research in the field of information collection.</p>
+</p>
+
+<p>This paper researches and demonstrates some topics about principle,
+distributed architecture design, keymodules, the bottleneck problem and
+solution in web crawler system. The main work as following :</p>
+</p>
+
+<p>​1. This paper introduces a hash algorithm called Consistent Hash, which
+is used to solve the strategy of URL partition, hot-spot problem and
+load balancing between web crawler nodes and ensure that the distributed
+crawler has good scalability, balancing, fault tolerance.</p>
+</p>
+
+<p>​2. In order to meet the politeness and priority needs of the web
+crawler, this paper designs and implements a URL queue based on Mercator
+model.</p>
+</p>
+
+<p>​3. The solutions to large-scale URLs deduplication,DNS resolution,page
+crawling and parsing and some other key problems are given.</p>
+</p>
+
+<p>4.This paper designs and implements a thread pool model for efficient
+and  multi-threaded page collection.</p>
+</p>
+
+<p>5.A scheme for downloaded page storage is given, which creats indexd
+files and data files to manage and store the downloaded data.</p>
+</p>
+
+<p>On the basis of the above work, this paper designs and implements a
+high-performance distributed web crawler prototype system. The
+experiments at the end of this paper show that the Web crawler not only
+has the characteristics such as high efficiency page fetching, highly
+configurable, stable, but also has good distributed features such as
+good scalability, fault tolerance, load balancing and so on.</p>
+</p>
+
+<p><strong>Keywords：</strong>Web Crawler;Distributed;Consistent Hash
+ Algorithm;Information Retrieval;Thread Pool</p>
+</p>
+
+<p><strong>毕业设计原文：<a href="http://files.cnblogs.com/coser/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0.pdf">分布式网络爬虫的研究与实现</a></strong></p>
+</p>
+
+<p><strong>PS：本科的毕业设计论文，写的比较浅，但是对网络爬虫的一些概念和功能模块进行了分析与实现。</strong></p>
+</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/wang-luo-pa-chong-zhong-urldui-lie-url-frontierde-she-ji-yu-shi-xian.html" title="Previous: 网络爬虫中，URL队列（URL Frontier）的设计与实现">网络爬虫中，URL队列（URL Frontier）的设计与实现</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/ji-yu-pexpectshi-xian-de-yuan-cheng-duo-zhu-ji-duo-jiao-ben-zhi-xing.html" title="Next: 基于pexpect实现的远程多主机多脚本执行">基于pexpect实现的远程多主机多脚本执行</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/ben-ke-bi-ye-she-ji-lun-wen-fen-bu-shi-wang-luo-pa-chong-de-yan-jiu-yu-shi-xian.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/ben-ke-bi-ye-she-ji-lun-wen-fen-bu-shi-wang-luo-pa-chong-de-yan-jiu-yu-shi-xian.html';
+    var disqus_url = 'http://lixinzhang.github.io/ben-ke-bi-ye-she-ji-lun-wen-fen-bu-shi-wang-luo-pa-chong-de-yan-jiu-yu-shi-xian.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2012-06-29T15:02:00">Jun 29, 2012</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

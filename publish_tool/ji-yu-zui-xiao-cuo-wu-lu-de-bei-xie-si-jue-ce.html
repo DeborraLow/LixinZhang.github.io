@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>基于最小错误率的贝叶斯决策 - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.pdf">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/ji-yu-zui-xiao-cuo-wu-lu-de-bei-xie-si-jue-ce.html"> 基于最小错误率的贝叶斯决策  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p>理论上的东西，就不写了，也写不出什么有价值的东西，资料太多了。后文很多关于原理的讲述都给出了其他文章的引用。</p>
+</p>
+
+<p>分享一个比较简单易懂的<a href="http://202.197.191.225:8080/30/text/chapter02/2_2_1.htm">贝叶斯决策理论与统计判别方法</a>。</p>
+</p>
+
+<p><strong><span style="font-size: large;">数据集：</span></strong></p>
+</p>
+
+<p><a href="http://files.cnblogs.com/coser/dataset.zip">Dataset1.txt</a></p>
+</p>
+
+<p>328 个同学的身高、体重、性别数据（78 个女生、250 个男生）</p>
+</p>
+
+<p><a href="http://files.cnblogs.com/coser/dataset.zip">Dataset2.txt</a></p>
+</p>
+
+<p>124 个同学的数据（40 女、84 男）</p>
+</p>
+
+<p><a href="http://files.cnblogs.com/coser/dataset.zip">Dataset3.txt</a></p>
+</p>
+
+<p>90 个同学的数据（16 女，74 男）</p>
+</p>
+
+<p><strong><span style="font-size: large;">问题描述:</span></strong></p>
+</p>
+
+<p>以dataset1为训练数据库，假设身高与体重满足高斯分布，进行高斯分布的参数估计，并进行基于最小错误率的贝叶斯分类，分别考虑男女的先验概率，0.5-0.5；0.6-0.4；0.7-0.3，0.8-0.2，并以dataset2和dataset3为测试数据库分析分类性能，并探讨先验概率对分类性能的影响</p>
+</p>
+
+<p><strong><span style="font-size: large;">需要解决的问题：</span></strong></p>
+</p>
+
+<p>通过文章开头提供的资料可以看出，其实判别的函数就是下图，就是给定一个待测向量X，它是类别Wi的概率。</p>
+</p>
+
+<p>[<img alt="image" src="http://images.cnitblog.com/blog/146443/201305/06231825-7d5f6f461436400bb681bbf260c1ae9d.png" title="image" />][]</p>
+</p>
+
+<p>等号右边，P(Wi)就是先验概率，而p(X|Wi)则需要根据高斯概率密度函数（什么是高斯分布？<a href="https://zh.wikipedia.org/zh-cn/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83">高斯分布</a>）进行估计：</p>
+</p>
+
+<p>[<img alt="79af499be9466b7dce2cf8ac19fa0a07" src="http://images.cnitblog.com/blog/146443/201305/06231825-586b94fd88314258af90d2446de78157.png" title="79af499be9466b7dce2cf8ac19fa0a07" />][]</p>
+</p>
+
+<p>然而，上面常见的高斯概率密度函数只是针对一维的参数X，对于大多数情况，输入参数会是多维的，多元高斯概率密度函数怎么求解呢？</p>
+</p>
+
+<p>可以参考这篇文章：<a href="http://202.197.191.225:8080/30/text/chapter02/2_3_1t2.htm">多元正态分布的概率密度函数</a>。</p>
+</p>
+
+<p>于是，我们得到针对二元变量的概率密度函数求解为：</p>
+</p>
+
+<p>[<img alt="e8604630c8d353c0a8018ece" src="http://images.cnitblog.com/blog/146443/201305/06231826-a47a9614623e479a8e167dd600a232ef.jpg" title="e8604630c8d353c0a8018ece" />][]</p>
+</p>
+
+<p>重点说明下，上面的[<img alt="image" src="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image" />][]参数，是多元变量间的相关性参数，设定值应该小于1。</p>
+</p>
+
+<p>二元变量相关系数求法：</p>
+</p>
+
+<p><img alt="" src="http://images.cnitblog.com/blog/146443/201305/08122120-cfd0948e37bc4803a1c4a1340abb1a46.jpg" /></p>
+</p>
+
+</p>
+
+<p><strong><span
+style="font-size: large;">解决问题（python，numpy库支持）：</span></strong></p>
+<p></p>
+<p>
+``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}</p>
+<h1>-<em>-encoding:utf-8-</em>-import numpyimport mathdef importdata(filename = 'dataset1.txt') :    '''    导入训练集    '''    f = open(filename,'r')    dataset = []    arr = []    for item in f :        vars = item.split()        dataset.append([float(vars[0]), float(vars<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a>), vars[2].upper()])    return dataset def getParameters(dataset) :    '''    从训练集分别获取不同类别下的期望、方差、标准差、类别的先验概率以及变量间相关系数    '''    class1 = []    class2 = []    class_sum = []    for item in dataset :        class_sum.append([item[0],item<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a>])        if item[-1] == 'F' :            class1.append([item[0],item<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a>])        if item[-1] == 'M' :            class2.append([item[0],item<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a>])    class1 = numpy.array(class1)    class2 = numpy.array(class2)    class_total = numpy.array(class_sum)    mean1 = numpy.mean(class1,axis=0)    variance1 = numpy.var(class1,axis=0)    stand_deviation1 = numpy.std(class1,axis=0)    mean2 = numpy.mean(class2,axis=0)    variance2 = numpy.var(class2,axis=0)    stand_deviation2 = numpy.std(class2,axis=0)    class_total = (len(class1) + len(class2)) * 1.0        mean = numpy.mean(class_sum, axis=0)    stand_deviation = numpy.std(class_sum, axis=0)        new_arr = [ ((item[0] - mean[0]) * (item<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a> - mean<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a>) / stand_deviation[0] / stand_deviation<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a>)  for item in dataset]    coefficient = numpy.mean(new_arr)    return (mean1,mean2),(variance1,variance2),(stand_deviation1, stand_deviation2),(len(class1)/class_total,len(class2)/class_total),coefficient     def GaussianFunc(mean, variance, stand_deviation, coefficient) :    '''    根据指定参数（期望、方差、标准差、多元向量间的相关性）生成高斯函数    多元变量的高斯函数    '''    def func(X) :        X = [X[0] - mean[0], X<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a> - mean<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a>]        B = [[variance[0], coefficient * stand_deviation[0] * stand_deviation<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a>],[coefficient * stand_deviation[0] * stand_deviation<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a>, variance<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a>]]        inv_B = numpy.linalg.inv(B)        A = inv_B        B_val = (1.0 - coefficient<strong>2) * variance[0] * variance<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a>        tmp1 = 2*math.pi * (B_val </strong> 0.5)        X = numpy.array([X])        tmp2 = (-0.5) * numpy.dot(numpy.dot(X, A), X.T)        res = 1.0 / tmp1 * (math.e <em><em> tmp2)        return res    return funcdef f(X, funcs, class_ps, index) :    '''    贝叶斯概率计算函数    '''    tmp1 = funcs<a href="X">index</a> * class_ps[index]    tmp2 = funcs<a href="X">0</a> * class_ps[0] + funcs<a href="X">1</a> * class_ps<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a>    return tmp1 / tmp2def classify(X,funcs,class_ps,labels) :    '''    基于最小错误率的贝叶斯判别分类。对于二类分类问题，简化了。    '''    res1 = f(X,funcs,class_ps,0)    res2 = f(X,funcs,class_ps,1)     if res1 &gt; res2 :        return labels[0]    else :        return labels<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a>def test(dataset, funcs,class_ps,labels) :    '''    测试    '''    positive0 = 0    positive1 = 0    F = [item for item in dataset if item[-1] == 'F']    len_F = len(F)    len_M = len(dataset) - len_F    for item in dataset :        res = classify([item[0],item<a href="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image">1</a>], funcs, class_ps,labels)        if res == item[-1] and res == 'F' :            positive0 += 1        if res == item[-1] and res == 'M' :            positive1 += 1    print 'F', positive0 * 1.0 / len_F    print 'M', positive1 * 1.0 / len_Mif <strong>name</strong> == '<strong>main</strong>' :    dataset = importdata()    (mean1,mean2),(variance1,variance2),(stand_deviation1, stand_deviation2), (class1_p, class2_p), coefficient = getParameters(dataset)    func1 = GaussianFunc(mean1, variance1, stand_deviation1,coefficient)    func2 = GaussianFunc(mean2, variance2, stand_deviation2,coefficient)    #print func1([160,45])    #print func1([170,50])    #print func1([175,50])    #print func1([190,20])    funcs = []    funcs.append(func1)    funcs.append(func2)    class_ps = []    class_ps.append(class1_p)    class_ps.append(class2_p)    classs = [class_ps]    '''    手工指定先验概率    '''    classs.append([0.5,0.5])    classs.append([0.4,0.6])    classs.append([0.3,0.7])    classs.append([0.2,0.8])    labels = ['F', 'M']    for class_ps in classs :        print '-' * 24        print class_ps        print '-'</em>10,'dataset1','-'</em>10        testset0 = importdata('dataset1.txt')        test(testset0, funcs, class_ps, labels)        print '-'<em>10,'dataset2','-'</em>10        testset1 = importdata('dataset2.txt')        test(testset1, funcs, class_ps, labels)        print '-'<em>10,'dataset3','-'</em>10        testset2 = importdata('dataset3.txt')        test(testset2, funcs, class_ps, labels)</h1>
+<p>```</p>
+</p>
+
+</p>
+
+<p><span
+style="font-size: large;"><strong>实验结果（不同先验概率下的，对dataset1、2、3的测试结果判别正确率，先验概率顺序：F（女）、M（男））：</strong></span></p>
+<p></p>
+<p></p>
+<blockquote>
+</p>
+
+<hr />
+<p>[0.23780487804878048, 0.7621951219512195]<br />
+---------- dataset1 ----------<br />
+Total 0.92987804878<br />
+F 0.807692307692<br />
+M 0.968<br />
+---------- dataset2 ----------<br />
+Total 0.879032258065<br />
+F 0.8<br />
+M 0.916666666667<br />
+---------- dataset3 ----------<br />
+Total 0.833333333333<br />
+F 0.5625<br />
+M 0.891891891892<br />
+------------------------<br />
+[0.5, 0.5]<br />
+---------- dataset1 ----------<br />
+Total 0.911585365854<br />
+F 0.884615384615<br />
+M 0.92<br />
+---------- dataset2 ----------<br />
+Total 0.862903225806<br />
+F 0.85<br />
+M 0.869047619048<br />
+---------- dataset3 ----------<br />
+Total 0.844444444444<br />
+F 0.6875<br />
+M 0.878378378378<br />
+------------------------<br />
+[0.4, 0.6]<br />
+---------- dataset1 ----------<br />
+Total 0.926829268293<br />
+F 0.871794871795<br />
+M 0.944<br />
+---------- dataset2 ----------<br />
+Total 0.879032258065<br />
+F 0.825<br />
+M 0.904761904762<br />
+---------- dataset3 ----------<br />
+Total 0.855555555556<br />
+F 0.6875<br />
+M 0.891891891892<br />
+------------------------<br />
+[0.3, 0.7]<br />
+---------- dataset1 ----------<br />
+Total 0.92987804878<br />
+F 0.846153846154<br />
+M 0.956<br />
+---------- dataset2 ----------<br />
+Total 0.887096774194<br />
+F 0.825<br />
+M 0.916666666667<br />
+---------- dataset3 ----------<br />
+Total 0.855555555556<br />
+F 0.6875<br />
+M 0.891891891892<br />
+------------------------<br />
+[0.2, 0.8]<br />
+---------- dataset1 ----------<br />
+Total 0.932926829268<br />
+F 0.807692307692<br />
+M 0.972<br />
+---------- dataset2 ----------<br />
+Total 0.862903225806<br />
+F 0.725<br />
+M 0.928571428571<br />
+---------- dataset3 ----------<br />
+Total 0.822222222222<br />
+F 0.5<br />
+M 0.891891891892</p>
+</p>
+
+<p>
+
+</blockquote>
+</p>
+
+<p>[<img alt="image" src="http://images.cnitblog.com/blog/146443/201305/06231825-7d5f6f461436400bb681bbf260c1ae9d.png" title="image" />]: http://images.cnitblog.com/blog/146443/201305/06231824-84a7e079eb1c418a94c9d8bd804c3371.png
+  [<img alt="79af499be9466b7dce2cf8ac19fa0a07" src="http://images.cnitblog.com/blog/146443/201305/06231825-586b94fd88314258af90d2446de78157.png" title="79af499be9466b7dce2cf8ac19fa0a07" />]: http://images.cnitblog.com/blog/146443/201305/06231825-89d5b0d02e234d708fb68c9c6c8ad1a7.png
+  [<img alt="e8604630c8d353c0a8018ece" src="http://images.cnitblog.com/blog/146443/201305/06231826-a47a9614623e479a8e167dd600a232ef.jpg" title="e8604630c8d353c0a8018ece" />]: http://images.cnitblog.com/blog/146443/201305/06231826-3e56e5b49fbf48cabf6a398b812759d4.jpg
+  [<img alt="image" src="http://images.cnitblog.com/blog/146443/201305/06232410-47113baebffd4766b4faa56b8110c173.png" title="image" />]: http://images.cnitblog.com/blog/146443/201305/06232410-0072258ff31c470983ea85efc82f06df.png</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/tan-tan-zi-ji-zhao-shi-xi-de-jing-li.html" title="Previous: 谈谈自己找实习的经历">谈谈自己找实习的经历</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/shi-yong-python-pylabku-hua-xian.html" title="Next: 使用python pylab库 画线">使用python pylab库 画线</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/ji-yu-zui-xiao-cuo-wu-lu-de-bei-xie-si-jue-ce.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/ji-yu-zui-xiao-cuo-wu-lu-de-bei-xie-si-jue-ce.html';
+    var disqus_url = 'http://lixinzhang.github.io/ji-yu-zui-xiao-cuo-wu-lu-de-bei-xie-si-jue-ce.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2013-05-06T15:24:00">May 6, 2013</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

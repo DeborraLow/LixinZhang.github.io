@@ -1,0 +1,3035 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>两道动态规划的作业题 - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.pdf">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/liang-dao-dong-tai-gui-hua-de-zuo-ye-ti.html"> 两道动态规划的作业题  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <h4><span style="font-weight: bold;">Question1</span></h4>
+</p>
+
+<p>用动态规划方法手工求解下面的问题：</p>
+</p>
+
+<p>某工厂调查了解市场情况，估计在今后四个月内，市场对其产品的需求量如下表所示。</p>
+</p>
+
+<table border="0" cellpadding="0" cellspacing="0">
+</p>
+<p>
+<tbody>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="284">
+</p>
+
+时期（月）
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="284">
+</p>
+
+需要量（产品单位）
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="284">
+</p>
+
+1
+
+</p>
+
+2
+
+</p>
+
+3
+
+</p>
+
+4
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="284">
+</p>
+
+2
+
+</p>
+
+3
+
+</p>
+
+2
+
+</p>
+
+4
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+</tbody>
+</p>
+<p>
+</table>
+
+</p>
+
+<p>已知：对每个月来讲，生产一批产品的固定成本费为 3
+(千元)，若不生产，则为零。每生产单位产品的成本费为 1
+（千元)。同时，在任何一个月内，生产能力所允许的最大生产批量为不超过6个单位。又知每单位产品的库存费用为每月
+0.5 （千元），同时要求在第一个月开始之初，
+及在第四个月末，均无产品库存。
+问：在满足上述条件下，该厂应如何安排各个时期的生产与库存，使所花的总成本费用最低？</p>
+</p>
+
+<p>要求：写出各种变量、状态转移方程、递推关系式、和详细计算步骤。</p>
+</p>
+
+<p><strong>Solution：</strong></p>
+</p>
+
+<p><strong>阶段：</strong>按月份时间进行阶段划分，i表示第i月</p>
+</p>
+
+<p><strong>状态：</strong>月初时的库存量S</p>
+</p>
+
+<p><strong>决策集合：</strong>第i月生产单位产品的数量k~i~，且0\&lt;=k~i~\&lt;=6</p>
+</p>
+
+<p>不妨设第i月的产品需求量为a~i~，则<strong>状态间的转移关系</strong>为S~i+1~ = S~i~ +
+k~i~ – a~i~。我们设F[i ,
+s]为从第i月到第n（n=4）月的最低总成本费用，则不难得出如下状态转移方程的<strong>递推关系式</strong>：</p>
+</p>
+
+<p>[<img alt="image" src="http://images.cnblogs.com/cnblogs_com/coser/201211/201211271102268432.png" title="image" />][]</p>
+</p>
+
+<p>其中：w=0 (k==0) 或 w=3 + 1*k (1\&lt;=k\&lt;=6)</p>
+</p>
+
+<p>边界条件：F[5,0] = 0；s + k –a[i] >=0；</p>
+</p>
+
+<p>目标结果状态：F[1,0]即所求最低成本费用</p>
+</p>
+
+<p>手工求解计算详细计算步骤如下：</p>
+</p>
+
+<table border="1" cellpadding="0" cellspacing="0">
+</p>
+<p>
+<tbody>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="100">
+</p>
+
+i=4
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+**状态**
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+k=0
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+k=1
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=2
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=3
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=4
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=6
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+**Min**
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+**决策**
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+<p>
+    F[4,0]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    7
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    8
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    9
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    7
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    4
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+<p>
+    F[4,1]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    6.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    7.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    8.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    9.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    6.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    3
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+<p>
+    F[4,2]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    6
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    7
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    8
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    9
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    10
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    6
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    2
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+<p>
+    F[4,3]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    5.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    6.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    7.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    8.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    9.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    10.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    5.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    1
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+<p>
+    F[4,4]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    2
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    6
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    7
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    8
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    9
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    10
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    11
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    2
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    0
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="100">
+</p>
+
+i=3
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+**状态**
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+k=0
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+k=1
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=2
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=3
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=4
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=6
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+**Min**
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+**决策**
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+F[3 , 0]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+12
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+12.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+13
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+13.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+11
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+11
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+6
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+F[3 , 1]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+11.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+12
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+12.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+13
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+10.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+10.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+F[3 , 2]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+8
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+11.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+12
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+12.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+10
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+8
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+0
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+F[3 , 3]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+8
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+11.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+12
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+9.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+8
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+0
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+F[3 , 4]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+8
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+11.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+9
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+8
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+0
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+F[3 , 5]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+8
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+8.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+8
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+0
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+F[3 , 6]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+0
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="100">
+</p>
+
+i=2
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+**状态**
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+k=0
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+k=1
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=2
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=3
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=4
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=6
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+**Min**
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+**决策**
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+F[2 , 0]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+17
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+17.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+16
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+17
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+16
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+F[2 , 1]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+16.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+17
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+15.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+16.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+17.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+15.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+4
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+F[2 , 2]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+16
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+16.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+15
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+16
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+17
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+18
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+15
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+3
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+F[2 , 3]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+12.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+16
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+14.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+15.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+16.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+17.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+15.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+12.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+0
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+F[2 , 4]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+12.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+14
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+15
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+16
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+17
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+15
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+12.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+0
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+F[2 , 5]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+10.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+14.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+15.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+16.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+14.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+10.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+0
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+F[2 , 6]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+11
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+15
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+16
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+14
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+11
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+0
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top">
+</p>
+
+i=1
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+
+**状态**
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+k=0
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+k=1
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=2
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=3
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=4
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+
+k=6
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+**Min**
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+
+**决策**
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td valign="top" width="62">
+</p>
+<p>
+    F[1,0]
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    N/A
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    21
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    21.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    22
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    20.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="57">
+</p>
+<p>
+    21.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    20.5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+<td valign="top" width="56">
+</p>
+<p>
+    5
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+</tbody>
+</p>
+<p>
+</table>
+
+</p>
+
+<p>由上表不难得出，所花的总成本费用最低为20.5（千元），该情况下的由递推公式逆推可得决策安排如下：第一个月生产5个单位产品，第二个月生产0个，第三个月生产0个，第四个月生产6个，该方案可使总成本最低，即20.5（千元）。</p>
+</p>
+
+<p><strong>源代码：</strong></p>
+</p>
+
+<div class="cnblogs_code"
+style="background-color: #f5f5f5; border: #cccccc 1px solid; padding: 5px;">
+
+</p>
+<p>
+    #include<iostream>using namespace std;double f[5][7] = {0};int a[5] = {0,2,3,2,4};int main(){    for(int i=0;i<5;i++)        for(int j=0;j<=7;j++)            f[i][j] = 1000;    f[5][0] = 0;    for (int i=4;i>=1;i--){        for(int s=0;s<=6;s++) {            int temp = 0;            for(int k=i;k<=4;k++) temp+= a[k];            if (s>temp) continue;            double min = 10000;            int u = -1;            for(int j=0;j<=6;j++){                int w = 3 + j;                if (j==0) w = 0;                if (s + j - a[i] >= 0 && s + j - a[i] <=6) {                    if (min>f[i+1][s+j-a[i]] + w + 0.5*s) {                        min = f[i+1][s+j-a[i]] + w + 0.5*s;                        u = j;                    }                }            }            f[i][s] = min;        }    }    cout<<"Answer:"<<f[1][0]<<endl;    return 0;}
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+<p><span style="font-weight: bold;">Question2：</span></p>
+</p>
+
+<p>用动态规划方法编程求解下面的问题：</p>
+</p>
+
+<p>某推销员要从城市 v~1~出发，访问其它城市
+v~2~，v~3~，…，v~6~各一次且仅一次，最后返回 v~1~。D
+为各城市间的距离矩阵。</p>
+</p>
+
+<p>问：该推销员应如何选择路线，才能使总的行程最短？</p>
+</p>
+
+<p>[![clip_image002][]][]</p>
+</p>
+
+<p>要求：写出递推关系式、伪代码和程序相关说明，并分析时间复杂性。（请遵守第一节课提出的有关
+assignment 的要求）</p>
+</p>
+
+<p><strong>Solution：</strong></p>
+</p>
+
+<p>设F[i,s]表示当前所在节点为i，已经走过的节点集合为s的最短路程。决策为选择下一个<strong>节点</strong>k，因此，的状态转移方程的递推关系式：</p>
+</p>
+
+<p>[<img alt="image" src="http://images.cnblogs.com/cnblogs_com/coser/201211/20121127110230563.png" title="image" />][]</p>
+</p>
+
+<p>其中，d[i,k]表示i节点到k节点的距离</p>
+</p>
+
+<p><strong>源代码：</strong></p>
+</p>
+
+<p><strong>一些说明：</strong>有几个关键问题需要说明</p>
+</p>
+
+<p>1、集合如何表示，表示集合有个很好的方法，就是使用二进制模型。例如：11101表示含有1、3、4、5元素的集合。这一一个十进制的数字就可以代表一个集合。</p>
+</p>
+
+<p>2、那么如何进行对集合的操作呢？对于位运算，我们可以利用1的左右移（\&lt;\&lt;
+or >>）来判断是否包含某个元素。S-{k}也就是方便的表示为：S<strong>[</strong>j<strong>]</strong>
+<strong>&amp;</strong> <strong>(</strong>length<strong>-(</strong>1<strong>\&lt;\&lt;(</strong>k<strong>-</strong>1<strong>)))，其中length=</strong>(<strong>1
+</strong>\&lt;\&lt;<strong> </strong>(<strong>n</strong>-<strong>1</strong>))<strong> </strong>-<strong> 1</strong>;****</p>
+</p>
+
+<p>3、<img alt="image" src="http://p.blog.csdn.net/images/p_blog_csdn_net/gfaiswl/612517/o_image_thumb_3.gif" />该图表示一个求解模型树，不难发现含有一个元素的集合要先进行计算，才可以计算还有两个元素状态的解空间，这样就要求不同集合之间是有序的，即含有二进制1的个数少的要排在前面。这样就不会在计算过程中，出现使用未计算结果的情况。实现方法可以使用预排序。因为排序的复杂度相对于整体算法的复杂性而言，是很小的，不会过多影响性能。</p>
+</p>
+
+<p><strong>时间复杂度：</strong></p>
+</p>
+
+<p>由于集合的状态个数为2^n-1^
+个，还需要枚举每个结点，以及每个集合中的元素，因此整个算法的近似复杂度为<a name="OLE_LINK9"></a><a name="OLE_LINK8"></a>O(n^2^*2^n^)。</p>
+</p>
+
+<p><strong>最后给出源代码（水平有限仅供参考）：</strong></p>
+</p>
+
+<div class="cnblogs_code"
+style="background-color: #f5f5f5; border: #cccccc 1px solid; padding: 5px;">
+
+</p>
+<p>
+    #include<iostream>#include<stdio.h>#include<algorithm>using namespace std;const int maxnum = 100001;int Count(int v){    int num = 0;    while(v){        v &= (v-1);        num ++;    }    return num;}bool cmp(int a , int b){    int count1_a = Count(a);    int count1_b = Count(b);    return count1_a < count1_b;}bool existkey( int key , int S) {    int p = 1;    p = p << (key-1);    p = p & S;    if (p>0) return true;    else return false;}void getElements( int S , int * arr , int length , int &return_len) {    int p = 1;    int pos = 0;    for(int i=0;i<length;i++){        if (p == (p&S)){            arr[pos++] = i+1;        }        p = p << 1;    }    return_len = pos;}int main(){    freopen("input.txt","r",stdin);    int n = 0 ;    cin >> n;    int F[10][100];    int S[1000];    int elements [10];    int distance[10][10];    int length_elements = 0;    for(int i=0 ; i<n ; i++ ){        for (int j=0 ; j<n ; j++) {            cin>>distance[i][j];        }    }    for (int i=1 ; i<=n ;i++)        F[i][0] = distance[i][0];        int length = (1 << (n-1)) - 1;    for (int i=1 ; i<=length ; i++){        S[i] = i;    }    sort(S,S+length,cmp);    S[0] = 0;    for (int j=1 ; j<=length ; j++) {        for(int i=1 ; i<n ; i++) {            if (existkey(i , S[j]) != true){                 getElements(S[j] , elements, n , length_elements);                int min = maxnum;                for (int p=0 ; p<length_elements ; p++){                    int k = elements[p];                    int jj = S[j] & (length-(1<<(k-1))) ;                    if (min > ( F[k][jj] + distance[i][k] ) && k!=i )                        min = F[k][jj] + distance[i][k];                }                F[i][S[j]] = min;            }        }    }    int ans = maxnum;    for (int i=1 ; i<n ; i++){        int j = length & (length -(1<<(i-1)));        if (ans > F[i][j] + distance[0][i]) ans = F[i][j] + distance[0][i];    }    cout<<"Answer:\t"<<ans<<endl;    return 0;}
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+<p>[<img alt="image" src="http://images.cnblogs.com/cnblogs_com/coser/201211/201211271102268432.png" title="image" />]: http://images.cnblogs.com/cnblogs_com/coser/201211/201211271102257460.png
+  [![clip_image002][]]: http://images.cnblogs.com/cnblogs_com/coser/201211/201211271102265117.jpg
+  [<img alt="image" src="http://images.cnblogs.com/cnblogs_com/coser/201211/20121127110230563.png" title="image" />]: http://images.cnblogs.com/cnblogs_com/coser/201211/201211271102309417.png</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/poj2965-poj1753.html" title="Previous: poj2965 && poj1753">poj2965 && poj1753</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/resume.html" title="Next: Resume">Resume</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/liang-dao-dong-tai-gui-hua-de-zuo-ye-ti.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/liang-dao-dong-tai-gui-hua-de-zuo-ye-ti.html';
+    var disqus_url = 'http://lixinzhang.github.io/liang-dao-dong-tai-gui-hua-de-zuo-ye-ti.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2012-11-27T03:03:00">Nov 27, 2012</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>面试题_单链表环的问题 - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.pdf">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/mian-shi-ti-_dan-lian-biao-huan-de-wen-ti.html"> 面试题_单链表环的问题  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p><strong><span
+style="font-size: 16px;">问题：有一个单链表，其中可能有一个环，也就是某个节点的next指向的是链表中在它之前的节点，这样的链表的尾部形成一环。</span></strong></p>
+</p>
+
+<p><strong><span
+style="font-size: 16px;">1、如何判断一个链表是否存在环？</span></strong></p>
+</p>
+
+<p><strong><span
+style="font-size: 16px;">2、如果链表存在环，如何找到环的入口点？</span></strong></p>
+</p>
+
+<p><strong>问题1分析：</strong>设置两个指针fast和slow，初始值都指向头指针，slow每次前进一步，fast每次前进两步。如果存在环，则fast必先进入环，而slow后进入环，两个指针必定相遇，当然，fast先到达尾部为NULL，则为无环链表。</p>
+</p>
+
+<p><strong>证明：</strong>两个指针fast和slow，fast一次递增两步，slow一次递增一步。如果有环的话两者必然重合，反之亦然。因为fast每次走2步，而slow每次走一步，所以它们之间的差距是一步一步缩小的。当slow进入环入口点后，fast和slow之间的差距将会一步步缩小，如4,3,2,1,0。到0的时候就重合了。根据此方式，可以证明，fast每次走三步以上，并不总能加快检测速度，反而有可能判别不出环。</p>
+</p>
+
+<p><strong>问题2分析：</strong>如果fast和slow相遇，那么在相遇时，slow肯定没有遍历完链表，而fast已经在环内循环了n圈（n>=1）。</p>
+</p>
+
+<p>假设slow走了s步，则fast走了2s步（fast的步数还等于s加上在环上多转的n圈），设环长为r，则：</p>
+</p>
+
+<p>2s=s+nr</p>
+</p>
+
+<p>s=nr</p>
+</p>
+
+<p>设整个链表长L，入口环与相遇点距离为x，起点到环入口点的距离为a，则</p>
+</p>
+
+<p>a+x=s=nr</p>
+</p>
+
+<p>a+x=(n-1)r+r=(n-1)r+L-a</p>
+</p>
+
+<p>a=(n-1)r+(L-a-x)</p>
+</p>
+
+<p>(L-a-x)为相遇点到环入口点的距离。由此可知，从链表头到环入口点等于(n-1)循环内环+相遇点到环入口点。于是可以从链表头和相遇点分别设一个指针，每次各走一步，两个指针必定相遇，且相遇第一点为环入口点。</p>
+</p>
+
+<div class="cnblogs_code">
+
+</p>
+
+<div>
+
+<span style="color: #000000;">\#include</span><span
+style="color: #000000;">\<</span><span
+style="color: #000000;">iostream</span><span
+style="color: #000000;">\></span><span style="color: #000000;">  
+</span><span style="color: #0000ff;">using</span><span
+style="color: #000000;"></span><span
+style="color: #0000ff;">namespace</span><span style="color: #000000;">
+std;  
+</span><span style="color: #0000ff;">struct</span><span
+style="color: #000000;"> Node  
+{  
+Node</span><span style="color: #000000;">\*</span><span
+style="color: #000000;"> next;  
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> value;  
+Node(</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> v)  
+{  
+value</span><span style="color: #000000;">=</span><span
+style="color: #000000;">v;  
+next</span><span style="color: #000000;">=</span><span
+style="color: #000000;">NULL;  
+}  
+};  
+
+Node</span><span style="color: #000000;">\*</span><span
+style="color: #000000;"> isExistLoop(Node</span><span
+style="color: #000000;">\*</span><span style="color: #000000;"> head)  
+{  
+</span><span style="color: #008000;">//</span><span
+style="color: #008000;">slow一次走一步，fast一次走两步</span><span
+style="color: #008000;">  
+</span><span style="color: #000000;"> Node</span><span
+style="color: #000000;">\*</span><span style="color: #000000;">
+slow</span><span style="color: #000000;">=</span><span
+style="color: #000000;">head,</span><span
+style="color: #000000;">\*</span><span
+style="color: #000000;">fast</span><span
+style="color: #000000;">=</span><span style="color: #000000;">head;  
+</span><span style="color: #0000ff;">while</span><span
+style="color: #000000;">(fast</span><span
+style="color: #000000;">!=</span><span
+style="color: #000000;">NULL</span><span
+style="color: #000000;">&&</span><span
+style="color: #000000;">fast</span><span
+style="color: #000000;">-\></span><span
+style="color: #000000;">next</span><span
+style="color: #000000;">!=</span><span style="color: #000000;">NULL)  
+{  
+slow</span><span style="color: #000000;">=</span><span
+style="color: #000000;">slow</span><span
+style="color: #000000;">-\></span><span style="color: #000000;">next;  
+fast</span><span style="color: #000000;">=</span><span
+style="color: #000000;">fast</span><span
+style="color: #000000;">-\></span><span
+style="color: #000000;">next</span><span
+style="color: #000000;">-\></span><span style="color: #000000;">next;  
+</span><span style="color: #0000ff;">if</span><span
+style="color: #000000;">(slow</span><span
+style="color: #000000;">==</span><span
+style="color: #000000;">fast)</span><span
+style="color: #0000ff;">return</span><span style="color: #000000;">
+slow;  
+}  
+</span><span style="color: #0000ff;">return</span><span
+style="color: #000000;"> NULL;  
+}  
+
+Node</span><span style="color: #000000;">\*</span><span
+style="color: #000000;"> findLoopNode(Node</span><span
+style="color: #000000;">\*</span><span style="color: #000000;"> head)  
+{  
+Node</span><span style="color: #000000;">\*</span><span
+style="color: #000000;"> second</span><span
+style="color: #000000;">=</span><span
+style="color: #000000;">isExistLoop(head);</span>
+
+</div>
+
+</p>
+
+<div>
+
+<span style="color: #000000;">second = second-\>next;  
+</span><span style="color: #0000ff;">if</span><span
+style="color: #000000;">(second</span><span
+style="color: #000000;">==</span><span
+style="color: #000000;">NULL)</span><span
+style="color: #0000ff;">return</span><span style="color: #000000;">
+NULL;  
+Node</span><span style="color: #000000;">\*</span><span
+style="color: #000000;"> first</span><span
+style="color: #000000;">=</span><span style="color: #000000;"> head;  
+
+</span><span style="color: #0000ff;">while</span><span
+style="color: #000000;">(second</span><span
+style="color: #000000;">!=</span><span style="color: #000000;">first)  
+{  
+second</span><span style="color: #000000;">=</span><span
+style="color: #000000;">second</span><span
+style="color: #000000;">-\></span><span style="color: #000000;">next;  
+first</span><span style="color: #000000;">=</span><span
+style="color: #000000;">first</span><span
+style="color: #000000;">-\></span><span style="color: #000000;">next;  
+}  
+</span><span style="color: #0000ff;">return</span><span
+style="color: #000000;"> first;  
+}  
+
+</span><span style="color: #0000ff;">int</span><span
+style="color: #000000;"> main()  
+{  
+</span><span style="color: #0000ff;">const</span><span
+style="color: #000000;"></span><span
+style="color: #0000ff;">int</span><span style="color: #000000;">
+LENGTH</span><span style="color: #000000;">=</span><span
+style="color: #800080;">20</span><span style="color: #000000;">;  
+Node</span><span style="color: #000000;">\*</span><span
+style="color: #000000;"> nodelist[LENGTH];  
+nodelist[</span><span style="color: #800080;">0</span><span
+style="color: #000000;">]</span><span
+style="color: #000000;">=</span><span
+style="color: #0000ff;">new</span><span style="color: #000000;">
+Node(</span><span style="color: #800080;">0</span><span
+style="color: #000000;">);  
+Node</span><span style="color: #000000;">\*</span><span
+style="color: #000000;"> head</span><span
+style="color: #000000;">=</span><span
+style="color: #000000;">nodelist[</span><span
+style="color: #800080;">0</span><span style="color: #000000;">];  
+Node</span><span style="color: #000000;">\*</span><span
+style="color: #000000;"> pre</span><span
+style="color: #000000;">=</span><span style="color: #000000;">head;  
+</span><span style="color: #0000ff;">for</span><span
+style="color: #000000;">(</span><span
+style="color: #0000ff;">int</span><span style="color: #000000;">
+i</span><span style="color: #000000;">=</span><span
+style="color: #800080;">1</span><span
+style="color: #000000;">;i</span><span
+style="color: #000000;">\<</span><span
+style="color: #000000;">LENGTH;i</span><span
+style="color: #000000;">++</span><span style="color: #000000;">)  
+{  
+nodelist[i]</span><span style="color: #000000;">=</span><span
+style="color: #000000;"></span><span
+style="color: #0000ff;">new</span><span style="color: #000000;">
+Node(i);  
+pre</span><span style="color: #000000;">-\></span><span
+style="color: #000000;">next</span><span
+style="color: #000000;">=</span><span
+style="color: #000000;">nodelist[i];  
+pre</span><span style="color: #000000;">=</span><span
+style="color: #000000;">nodelist[i];  
+}  
+pre</span><span style="color: #000000;">-\></span><span
+style="color: #000000;">next</span><span
+style="color: #000000;">=</span><span
+style="color: #000000;">nodelist[</span><span
+style="color: #800080;">14</span><span style="color: #000000;">];  
+
+</span><span style="color: #0000ff;">if</span><span
+style="color: #000000;">(isExistLoop(head))  
+{  
+cout</span><span style="color: #000000;">\<\<</span><span
+style="color: #800000;">"</span><span
+style="color: #800000;">存在环</span><span
+style="color: #800000;">"</span><span
+style="color: #000000;">\<\<</span><span style="color: #000000;">endl;  
+}  
+</span><span style="color: #0000ff;">else</span><span
+style="color: #000000;"> cout</span><span
+style="color: #000000;">\<\<</span><span
+style="color: #800000;">"</span><span
+style="color: #800000;">不存在环</span><span
+style="color: #800000;">"</span><span
+style="color: #000000;">\<\<</span><span style="color: #000000;">endl;  
+
+cout</span><span style="color: #000000;">\<\<</span><span
+style="color: #000000;">findLoopNode(head)</span><span
+style="color: #000000;">-\></span><span
+style="color: #000000;">value</span><span
+style="color: #000000;">\<\<</span><span style="color: #000000;">endl;  
+
+</span><span style="color: #0000ff;">for</span><span
+style="color: #000000;">(</span><span
+style="color: #0000ff;">int</span><span style="color: #000000;">
+j</span><span style="color: #000000;">=</span><span
+style="color: #800080;">0</span><span
+style="color: #000000;">;j</span><span
+style="color: #000000;">\<</span><span
+style="color: #000000;">LENGTH;j</span><span
+style="color: #000000;">++</span><span style="color: #000000;">)  
+{  
+delete nodelist[j];  
+}  
+</span><span style="color: #0000ff;">return</span><span
+style="color: #000000;"></span><span
+style="color: #800080;">0</span><span style="color: #000000;">;  
+}</span>
+
+</div>
+
+<p></p>
+<p></p>
+</div>
+
+</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/mian-shi-ti-_fen-ceng-bian-li-er-cha-shu.html" title="Previous: 面试题_分层遍历二叉树">面试题_分层遍历二叉树</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/er-cha-shu-de-bian-li.html" title="Next: 二叉树的遍历">二叉树的遍历</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/mian-shi-ti-_dan-lian-biao-huan-de-wen-ti.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/mian-shi-ti-_dan-lian-biao-huan-de-wen-ti.html';
+    var disqus_url = 'http://lixinzhang.github.io/mian-shi-ti-_dan-lian-biao-huan-de-wen-ti.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2011-04-03T06:06:00">Apr 3, 2011</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

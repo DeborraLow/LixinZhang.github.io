@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>设计模式学习笔记——抽象工厂（Abstract Factory）模式 - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.pdf">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/she-ji-mo-shi-xue-xi-bi-ji-chou-xiang-gong-han-abstract-factorymo-shi.html"> 设计模式学习笔记——抽象工厂（Abstract Factory）模式  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p>本文章转自<a href="http://blog.csdn.net/ipqxiang/archive/2007/12/20/1955677.aspx">http://blog.csdn.net/ipqxiang/archive/2007/12/20/1955677.aspx</a> </p>
+</p>
+
+<p>感觉讲解得很详细。</p>
+</p>
+
+<h4><span style="font-weight: bold;">一、 抽象工厂（Abstract Factory）模式</span></h4>
+</p>
+
+<p>抽象工厂模式是所有形态的工厂模式中最为抽象和最具一般性的一种形态。</p>
+</p>
+
+<p>为了方便引进抽象工厂模式，引进一个新概念：<strong>产品族（Product
+Family）。</strong>所谓产品族，是指位于不同产品等级结构，功能相关联的产品组成的家族。如图：</p>
+</p>
+
+<p>[<img alt="Pic44" src="http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041125614.gif" title="Pic44" />][]</p>
+</p>
+
+<p>图中一共有四个产品族，分布于三个不同的产品等级结构中。只要指明一个产品所处的产品族以及它所属的等级结构，就可以唯一的确定这个产品。</p>
+</p>
+
+<p>引进抽象工厂模式</p>
+</p>
+
+<p>所谓的抽象工厂是指一个工厂等级结构可以创建出分属于不同产品等级结构的一个产品族中的所有对象。如果用图来描述的话，如下图：</p>
+</p>
+
+<p>[<img alt="Pic45" src="http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041124218.gif" title="Pic45" />][]</p>
+</p>
+
+<h4><span style="font-weight: bold;"> </span></h4>
+</p>
+
+<h4><span style="font-weight: bold;">二、 Abstract Factory模式的结构：</span></h4>
+</p>
+
+<p>[<img alt="Pic46" src="http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041139235.gif" title="Pic46" />][]</p>
+</p>
+
+<p>图中描述的东西用产品族描述如下：</p>
+</p>
+
+<p>[<img alt="Pic47" src="http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041136203.gif" title="Pic47" />][]</p>
+</p>
+
+<p><span color="#c0504d" style="color: #c0504d;">抽象工厂（Abstract
+Factory）角色</span>：担任这个角色的是工厂方法模式的核心，它是与应用系统商业逻辑无关的。</p>
+</p>
+
+<p><span color="#c0504d" style="color: #c0504d;">具体工厂（Concrete
+Factory）角色</span>：这个角色直接在客户端的调用下创建产品的实例。这个角色含有选择合适的产品对象的逻辑，而这个逻辑是与应用系统的商业逻辑紧密相关的。</p>
+</p>
+
+<p><span color="#c0504d" style="color: #c0504d;">抽象产品（Abstract
+Product）角色</span>：担任这个角色的类是工厂方法模式所创建的对象的父类，或它们共同拥有的接口。</p>
+</p>
+
+<p><span color="#c0504d" style="color: #c0504d;">具体产品（Concrete
+Product）角色</span>：抽象工厂模式所创建的任何产品对象都是某一个具体产品类的实例。这是客户端最终需要的东西，其内部一定充满了应用系统的商业逻辑。</p>
+</p>
+
+<h4><span style="font-weight: bold;"> </span></h4>
+</p>
+
+<h4><span style="font-weight: bold;">三、 程序举例：</span></h4>
+</p>
+
+<p>该程序演示了抽象工厂的结构，本身不具有任何实际价值。</p>
+<p></p>
+<p>
+``` {.brush: .csharp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+// Abstract Factory pattern -- Structural example  using System;// "AbstractFactory"abstract class AbstractFactory{  // Methods  abstract public AbstractProductA CreateProductA();  abstract public AbstractProductB CreateProductB();}// "ConcreteFactory1"class ConcreteFactory1 : AbstractFactory{  // Methods  override public AbstractProductA CreateProductA()  {    return new ProductA1();  }  override public AbstractProductB CreateProductB()  {    return new ProductB1();  }}// "ConcreteFactory2"class ConcreteFactory2 : AbstractFactory{  // Methods  override public AbstractProductA CreateProductA()  {    return new ProductA2();  }  override public AbstractProductB CreateProductB()  {    return new ProductB2();  }}// "AbstractProductA"abstract class AbstractProductA{}// "AbstractProductB"abstract class AbstractProductB{  // Methods  abstract public void Interact( AbstractProductA a );}// "ProductA1"class ProductA1 : AbstractProductA{}// "ProductB1"class ProductB1 : AbstractProductB{  // Methods  override public void Interact( AbstractProductA a )  {    Console.WriteLine( this + " interacts with " + a );  }}// "ProductA2"class ProductA2 : AbstractProductA{}// "ProductB2"class ProductB2 : AbstractProductB{  // Methods  override public void Interact( AbstractProductA a )  {    Console.WriteLine( this + " interacts with " + a );  }}// "Client" - the interaction environment of the productsclass Environment{  // Fields  private AbstractProductA AbstractProductA;  private AbstractProductB AbstractProductB;  // Constructors  public Environment( AbstractFactory factory )  {    AbstractProductB = factory.CreateProductB();    AbstractProductA = factory.CreateProductA();  }   // Methods  public void Run()  {    AbstractProductB.Interact( AbstractProductA );  }}/// <summary>/// ClientApp test environment/// </summary>class ClientApp{  public static void Main(string[] args)  {    AbstractFactory factory1 = new ConcreteFactory1();    Environment e1 = new Environment( factory1 );    e1.Run();    AbstractFactory factory2 = new ConcreteFactory2();    Environment e2 = new Environment( factory2 );    e2.Run();  }}</p>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+
+#### <span class="nt">&lt;span</span> <span class="na">style=</span><span class="s">&quot;font-weight: bold;&quot;</span><span class="nt">&gt;</span>四、 在什么情形下使用抽象工厂模式：<span class="nt">&lt;/span&gt;</span>
+
+<span class="nt">&lt;/p&gt;</span>
+
+在以下情况下应当考虑使用抽象工厂模式：
+
+<span class="nt">&lt;/p&gt;</span>
+
+-   一个系统不应当依赖于产品类实例如何被创建、组合和表达的细节，这对于所有形态的工厂模式都是重要的。
+-   这个系统有多于一个的产品族，而系统只消费其中某一产品族。
+-   同属于同一个产品族的产品是在一起使用的，这一约束必须在系统的设计中体现出来。
+-   系统提供一个产品类的库，所有的产品以同样的接口出现，从而使客户端不依赖于实现。
+
+<span class="nt">&lt;/p&gt;</span>
+
+#### <span class="nt">&lt;span</span> <span class="na">style=</span><span class="s">&quot;font-weight: bold;&quot;</span><span class="nt">&gt;</span>五、 抽象工厂的起源<span class="nt">&lt;/span&gt;</span>
+
+<span class="nt">&lt;/p&gt;</span>
+
+据说最早的应用是用来创建在不同操作系统的视窗环境下都能够运行的系统。比如在Windows与Unix系统下都有视窗环境的构件，在每一个操作系统中，都有一个视窗构件组成的构件家族。我们可以通过一个抽象角色给出功能描述，而由具体子类给出不同操作系统下的具体实现，如图：
+
+<span class="nt">&lt;/p&gt;</span>
+
+<span class="cp">[</span><span class="o">!</span><span class="err">[</span><span class="nx">Pic48</span><span class="cp">][]</span>]<span class="cp">[]</span>
+
+<span class="nt">&lt;/p&gt;</span>
+
+可以发现上面产品类图有两个产品等级结构，分别是Button与Text；同时有两个产品族：Unix产品族与Windows产品族。
+
+<span class="nt">&lt;/p&gt;</span>
+
+<span class="cp">[</span><span class="o">!</span><span class="err">[</span><span class="nx">Pic49</span><span class="cp">][]</span>]<span class="cp">[]</span>
+
+<span class="nt">&lt;/p&gt;</span>
+
+系统对产品对象的创建要求由一个工厂的等级结构满足。其中有两个具体工厂角色，即UnixFactory和WinFactory。UnixFactory对象负责创建Unix产品族中的产品，而WinFactory负责创建Windows产品族中的产品。
+
+<span class="nt">&lt;/p&gt;</span>
+
+<span class="cp">[</span><span class="o">!</span><span class="err">[</span><span class="nx">Pic50</span><span class="cp">][]</span>]<span class="cp">[]</span>
+
+<span class="nt">&lt;/p&gt;</span>
+
+显然一个系统只能够在某一个操作系统的视窗环境下运行，而不能同时在不同的操作系统上运行。所以，系统实际上只能消费属于同一个产品族的产品。
+
+<span class="nt">&lt;/p&gt;</span>
+
+在现代的应用中，抽象工厂模式的使用范围已经大大扩大了，不再要求系统只能消费某一个产品族了。
+
+<span class="nt">&lt;/p&gt;</span>
+
+#### <span class="nt">&lt;span</span> <span class="na">style=</span><span class="s">&quot;font-weight: bold;&quot;</span><span class="nt">&gt;</span>六、 Abstract Factory模式在实际系统中的实现<span class="nt">&lt;/span&gt;</span>
+
+<span class="nt">&lt;/p&gt;</span>
+
+Herbivore：草食动物
+
+
+Carnivore：食肉动物
+
+
+Bison：<span class="cp">[</span><span class="s1">&#39;baisn]，美洲或欧洲的野牛</span>
+
+<span class="s1">&lt;/p&gt;</span>
+
+<span class="s1">下面实际代码演示了一个电脑游戏中创建不同动物的抽象工厂。尽管在不同大陆下动物物种是不一样的，但动物间的关系仍然保留了下来。</span>
+
+<span class="s1">&lt;/p&gt;</span>
+<span class="s1">&lt;p&gt;</span>
+<span class="s1">``` {.brush: .csharp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}</span>
+<span class="s1">// Abstract Factory pattern -- Real World example  using System;// &quot;AbstractFactory&quot;abstract class ContinentFactory{  // Methods  abstract public Herbivore CreateHerbivore();  abstract public Carnivore CreateCarnivore();}// &quot;ConcreteFactory1&quot;class AfricaFactory : ContinentFactory{  // Methods  override public Herbivore CreateHerbivore()  { return new Wildebeest(); }  override public Carnivore CreateCarnivore()  { return new Lion(); }}// &quot;ConcreteFactory2&quot;class AmericaFactory : ContinentFactory{  // Methods  override public Herbivore CreateHerbivore()  { return new Bison(); }  override public Carnivore CreateCarnivore()  { return new Wolf(); }}// &quot;AbstractProductA&quot;abstract class Herbivore{}// &quot;AbstractProductB&quot;abstract class Carnivore{  // Methods  abstract public void Eat( Herbivore h );}// &quot;ProductA1&quot;class Wildebeest : Herbivore{}// &quot;ProductB1&quot;class Lion : Carnivore{  // Methods  override public void Eat( Herbivore h )  {    // eat wildebeest    Console.WriteLine( this + &quot; eats &quot; + h );  }}// &quot;ProductA2&quot;class Bison : Herbivore{}// &quot;ProductB2&quot;class Wolf : Carnivore{  // Methods  override public void Eat( Herbivore h )  {    // Eat bison    Console.WriteLine( this + &quot; eats &quot; + h );  }}// &quot;Client&quot;class AnimalWorld{  // Fields  private Herbivore herbivore;  private Carnivore carnivore;  // Constructors  public AnimalWorld( ContinentFactory factory )  {    carnivore = factory.CreateCarnivore();    herbivore = factory.CreateHerbivore();  }  // Methods  public void RunFoodChain()  { carnivore.Eat(herbivore); }}/// &lt;summary&gt;///  GameApp test class/// &lt;/summary&gt;class GameApp{  public static void Main( string[] args )  {    // Create and run the Africa animal world    ContinentFactory africa = new AfricaFactory();    AnimalWorld world = new AnimalWorld( africa );    world.RunFoodChain();    // Create and run the America animal world    ContinentFactory america = new AmericaFactory();    world = new AnimalWorld( america );    world.RunFoodChain();  }}</span>
+</pre></div>
+
+
+</p>
+
+<h4><span style="font-weight: bold;">七、 "开放－封闭"原则</span></h4>
+</p>
+
+<p>"开放－封闭"原则要求系统对扩展开放，对修改封闭。通过扩展达到增强其功能的目的。对于涉及到多个产品族与多个产品等级结构的系统，其功能增强包括两方面：</p>
+</p>
+
+<p>增加产品族：Abstract Factory很好的支持了"开放－封闭"原则。</p>
+</p>
+
+<p>增加新产品的等级结构：需要修改所有的工厂角色，没有很好支持"开放－封闭"原则。</p>
+</p>
+
+<p>综合起来，抽象工厂模式以一种倾斜的方式支持增加新的产品，它为新产品族的增加提供方便，而不能为新的产品等级结构的增加提供这样的方便。</p>
+</p>
+
+<p>[<img alt="Pic44" src="http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041125614.gif" title="Pic44" />]: http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041124185.gif
+  [<img alt="Pic45" src="http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041124218.gif" title="Pic45" />]: http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041121710.gif
+  [<img alt="Pic46" src="http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041139235.gif" title="Pic46" />]: http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041126727.gif
+  [<img alt="Pic47" src="http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041136203.gif" title="Pic47" />]: http://images.cnblogs.com/cnblogs_com/coser/201104/20110415204113107.gif
+  [<img alt="Pic48" src="http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041133172.gif" title="Pic48" />]: http://images.cnblogs.com/cnblogs_com/coser/201104/20110415204113663.gif
+  [<img alt="Pic49" src="http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041134284.gif" title="Pic49" />]: http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041138188.gif
+  [<img alt="Pic50" src="http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041135713.gif" title="Pic50" />]: http://images.cnblogs.com/cnblogs_com/coser/201104/201104152041135157.gif</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/she-ji-mo-shi-xue-xi-bi-ji-gong-han-fang-fa-mo-shi.html" title="Previous: 设计模式学习笔记——工厂方法模式">设计模式学习笔记——工厂方法模式</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/she-ji-mo-shi-xue-xi-bi-ji-dan-li-singletonmo-shi.html" title="Next: 设计模式学习笔记——单例(Singleton)模式">设计模式学习笔记——单例(Singleton)模式</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/she-ji-mo-shi-xue-xi-bi-ji-chou-xiang-gong-han-abstract-factorymo-shi.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/she-ji-mo-shi-xue-xi-bi-ji-chou-xiang-gong-han-abstract-factorymo-shi.html';
+    var disqus_url = 'http://lixinzhang.github.io/she-ji-mo-shi-xue-xi-bi-ji-chou-xiang-gong-han-abstract-factorymo-shi.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2011-04-15T12:41:00">Apr 15, 2011</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

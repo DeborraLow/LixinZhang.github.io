@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>unix下网络编程之I/O复用（三） - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.pdf">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/unixxia-wang-luo-bian-cheng-zhi-iofu-yong-san.html"> unix下网络编程之I/O复用（三）  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p><strong><font size="5">poll函数</font></strong></p>
+<p>在上文<a href="http://www.cnblogs.com/coser/archive/2012/02/29/2373478.html">unix下网络编程之I/O复用（二）</a>中已经介绍了select函数的相关使用，本文将介绍另一个常用的I/O复用函数poll。poll提供的功能与select类似，不过在处理流设备时，它能够提供额外的信息。</p>
+<p><strong>poll函数原型：</strong></p>
+<p>``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .[头文件]; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}</p>
+<h1>include<poll.h>   int poll (struct pollfd * fdarray , unsigned long nfds , int timeout);   //返回：就需描述字的个数，0——超时，-1——出错</h1>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+
+** **第一个参数是指向一个结构数组第一个元素的指针，每个数组元素都是一个pollfd结构。如下：
+
+<span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;p&gt;</span>
+``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .<span class="cp">[</span><span class="err">头文件</span><span class="cp">]</span>; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+struct pollfd {  int fd; //descriptor to check    short events; //events of interest on fd`    short revents; //events tha occurred on fd}
+</pre></div>
+
+
+</p>
+
+<p>要测试的条件由events成员指定，函数在相应的revents成语中返回该描述字的状态。（每个描述字都有两个变量，一个为调用值，另一个为返回结果，从而避免使用值-结果参数，这与select函数是不同的）。下图列出了用于指定events标志以及测试revents标志的一些常值。</p>
+</p>
+
+<p>[<img alt="image" src="http://images.cnblogs.com/cnblogs_com/coser/201203/201203011326419251.png" title="image" />][]</p>
+</p>
+
+<p>上图需要注意的是，POLLERR,POLLHUP,POLLNVAL是处理错误的描述字，因此它们也就不可以出现在input事件中，即events。poll识别三类数据：普通（normal），优先级带（priority
+band）和高优先级（high priority）。</p>
+</p>
+
+<p><strong>对TCP和UPD而言，以下条件引起poll返回特定的revents。</strong></p>
+</p>
+
+<p><em>1、 All regular TCP data and all UDP data is considered normal.</p>
+<p>2、 TCP's out-of-band data (Chapter 24) is considered priority band.</p>
+<p>3、 When the read half of a TCP connection is closed (e.g., a FIN is
+received), this is also considered normal data and a subsequent read
+operation will return 0.</p>
+<p>4、 The presence of an error for a TCP connection can be considered
+either normal data or an error (POLLERR). In either case, a subsequent
+read will return –1 with errno set to the appropriate value. This
+handles conditions such as the receipt of an RST or a timeout.</p>
+<p>5、 The availability of a new connection on a listening socket can be
+considered either normal data or priority data. Most implementations
+consider this normal data.</p>
+<p>6、 The completion of a nonblocking connect is considered to make a
+socket writable.</em></p>
+</p>
+
+<p>——《unix网络编程》第三版</p>
+</p>
+
+<p><strong>参数nfds，指示结构数组中元素的个数。</strong></p>
+</p>
+
+<p><strong>参数timeout：</strong></p>
+</p>
+
+<p>与select中的timeout不同，poll函数的timeout参数是一int值，表示poll函数返回前等待多长时间，它是毫秒级别的。它有三种情况的取值：1、INFTIM（一个负数值），表示永远等待，即一直阻塞。2、0，表示立即返回，非阻塞。3、>0，表示正待指定数目的毫秒数。</p>
+</p>
+
+<p><strong>poll函数的返回值：</strong></p>
+</p>
+
+<p>当poll发生错误时，poll函数的返回值-1，若定时器时间到之前没有任何描述字就绪，则返回0，否则返回就绪描述字的个数，即其revents成员值非0的描述字个数。</p>
+</p>
+
+<p>如果我们不再关心某个特定描述字，那么可以把与他对应的pollfd结构的fd成员设置成一个负值。poll函数将忽略这样的pollfd结构的events成员，返回时将它的revents成员的值置为0。</p>
+</p>
+
+</p>
+
+<p><strong>poll函数的通信列子：一个简单的TCP回射服务器程序</strong></p>
+</p>
+
+<p><strong>pollServer.c:使用select机制的服务器程序</strong></p>
+</p>
+
+<p>
+``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .highlight: .[头文件]; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+#include <stdio.h>#include <string.h>#include <arpa/inet.h>#include <netinet/in.h>#include <sys/socket.h>#include <poll.h>/*环境为ubuntu10.04自带c环境，无法自动引入下列宏，所以自己写在前面了*/#define INFTIM -1#define POLLRDNORM    0x040       /* Normal data may be read.  */#define POLLRDBAND    0x080       /* Priority data may be read.  */#define POLLWRNORM  0x100       /* Writing now will not block.  */#define POLLWRBAND 0x200       /* Priority data may be written.  */#define MAXLINE  1024#define OPEN_MAX  16 //一些系统会定义这些宏#define SERV_PORT  10001int main(){   int i , maxi ,listenfd , connfd , sockfd ;   int nready;  int n;   char buf[MAXLINE];   socklen_t clilen;    struct pollfd client[OPEN_MAX];   struct sockaddr_in cliaddr , servaddr;   listenfd = socket(AF_INET , SOCK_STREAM , 0);    memset(&servaddr,0,sizeof(servaddr));    servaddr.sin_family = AF_INET;   servaddr.sin_port = htons(SERV_PORT);    servaddr.sin_addr.s_addr = htonl(INADDR_ANY); bind(listenfd , (struct sockaddr *) & servaddr, sizeof(servaddr));   listen(listenfd,10); client[0].fd = listenfd; client[0].events = POLLRDNORM;   for(i=1;i<OPEN_MAX;i++)   {        client[i].fd = -1;   }    maxi = 0; for(;;)  {        nready = poll(client,maxi+1,INFTIM);     if (client[0].revents & POLLRDNORM)      {            clilen = sizeof(cliaddr);            connfd = accept(listenfd , (struct sockaddr *)&cliaddr, &clilen);            for(i=1;i<OPEN_MAX;i++)           {                if(client[i].fd<0)                {                    client[i].fd = connfd;                   client[i].events = POLLRDNORM;                   break;               }            }            if(i==OPEN_MAX)          {                printf("too many clients! \n");            }            if(i>maxi) maxi = i;          nready--;            if(nready<=0) continue;       }     for(i=1;i<=maxi;i++)      {            if(client[i].fd<0) continue;          sockfd = client[i].fd;           if(client[i].revents & (POLLRDNORM|POLLERR))         {                n = read(client[i].fd,buf,MAXLINE);              if(n<=0)              {                    close(client[i].fd);                 client[i].fd = -1;               }                else             {                    buf[n]='\0';                 printf("Socket %d said : %s\n",sockfd,buf);                    write(sockfd,buf,n); //Write back to client              }                nready--;                if(nready<=0) break; //no more readable descriptors           }        }    }    return 0;}
+```
+
+</p>
+
+<p>客户端程序参考上一篇文章。</p>
+</p>
+
+<p><strong>总结：</strong></p>
+</p>
+
+<p>本文介绍了poll函数的原型，参数说明，注意事项以及一个简单的代码例子。在unix后续版本中，加入了epoll函数I/O复用机制，它在一定条件下更加高效，在以后的文章中，会对epoll机制再进行详细的描述。之前在学习python的时候，也接触了select和poll，但是当时了解的比较浅显，希望通过最近的学习可以对unix下I/O复用有更深入的认识。</p>
+</p>
+
+<p>[<img alt="image" src="http://images.cnblogs.com/cnblogs_com/coser/201203/201203011326419251.png" title="image" />]: http://images.cnblogs.com/cnblogs_com/coser/201203/201203011326413777.png</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/unixxia-wang-luo-bian-cheng-zhi-iofu-yong-er.html" title="Previous: unix下网络编程之I/O复用（二）">unix下网络编程之I/O复用（二）</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/xian-cheng-chi-de-yan-jiu-ji-shi-xian.html" title="Next: 线程池的研究及实现">线程池的研究及实现</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/unixxia-wang-luo-bian-cheng-zhi-iofu-yong-san.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/unixxia-wang-luo-bian-cheng-zhi-iofu-yong-san.html';
+    var disqus_url = 'http://lixinzhang.github.io/unixxia-wang-luo-bian-cheng-zhi-iofu-yong-san.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2012-03-01T05:27:00">Mar 1, 2012</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

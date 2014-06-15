@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>面试题_寻找丑数 - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.pdf">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/mian-shi-ti-_xun-zhao-chou-shu.html"> 面试题_寻找丑数  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p>最近一直在准备面试，因为要实习了，然后我就纠结了，不知道自己到底处在一个什么样的水平，到底应该选择怎样的实习单位。但是，不管怎么样，还是多看看题吧，感觉面试题还是挺好玩的。最近又在看《编程之美》，感觉有些收获，其实编程真的可以很美，呵呵。</p>
+</p>
+
+<p><strong>题目</strong>：我们把只包含因子2、3和5的数称作丑数（Ugly
+Number）。例如6、8都是丑数，但14不是，因为它包含因子7。习惯上我们把1当做是第一个丑数。求按从小到大的顺序的第1500个丑数。</p>
+</p>
+
+<p>看过《编程之美》的人，应该都知道书上的解题思路，它总是先从最容易想到的解决方法入手，然后再一直追问，有没有更好的解决方法。我觉得这个解决问题的思路非常好，任何问题都要一遍一遍的推敲，找到最佳的解决方案，从空间和时间上进行双重的优化。</p>
+</p>
+
+<p>这道题最简单的思路，就是穷举，穷举所有满足条件的数字。其实，仔细想想，穷举有时可以看成是万能的方法，但是效率也是最低的。</p>
+<p></p>
+<p>
+``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+bool IsUgly(int number){    while(number % 2 == 0)        number /= 2;    while(number % 3 == 0)        number /= 3;    while(number % 5 == 0)        number /= 5;    return (number == 1) ? true : false;}int Method1(int index){    if(index &lt;= 0)        return 0;     int number = 0;    int uglyFound = 0;    while(uglyFound &lt; index)    {        ++number;         if(IsUgly(number))        {            ++uglyFound;        }    }     return number;}</p>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+
+      
+上面的方法，效率低的无法让人接受。于是，我们在寻求更好的解决办法。仔细阅读题目，会发现这题貌似有点像找素数的问题，对了，就是这样，我们换个思路，不是去枚举所有符合条件的数，而是去通过条件生成这些数字。根据丑数的定义，丑数应该是另一个丑数乘以2、3或者5的结果（1除外）。因此我们可以创建一个数组，里面的数字是排好序的丑数。里面的每一个丑数是前面的丑数乘以2、3或者5得到的。这个思路的关键点，就是要保证数组里面的丑数是排好序的。假设arr<span class="cp">[</span><span class="mi">1</span><span class="bp">..</span><span class="nx">i</span><span class="cp">]</span>是已经排好序的数组，则arr<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span>一定是这里面最大的数，那么我们只要去寻找新生成的数字中比arr<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span>大的的最小的数。新生成的数是由前面的数字\*2或\*3或\*5得到的。我们定义index2为前面数字\*2中的所有数字中满足大于arr<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span>的最小的数的下标，index3,index5类似定义，则应该放在arr<span class="cp">[</span><span class="nx">i</span><span class="o">+</span><span class="mi">1</span><span class="cp">]</span>位置的数字便是min(arr<span class="cp">[</span><span class="nx">index2</span><span class="cp">]</span>\*2,arr<span class="cp">[</span><span class="nx">index3</span><span class="cp">]</span>\*3,arr<span class="cp">[</span><span class="nx">index5</span><span class="cp">]</span>\*5)。
+
+<span class="nt">&lt;/p&gt;</span>
+
+注意代码里，index2，index3，index5是维持动态向前的，不会产生无效搜索，因为当前找的数字一定比原来找的要大，所以从上一次找到的下标开始进行搜索就可以了。
+
+<span class="nt">&lt;/p&gt;</span>
+
+具体代码实现如下：
+
+<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+int Min(int a, int b , int c){    a=a<span class="nt">&lt;b</span><span class="err">?a:b;</span>    <span class="err">if(c&lt;a)</span> <span class="err">return</span> <span class="err">c;</span> <span class="err">else</span> <span class="err">return</span> <span class="err">a;}int</span> <span class="err">Method2(int</span> <span class="err">Mindex){</span>  <span class="err">int</span> <span class="na">index=</span><span class="s">1;</span> <span class="err">int</span> <span class="err">*</span><span class="na">arr=</span> <span class="s">new</span> <span class="err">int</span><span class="cp">[</span><span class="nx">Mindex</span><span class="cp">]</span><span class="err">;</span>   <span class="na">arr</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span><span class="na">=</span><span class="s">1;</span>    <span class="err">int</span> <span class="na">index2=</span><span class="s">0,</span> <span class="na">index3=</span><span class="s">0,</span> <span class="na">index5=</span><span class="s">0;</span>    <span class="err">while(index&lt;Mindex)</span>   <span class="err">{</span>        <span class="err">int</span> <span class="na">min=</span><span class="s">Min(arr</span><span class="cp">[</span><span class="nx">index2</span><span class="cp">]</span><span class="s">*2,arr</span><span class="cp">[</span><span class="nx">index3</span><span class="cp">]</span><span class="s">*3,arr</span><span class="cp">[</span><span class="nx">index5</span><span class="cp">]</span><span class="s">*5);</span>      <span class="na">arr</span><span class="cp">[</span><span class="nb">index</span><span class="cp">]</span><span class="na">=</span><span class="s">min;</span>      <span class="err">while(arr</span><span class="cp">[</span><span class="nx">index2</span><span class="cp">]</span><span class="err">*2&lt;=arr</span><span class="cp">[</span><span class="nb">index</span><span class="cp">]</span><span class="err">)</span> <span class="err">index2++;</span>        <span class="err">while(arr</span><span class="cp">[</span><span class="nx">index3</span><span class="cp">]</span><span class="err">*3&lt;=arr</span><span class="cp">[</span><span class="nb">index</span><span class="cp">]</span><span class="err">)</span> <span class="err">index3++;</span>        <span class="err">while(arr</span><span class="cp">[</span><span class="nx">index5</span><span class="cp">]</span><span class="err">*5&lt;=arr</span><span class="cp">[</span><span class="nb">index</span><span class="cp">]</span><span class="err">)</span> <span class="err">index5++;</span>        <span class="err">index++;</span> <span class="err">}</span>
+</pre></div>
+
+
+<p></p>
+<p>
+``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+　　　int ans=arr[Mindex-1];</p>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+``` {.brush: .cpp; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+　　　delete arr; return ans;}
+</pre></div>
+
+
+</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/czhong-de-yi-huo-yun-suan-fu.html" title="Previous: C++中的异或运算符^">C++中的异或运算符^</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/mian-shi-ti-_yun-suan-fu-xian-zhi.html" title="Next: 面试题_运算符限制">面试题_运算符限制</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/mian-shi-ti-_xun-zhao-chou-shu.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/mian-shi-ti-_xun-zhao-chou-shu.html';
+    var disqus_url = 'http://lixinzhang.github.io/mian-shi-ti-_xun-zhao-chou-shu.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2011-03-07T15:17:00">Mar 7, 2011</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

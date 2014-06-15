@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>三种常见的聚类算法的python实现 kmeans、Hierarchical clustering、kmedoids - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.pdf">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/san-chong-chang-jian-de-ju-lei-suan-fa-de-pythonshi-xian-kmeans-hierarchical-clustering-kmedoids.html"> 三种常见的聚类算法的python实现 kmeans、Hierarchical clustering、kmedoids  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p>聚类是机器学习、数据挖掘相关的一类很常见的问题。关于聚类算法的介绍这里就不多写了，因为无论是教科书还是网络上都有太多的资料了。这里，用一个《Programming
+Collective
+Intelligence》中的聚类例子，写几个经典聚类算法的实现，分别是hierachiclaCluster、kmeans、kmedoids。</p>
+</p>
+
+<p>另外，最近一直在看数据挖掘、自然语言处理相关的东西，通过看资料发现有些东西很好理解，但是长时间不用的话，过一段时间就忘记得差不多了。其实换个角度想，也是自己对这些东西理解得不深刻。我觉得踏踏实实的实现这些算法是必要的，因为在实现过程中，我们可以发现哪些地方是算法的核心思想，哪些地方是性能瓶颈，这也为进一步优化提供了基础。</p>
+</p>
+
+</p>
+
+<p><span style="font-size: x-large;">问题背景及数据集：</span></p>
+</p>
+
+<p>blog的聚类。如何判断两个blog是相似的呢？由于相关的博客的主题内容应该是相同的，即会出现很多相同的词。于是我们为每个blog定义一个向量，该向量的维度为数据集中所有出现的不同词的个数，向量的值为对应词出现的次数。判断两个向量间的相似性，我们使用<a href="http://zh.wikipedia.org/wiki/%E7%9A%AE%E5%B0%94%E9%80%8A%E7%A7%AF%E7%9F%A9%E7%9B%B8%E5%85%B3%E7%B3%BB%E6%95%B0">pearson相似性度量</a>算法。</p>
+</p>
+
+<p>测试数据集描述：<a href="http://kiwitobes.com/clusters/blogdata.txt">blogdata.txt</a>数据集，该数据集第一行包含所有数据集中出现的不同词，共有m个，剩下所有行，每一行对应一篇blog，共m+1列，用tab分开。第一列为博客名，接下来m列为一个向量，代码每个词出现的次数。接下来就聚类吧\~</p>
+</p>
+
+<p><span style="font-size: x-large;">Hierachical clustering :</span></p>
+</p>
+
+<p>维基百科：<a href="http://en.wikipedia.org/wiki/Hierarchical_clustering">http://en.wikipedia.org/wiki/Hierarchical_clustering</a></p>
+</p>
+
+<p><span style="font-size: x-large;">kmeans clustering :</span></p>
+</p>
+
+<p>维基百科：<a href="http://en.wikipedia.org/wiki/Kmeans">http://en.wikipedia.org/wiki/Kmeans</a></p>
+</p>
+
+<p><span style="font-size: x-large;">kmedoids clustering :</span></p>
+</p>
+
+<p>维基百科：<a href="http://en.wikipedia.org/wiki/K-medoids">http://en.wikipedia.org/wiki/K-medoids</a></p>
+</p>
+
+<p>虽然上面三种算法都很好理解，但是这都是基础算法，要想深入，还有很多很多相关问题需要解决，比如k如何设置；随机选取初始点的问题等等，而且如何选取好用的聚类算法也值得商榷。</p>
+</p>
+
+<p>github代码位置：<a href="https://github.com/LixinZhang/bookreviews/tree/master/Programming_Collective_Intelligence/chapter3">https://github.com/LixinZhang/bookreviews/tree/master/Programming_Collective_Intelligence/chapter3</a></p>
+</p>
+
+<p><strong><span style="font-size: large;">clusterBase.py 用来导入数据</span></strong></p>
+<p></p>
+<p>
+``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+from math import sqrtdef importData(FIFE = 'blogdata.txt') :    blogwords = []    blognames = []    f = open(FIFE, 'r')     words = f.readline().split()    #//remove '\r\n'    for line in f:            blog = line[:-2].split('\t')        blognames.append(blog[0])                blogwords.append([int(word_c) for word_c in blog[1:]]       )     return blogwords,blognamesdef pearson_distance(vector1, vector2) :    """    Calculate distance between two vectors using pearson method    See more : http://en.wikipedia.org/wiki/Pearson_product-moment_correlation_coefficient    """    sum1 = sum(vector1)    sum2 = sum(vector2)    sum1Sq = sum([pow(v,2) for v in vector1])    sum2Sq = sum([pow(v,2) for v in vector2])    pSum = sum([vector1[i] * vector2[i] for i in range(len(vector1))])    num = pSum - (sum1*sum2/len(vector1))    den = sqrt((sum1Sq - pow(sum1,2)/len(vector1)) * (sum2Sq - pow(sum2,2)/len(vector1)))    if den == 0 : return 0.0    return 1.0 - num/den</p>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+
+**<span class="nt">&lt;span</span> <span class="na">style=</span><span class="s">&quot;font-size: large;&quot;</span><span class="nt">&gt;</span>hierachiclaCluster.py<span class="nt">&lt;/span&gt;</span>**
+
+<span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;span</span>
+<span class="na">style=</span><span class="s">&quot;font-size: medium;&quot;</span><span class="nt">&gt;</span>注意distances字典的使用，可以减少大量重复的计算<span class="nt">&lt;/span&gt;</span>
+
+<span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;span</span>
+<span class="na">style=</span><span class="s">&quot;font-size: medium;&quot;</span><span class="nt">&gt;</span>另外这个聚类算法，最终生成的是一颗树形结构。因此打印结果，需要递归的进行<span class="nt">&lt;/span&gt;</span>
+
+<span class="nt">&lt;/p&gt;</span>
+
+<span class="nt">&lt;span</span>
+<span class="na">style=</span><span class="s">&quot;font-size: medium;&quot;</span><span class="nt">&gt;</span>在集体智慧编程书里，给出了一个利用PIL模块画树形图的算法，挺有参考价值的。<span class="nt">&lt;/span&gt;</span>
+
+<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+#/usr/bin/pythonfrom clusterBase import importData,pearson_distanceclass bicluster:    def __init__(self, vec, left=None,right=None,distance=0.0,id=None) :        self.left = left        self.right = right        self.vec = vec        self.id = id        self.distance = distancedef hcluster(blogwords,blognames) :    biclusters = <span class="cp">[</span> <span class="nx">bicluster</span><span class="p">(</span><span class="n">vec</span> <span class="o">=</span> <span class="nx">blogwords</span><span class="err">[</span><span class="nx">i</span><span class="cp">]</span>, id = i ) for i in range(len(blogwords)) ]    distances = {}    flag = None;    currentclusted = -1    while(len(biclusters) &gt; 1) :        min_val = 2;        biclusters_len = len(biclusters)        for i in range(biclusters_len-1) :            for j in range(i + 1, biclusters_len) :                if distances.get((biclusters<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span>.id,biclusters<span class="cp">[</span><span class="nx">j</span><span class="cp">]</span>.id)) == None:                    distances<span class="cp">[</span><span class="p">(</span><span class="nx">biclusters</span><span class="err">[</span><span class="nx">i</span><span class="cp">]</span>.id,biclusters<span class="cp">[</span><span class="nx">j</span><span class="cp">]</span>.id)] = pearson_distance(biclusters<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span>.vec,biclusters<span class="cp">[</span><span class="nx">j</span><span class="cp">]</span>.vec)                d = distances<span class="cp">[</span><span class="p">(</span><span class="nx">biclusters</span><span class="err">[</span><span class="nx">i</span><span class="cp">]</span>.id,biclusters<span class="cp">[</span><span class="nx">j</span><span class="cp">]</span>.id)]                 if d <span class="nt">&lt; min_val</span> <span class="err">:</span>                    <span class="na">min_val =</span> <span class="s">d</span>                    <span class="na">flag =</span> <span class="s">(i,j)</span>        <span class="err">bic1,</span><span class="na">bic2 =</span> <span class="s">flag</span>        <span class="na">newvec =</span> <span class="cp">[</span><span class="p">(</span><span class="nx">biclusters</span><span class="err">[</span><span class="nx">bic1</span><span class="cp">]</span><span class="s">.vec</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span> <span class="err">+</span> <span class="err">biclusters</span><span class="cp">[</span><span class="nx">bic2</span><span class="cp">]</span><span class="err">.vec</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="err">)/2</span> <span class="err">for</span> <span class="err">i</span> <span class="err">in</span> <span class="err">range(len(biclusters</span><span class="cp">[</span><span class="nx">bic1</span><span class="cp">]</span><span class="err">.vec))]</span>        <span class="na">newbic =</span> <span class="s">bicluster(newvec,</span> <span class="na">left=</span><span class="s">biclusters</span><span class="cp">[</span><span class="nx">bic1</span><span class="cp">]</span><span class="s">,</span> <span class="na">right=</span><span class="s">biclusters</span><span class="cp">[</span><span class="nx">bic2</span><span class="cp">]</span><span class="s">,</span> <span class="na">distance=</span><span class="s">min_val,</span> <span class="na">id =</span> <span class="s">currentclusted)</span>        <span class="err">currentclusted</span> <span class="na">-=</span> <span class="s">1</span>        <span class="err">del</span> <span class="err">biclusters</span><span class="cp">[</span><span class="nx">bic2</span><span class="cp">]</span>        <span class="err">del</span> <span class="err">biclusters</span><span class="cp">[</span><span class="nx">bic1</span><span class="cp">]</span>        <span class="err">biclusters.append(newbic)</span>    <span class="err">return</span> <span class="err">biclusters</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span><span class="err">&#39;&#39;&#39;Print</span> <span class="err">the</span> <span class="err">tree</span> <span class="err">structure,</span> <span class="err">save</span> <span class="err">as</span> <span class="err">a</span> <span class="err">jpeg</span> <span class="err">image</span> <span class="err">file.&#39;&#39;&#39;from</span> <span class="err">PIL</span> <span class="err">import</span> <span class="err">Image,</span> <span class="err">ImageDrawdef</span> <span class="err">getheight</span> <span class="err">(clust)</span> <span class="err">:</span>    <span class="err">if</span> <span class="na">clust.left =</span><span class="s">=</span> <span class="err">None</span> <span class="err">and</span> <span class="na">clust.right =</span><span class="s">=</span> <span class="err">None</span> <span class="err">:return</span> <span class="err">1</span>    <span class="err">return</span> <span class="err">getheight(clust.left)</span> <span class="err">+</span> <span class="err">getheight(clust.right)def</span> <span class="err">getdepth(clust)</span> <span class="err">:</span>    <span class="err">if</span> <span class="na">clust.left =</span><span class="s">=</span> <span class="err">None</span> <span class="err">and</span> <span class="na">clust.right =</span><span class="s">=</span> <span class="err">None</span> <span class="err">:return</span> <span class="err">0</span>    <span class="err">return</span> <span class="err">max(getdepth(clust.left),getdepth(clust.right))</span> <span class="err">+</span> <span class="err">clust.distancedef</span> <span class="err">drawdendrogram(clust,labels,</span><span class="na">jpeg=</span><span class="s">&#39;clusters.jpg&#39;</span><span class="err">)</span> <span class="err">:</span>    <span class="na">h =</span> <span class="s">getheight(clust)</span> <span class="err">*</span> <span class="err">20</span>    <span class="na">w =</span> <span class="s">1200</span>    <span class="na">depth =</span> <span class="s">getdepth(clust)</span>    <span class="na">scaling =</span> <span class="s">float(w-150)</span> <span class="err">/</span> <span class="err">depth</span>        <span class="na">img =</span> <span class="s">Image.new(&#39;RGB&#39;,(w,h),(255,255,255))</span>    <span class="na">draw =</span> <span class="s">ImageDraw.Draw(img)</span>    <span class="err">draw.line((0,h/2,10,h/2),</span><span class="na">fill=</span><span class="s">(255,0,0))</span>    <span class="err">drawnode(draw,clust,10,(h/2),scaling,labels)</span>    <span class="err">img.save(jpeg,&#39;JPEG&#39;)def</span> <span class="err">drawnode(draw,</span> <span class="err">clust,</span> <span class="err">x,</span> <span class="err">y,</span> <span class="err">scaling,</span> <span class="err">labels)</span> <span class="err">:</span>    <span class="err">if</span> <span class="err">clust.id</span> <span class="err">&lt;</span> <span class="err">0</span> <span class="err">:</span>        <span class="na">h1 =</span> <span class="s">getheight(clust.left)</span> <span class="err">*</span> <span class="err">20</span>        <span class="na">h2 =</span> <span class="s">getheight(clust.right)</span> <span class="err">*</span> <span class="err">20</span>        <span class="na">top =</span> <span class="s">y</span> <span class="err">-</span> <span class="err">(h1+h2)/2</span>        <span class="na">bottom =</span> <span class="s">y</span> <span class="err">+</span> <span class="err">(h1+h2)/2</span>        <span class="err">#line</span> <span class="err">length</span>        <span class="na">ll =</span> <span class="s">clust.distance</span> <span class="err">*</span> <span class="err">scaling</span>        <span class="err">draw.line((x,top+h1/2,x,bottom-h2/2),</span><span class="na">fill=</span><span class="s">(255,0,0))</span>        <span class="err">draw.line((x,top+h1/2,x+ll,top+h1/2),</span><span class="na">fill=</span><span class="s">(255,0,0))</span>        <span class="err">draw.line((x,bottom-h2/2,x+ll,bottom-h2/2),</span><span class="na">fill=</span><span class="s">(255,0,0))</span>        <span class="err">drawnode(draw,clust.left,</span> <span class="err">x+ll,</span> <span class="err">top+h1/2,scaling,</span> <span class="err">labels)</span>        <span class="err">drawnode(draw,clust.right,x+ll,</span> <span class="err">bottom-h2/2,scaling,labels)</span>    <span class="err">else</span> <span class="err">:</span>        <span class="err">draw.text((x+5,y-7),labels</span><span class="cp">[</span><span class="nx">clust.id</span><span class="cp">]</span><span class="err">,(0,0,0))if</span> <span class="na">__name__ =</span><span class="s">=</span> <span class="err">&#39;__main__&#39;</span> <span class="err">:</span>    <span class="err">#pearson_distance</span>    <span class="err">blogwords,</span><span class="na">blognames =</span> <span class="s">importData()</span>    <span class="na">clust =</span> <span class="s">hcluster(blogwords,blognames)</span>    <span class="err">print</span> <span class="err">clust</span>    <span class="err">#drawdendrogram(clust,blognames,</span><span class="na">jpeg=</span><span class="s">&#39;blogclust.jpg&#39;</span><span class="err">)</span>
+</pre></div>
+
+
+</p>
+
+</p>
+
+<p><strong><span style="font-size: large;">kmeans.py</span></strong></p>
+<p></p>
+<p>
+``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+from clusterBase import importData, pearson_distanceimport randomdef print_matchs(matchs) :    for i in range(len(matchs)) :        print i , '----&gt;',        for item in matchs[i] :            print item,        print     print '-'*20def kmeans(blogwords, k) :    min_max_per_word = [ [min([row[i] for row in blogwords]), max([row[i] for row in blogwords])]  for i in range(len(blogwords[0]))]    # generate k clusters randomly    clusters = []    for i in range(k) :        cluster = []        for min_, max_ in min_max_per_word :            cluster.append(random.random() * (max_ - min_) + min_)        clusters.append(cluster)    lables = []    matchs = [ [] for i in range(k)]    lastmatchs = [ [] for i in range(k)]    rounds = 100    while rounds &gt; 0 :        matchs = [ [] for i in range(k)]        print 'round \t',rounds        for i in range(len(blogwords)) :            bestmatch_cluster = None            min_distance = 2.1            for j in range(k) :                dis = pearson_distance(clusters[j], blogwords[i])                if dis &lt; min_distance :                    min_distance = dis                    bestmatch_cluster = j            matchs[bestmatch_cluster].append(i)        print_matchs(matchs)        print_matchs(lastmatchs)        if matchs == lastmatchs : break        lastmatchs = [[ item for item in matchs[i] ] for i in range(k)]        #move the centroids to the average of their members        for j in range(k) :            avg = [0.0 for i in range(len(blogwords[0])) ]            for m in matchs[j] :                vec = blogwords[m]                for i in range(len(blogwords[0])) :                    avg[i] += vec[i]            avg = [ item / len(matchs[j]) for item in avg]            clusters[j] = avg        rounds -= 1        if <strong>name</strong> == '<strong>main</strong>' :    blogwords,blognames = importData()    kmeans(blogwords,5)</p>
+<div class="highlight"><pre><span class="nt">&lt;/p&gt;</span>
+
+k-medoids.py
+
+<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>
+``` {.brush: .py; .auto-links: .true; .collapse: .false; .first-line: .1; .gutter: .true; .html-script: .false; .light: .false; .ruler: .false; .smart-tabs: .true; .tab-size: .4; .toolbar: .true;}
+&#39;&#39;&#39;Another clusting method , k-medoids.See more : http://en.wikipedia.org/wiki/K-medoidsThe most common realisation of k-medoid clustering is the Partitioning Around Medoids (PAM) algorithm and is as follows:<span class="cp">[</span><span class="mi">2</span><span class="cp">]</span>1. Initialize: randomly select k of the n data points as the medoids2. Associate each data point to the closest medoid. (&quot;closest&quot; here is defined using any valid distance metric, most commonly Euclidean distance, Manhattan distance or Minkowski distance)3. For each medoid m     For each non-medoid data point o         Swap m and o and compute the total cost of the configuration4. Select the configuration with the lowest cost.5. repeat steps 2 to 4 until there is no change in the medoid.&#39;&#39;&#39;from clusterBase import importData, pearson_distanceimport randomdistances_cache = {}def totalcost(blogwords, costf, medoids_idx) :    size = len(blogwords)    total_cost = 0.0    medoids = {}    for idx in medoids_idx :        medoids<span class="cp">[</span><span class="nx">idx</span><span class="cp">]</span> = <span class="cp">[]</span>    for i in range(size) :        choice = None        min_cost = 2.1        for m in medoids :            tmp = distances_cache.get((m,i),None)            if tmp == None :                tmp = pearson_distance(blogwords<span class="cp">[</span><span class="nx">m</span><span class="cp">]</span>,blogwords<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span>)                distances_cache<span class="cp">[</span><span class="p">(</span><span class="nx">m</span><span class="p">,</span><span class="nx">i</span><span class="p">)</span><span class="cp">]</span> = tmp            if tmp <span class="nt">&lt; min_cost</span> <span class="err">:</span>                <span class="na">choice =</span> <span class="s">m</span>                <span class="na">min_cost =</span> <span class="s">tmp</span>        <span class="err">medoids</span><span class="cp">[</span><span class="nx">choice</span><span class="cp">]</span><span class="err">.append(i)</span>        <span class="err">total_cost</span> <span class="err">+=</span> <span class="err">min_cost</span>    <span class="err">return</span> <span class="err">total_cost,</span> <span class="err">medoids</span>    <span class="err">def</span> <span class="err">kmedoids(blogwords,</span> <span class="err">k)</span> <span class="err">:</span>    <span class="na">size =</span> <span class="s">len(blogwords)</span>    <span class="na">medoids_idx =</span> <span class="s">random.sample(</span><span class="cp">[</span><span class="nx">i</span> <span class="nb">for</span> <span class="n">i</span> <span class="k">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">size</span><span class="p">)</span><span class="cp">]</span><span class="s">,</span> <span class="err">k)</span>    <span class="err">pre_cost,</span> <span class="na">medoids =</span> <span class="s">totalcost(blogwords,pearson_distance,medoids_idx)</span>    <span class="err">print</span> <span class="err">pre_cost</span>    <span class="na">current_cost =</span> <span class="s">2.1</span> <span class="err">*</span> <span class="err">size</span> <span class="err">#</span> <span class="err">maxmum</span> <span class="err">of</span> <span class="err">pearson_distances</span> <span class="err">is</span> <span class="err">2.</span>        <span class="na">best_choice =</span> <span class="cp">[]</span>    <span class="s">best_res</span> <span class="err">=</span> <span class="err">{}</span>    <span class="na">iter_count =</span> <span class="s">0</span>    <span class="err">while</span> <span class="err">1</span> <span class="err">:</span>        <span class="err">for</span> <span class="err">m</span> <span class="err">in</span> <span class="err">medoids</span> <span class="err">:</span>            <span class="err">for</span> <span class="err">item</span> <span class="err">in</span> <span class="err">medoids</span><span class="cp">[</span><span class="nx">m</span><span class="cp">]</span> <span class="err">:</span>                <span class="err">if</span> <span class="err">item</span> <span class="err">!=</span> <span class="err">m</span> <span class="err">:</span>                    <span class="na">idx =</span> <span class="s">medoids_idx.index(m)</span>                    <span class="na">swap_temp =</span> <span class="s">medoids_idx</span><span class="cp">[</span><span class="nx">idx</span><span class="cp">]</span>                    <span class="na">medoids_idx</span><span class="cp">[</span><span class="nx">idx</span><span class="cp">]</span><span class="na"> =</span> <span class="s">item</span>                    <span class="err">tmp,</span><span class="na">medoids_ =</span> <span class="s">totalcost(blogwords,pearson_distance,medoids_idx)</span>                    <span class="err">#print</span> <span class="err">tmp,&#39;--------</span><span class="nt">&gt;</span>&#39;,medoids_.keys()                    if tmp <span class="nt">&lt; current_cost</span> <span class="err">:</span>                        <span class="na">best_choice =</span> <span class="s">list(medoids_idx)</span>                        <span class="na">best_res =</span> <span class="s">dict(medoids_)</span>                        <span class="na">current_cost =</span> <span class="s">tmp</span>                    <span class="na">medoids_idx</span><span class="cp">[</span><span class="nx">idx</span><span class="cp">]</span><span class="na"> =</span> <span class="s">swap_temp</span>        <span class="err">iter_count</span> <span class="err">+=</span> <span class="err">1</span>        <span class="err">print</span> <span class="err">current_cost,iter_count</span>        <span class="err">if</span> <span class="na">best_choice =</span><span class="s">=</span> <span class="err">medoids_idx</span> <span class="err">:</span> <span class="err">break</span>        <span class="err">if</span> <span class="err">current_cost</span> <span class="err">&lt;=</span> <span class="err">pre_cost</span> <span class="err">:</span>            <span class="na">pre_cost =</span> <span class="s">current_cost</span>            <span class="na">medoids =</span> <span class="s">best_res</span>            <span class="na">medoids_idx =</span> <span class="s">best_choice</span>                <span class="err">return</span> <span class="err">current_cost,</span> <span class="err">best_choice,</span> <span class="err">best_resdef</span> <span class="err">print_match(best_medoids,</span> <span class="err">blognames)</span> <span class="err">:</span>    <span class="err">for</span> <span class="err">medoid</span> <span class="err">in</span> <span class="err">best_medoids</span> <span class="err">:</span>        <span class="err">print</span> <span class="err">blognames</span><span class="cp">[</span><span class="nx">medoid</span><span class="cp">]</span><span class="err">,&#39;-----</span><span class="nt">&gt;</span>&#39;,        for m in best_medoids<span class="cp">[</span><span class="nx">medoid</span><span class="cp">]</span> :            print &#39;(&#39;,m,blognames<span class="cp">[</span><span class="nx">m</span><span class="cp">]</span>,&#39;)&#39;,        print        print &#39;---------&#39; * 20 if __name__ == &#39;__main__&#39; :    blogwords, blognames = importData()    best_cost,best_choice,best_medoids = kmedoids(blogwords,8)    print_match(best_medoids,blognames)
+</pre></div>
+
+
+</p>
+
+</p>
+
+<p><span style="font-size: x-large;"> </span></p>
+</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/crackcode-ti-mu-zheng-li-di-zhang.html" title="Previous: CrackCode 题目整理 （第一章）">CrackCode 题目整理 （第一章）</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/tan-tan-zi-ji-zhao-shi-xi-de-jing-li.html" title="Next: 谈谈自己找实习的经历">谈谈自己找实习的经历</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/san-chong-chang-jian-de-ju-lei-suan-fa-de-pythonshi-xian-kmeans-hierarchical-clustering-kmedoids.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/san-chong-chang-jian-de-ju-lei-suan-fa-de-pythonshi-xian-kmeans-hierarchical-clustering-kmedoids.html';
+    var disqus_url = 'http://lixinzhang.github.io/san-chong-chang-jian-de-ju-lei-suan-fa-de-pythonshi-xian-kmeans-hierarchical-clustering-kmedoids.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2013-04-10T12:08:00">Apr 10, 2013</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

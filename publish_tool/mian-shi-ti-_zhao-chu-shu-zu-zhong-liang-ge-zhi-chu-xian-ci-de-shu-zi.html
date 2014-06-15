@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>面试题_找出数组中两个只出现一次的数字 - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.pdf">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/mian-shi-ti-_zhao-chu-shu-zu-zhong-liang-ge-zhi-chu-xian-ci-de-shu-zi.html"> 面试题_找出数组中两个只出现一次的数字  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p><span
+lang="ZH-CN"><strong>题目</strong>：一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。要求时间复杂度是</span><span
+face="Calibri" style="font-family: Calibri;">O(n)</span><span
+lang="ZH-CN">，空间复杂度是</span><span face="Calibri"
+style="font-family: Calibri;">O(1)</span><span lang="ZH-CN">。</span></p>
+</p>
+
+<p><span lang="ZH-CN"><span size="3"
+style="font-size: small;"><strong>分析</strong>：这是一道很新颖的关于位运算的面试题。</span></span></p>
+</p>
+
+<p><span lang="ZH-CN"><span size="3"
+style="font-size: small;">首先我们考虑这个问题的一个简单版本：一个数组里除了一个数字之外，其他的数字都出现了两次。请写程序找出这个只出现一次的数字。</span></span></p>
+</p>
+
+<p><span size="3" style="font-size: small;"><span
+lang="ZH-CN">这个题目的突破口在哪里？题目为什么要强调有一个数字出现一次，其他的出现两次？我们想到了异或运算的性质：任何一个数字异或它自己都等于</span><span
+face="Calibri" style="font-family: Calibri;">0</span><span
+lang="ZH-CN">。也就是说，如果我们从头到尾依次异或数组中的每一个数字，那么最终的结果刚好是那个只出现依次的数字，因为那些出现两次的数字全部在异或中抵消掉了。</span></span></p>
+</p>
+
+<p><span lang="ZH-CN"><span size="3"
+style="font-size: small;">有了上面简单问题的解决方案之后，我们回到原始的问题。如果能够把原数组分为两个子数组。在每个子数组中，包含一个只出现一次的数字，而其他数字都出现两次。如果能够这样拆分原数组，按照前面的办法就是分别求出这两个只出现一次的数字了。</span></span></p>
+</p>
+
+<p><span size="3" style="font-size: small;"><span
+lang="ZH-CN">我们还是从头到尾依次异或数组中的每一个数字，那么最终得到的结果就是两个只出现一次的数字的异或结果。因为其他数字都出现了两次，在异或中全部抵消掉了。由于这两个数字肯定不一样，那么这个异或结果肯定不为</span><span
+face="Calibri" style="font-family: Calibri;">0</span><span
+lang="ZH-CN">，也就是说在这个结果数字的二进制表示中至少就有一位为</span><span
+face="Calibri" style="font-family: Calibri;">1</span><span
+lang="ZH-CN">。我们在结果数字中找到第一个为</span><span face="Calibri"
+style="font-family: Calibri;">1</span><span
+lang="ZH-CN">的位的位置，记为第</span><span face="Calibri"
+style="font-family: Calibri;">N</span><span
+lang="ZH-CN">位。现在我们以第</span><span face="Calibri"
+style="font-family: Calibri;">N</span><span
+lang="ZH-CN">位是不是</span><span face="Calibri"
+style="font-family: Calibri;">1</span><span
+lang="ZH-CN">为标准把原数组中的数字分成两个子数组，第一个子数组中每个数字的第</span><span
+face="Calibri" style="font-family: Calibri;">N</span><span
+lang="ZH-CN">位都为</span><span face="Calibri"
+style="font-family: Calibri;">1</span><span
+lang="ZH-CN">，而第二个子数组的每个数字的第</span><span face="Calibri"
+style="font-family: Calibri;">N</span><span
+lang="ZH-CN">位都为</span><span face="Calibri"
+style="font-family: Calibri;">0</span><span
+lang="ZH-CN">。</span></span></p>
+</p>
+
+<p><span lang="ZH-CN"><span size="3"
+style="font-size: small;">现在我们已经把原数组分成了两个子数组，每个子数组都包含一个只出现一次的数字，而其他数字都出现了两次。因此到此为止，所有的问题我们都已经解决。</span></span></p>
+</p>
+
+<p><span size="2" style="font-size: x-small;"><span
+style="line-height: 19px;">以上转自<a href="http://zhedahht.blog.163.com/blog/static/2541117420071128950682/">http://zhedahht.blog.163.com/blog/static/2541117420071128950682/</a></span></span></p>
+</p>
+
+<p><span size="2" style="font-size: x-small;"><span style="line-height: 19px;"></p>
+<div class="cnblogs_code">
+
+</p>
+<p>
+    #include<iostream>using namespace std;int main(){    const int size=10;    int arr[size]={1,1,2,2,3,3,5,5,4,6};    int i,ans=arr[0];    for(i=1;i<size;i++)    ans^=arr[i];    int index=0;    //寻找二进制数从尾部到头部的第一个为1的位置index    while(ans)    {        ans&=1;        if(ans==1) break;        else        {            ans=ans>>1;            index++;        }    }    int cmp=(1<<index);    int ans0=0,ans1=0,k0=0,k1=0;    while((arr[k0]&cmp)==1) k0++;    ans0=arr[k0];    while((arr[k1]&cmp)==0) k1++;    ans1=arr[k1];    for(i=k0+1;i<size;i++)        if ((arr[i]&cmp)==0) ans0^=arr[i];    for(i=k1+1;i<size;i++)        if ((arr[i]&cmp)==cmp) ans1^=arr[i];    cout<<ans0<<"\t"<<ans1<<endl;    return 0;}
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+<p></span></span></p>
+</p>
+
+<p><span lang="ZH-CN"><br />
+</span></p>
+</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/mian-shi-ti-_yun-suan-fu-xian-zhi.html" title="Previous: 面试题_运算符限制">面试题_运算符限制</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/mian-shi-ti-_xuan-zhuan-zi-fu-chuan.html" title="Next: 面试题_旋转字符串">面试题_旋转字符串</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/mian-shi-ti-_zhao-chu-shu-zu-zhong-liang-ge-zhi-chu-xian-ci-de-shu-zi.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/mian-shi-ti-_zhao-chu-shu-zu-zhong-liang-ge-zhi-chu-xian-ci-de-shu-zi.html';
+    var disqus_url = 'http://lixinzhang.github.io/mian-shi-ti-_zhao-chu-shu-zu-zhong-liang-ge-zhi-chu-xian-ci-de-shu-zi.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2011-03-09T05:54:00">Mar 9, 2011</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

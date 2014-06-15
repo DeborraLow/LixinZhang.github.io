@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="糖拌咸鱼" />
+        <meta name="copyright" content="糖拌咸鱼" />
+
+<meta name="keywords" content=", cnblogs, " />
+        <title>TCP连接的建立以及利用tcpdump分析连接建立的过程 - LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.pdf">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/tcplian-jie-de-jian-li-yi-ji-li-yong-tcpdumpfen-xi-lian-jie-jian-li-de-guo-cheng.html"> TCP连接的建立以及利用tcpdump分析连接建立的过程  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <h1>TCP连接的建立以及利用tcpdump分析连接建立的过程</h1>
+</p>
+
+<h1><span>一、实验目的</span></h1>
+</p>
+
+<p><strong><span>实验</span><span lang="EN-US">1_1</span><span>：</span></strong></p>
+</p>
+
+<p><span>使用</span><span
+lang="EN-US">Freebsd/Linux</span><span>操作系统下的</span><span
+lang="EN-US">C</span><span>编译器和网络程序的调试方法，掌握</span><span
+lang="EN-US">TCP</span><span>连接建立和终止以及调整缓冲区大小的方法。</span></p>
+</p>
+
+<p><span lang="EN-US"> </span></p>
+</p>
+
+<p><strong><span>实验</span><span lang="EN-US">1_2</span><span>：</span></strong></p>
+</p>
+
+<p><span>使用<span
+lang="EN-US">ethereal/TCPDump</span>等抓包工具，截取<span
+lang="EN-US">TCP</span>建立过程中产生的数据包，分析连接建立过程。</span></p>
+</p>
+
+<h1><span>二、实验环境</span></h1>
+</p>
+
+<p><span>操作系统：</span><span lang="EN-US">Ubuntu
+10.04</span><span>系统</span></p>
+</p>
+
+<p><span>编辑器：</span><span lang="EN-US">vim</span></p>
+</p>
+
+<p><span>网络环境：</span><span lang="EN-US">PC1</span><span>：</span><span
+lang="EN-US">Ipv4</span><span>地址</span><span
+lang="EN-US">10.3.1.210</span></p>
+</p>
+
+<p><span lang="EN-US"><span>             </span><span> </p>
+<p></span>PC2</span><span>：</span><span
+lang="EN-US">Ipv4</span><span>地址</span><span lang="EN-US"></p>
+<p>10.3.1.211</span></p>
+</p>
+
+<p><span lang="EN-US"><span>             </span><span> </p>
+<p></span></span><span>两台电脑在同一个网段，可以互相通信，能</span><span
+lang="EN-US">ping</span><span>通。</span></p>
+</p>
+
+<p><span>代码语言：</span><span lang="EN-US">c</span><span>语言</span></p>
+</p>
+
+<p><span>代码编译器：</span><span
+lang="EN-US">gcc</span><span>编译器</span></p>
+</p>
+
+<h1><span>三、实验内容</span></h1>
+</p>
+
+<!--[if !supportLists]-->
+
+<p><strong><span lang="EN-US"><span>1.<span>      </p>
+<p></span></span></span></strong><!--[endif]--><strong><span>设计思路</span> </strong></p>
+</p>
+
+<p><span>该实验分为两部分：</span><span
+lang="EN-US">Tcp</span><span>通信的连接以及利用</span><span
+lang="EN-US">tcpdump</span><span>进行抓包，从抓包的内容分析</span><span
+lang="EN-US">Tcp</span><span>进行连接的过程。</span></p>
+</p>
+
+<p><strong><span>第一部分：</span><span
+lang="EN-US">Tcp</span><span>连接的建立</span> </strong></p>
+</p>
+
+<p><span lang="EN-US">Server</span><span>端：</span></p>
+</p>
+
+<p><span
+lang="EN-US"><span>      </span></span><span>思路：需要定义两个</span><span
+lang="EN-US">socket</span><span>，一个用于监听，一个用于接受客户端传来的</span><span
+lang="EN-US">socket</span><span>。定义</span><span
+lang="EN-US">ipv4</span><span>地址参数，指定</span><span
+lang="EN-US">Ip</span><span>地址和端口号。然后进行</span><span
+lang="EN-US">bind</span><span>，</span><span
+lang="EN-US">bind</span><span>成功后进行对指定</span><span
+lang="EN-US">socket</span><span>的监听。当有客户端进行连接请求时，</span><span
+lang="EN-US">accept</span><span>函数会接收到来自</span><span
+lang="EN-US">Client</span><span>端的</span><span
+lang="EN-US">socket</span><span>。然后</span><span
+lang="EN-US">Server</span><span>将输出</span><span
+lang="EN-US">Client</span><span>端相关信息，例如</span><span
+lang="EN-US">Ip</span><span>地址或是端口号等，在向客户端</span><span
+lang="EN-US">buffer</span><span>流写入欢迎信息。最后关闭连接。</span></p>
+</p>
+
+<p><strong><span lang="EN-US"> </span></strong></p>
+</p>
+
+<p><span lang="EN-US">Client</span><span>端：</span></p>
+</p>
+
+<p><span>思路：定义一个</span><span
+lang="EN-US">char</span><span>字符数组，用于接受服务器端，传来的信息。定义一个</span><span
+lang="EN-US">socket</span><span>，然后定义指定服务器端</span><span
+lang="EN-US">Ipv4</span><span>地址以及端口号。然后</span><span
+lang="EN-US">client</span><span>端主动进行</span><span
+lang="EN-US">connect</span><span>连接。连接成功后，接受</span><span
+lang="EN-US">Server</span><span>端写入的信息，然后逐一读出，并打印在屏幕上。</span></p>
+</p>
+
+<p><span lang="EN-US"> </span></p>
+</p>
+
+<p><strong><span>第二部分：抓包</span> </strong></p>
+</p>
+
+<p><span>利用</span><span
+lang="EN-US">tcpdump</span><span>抓包工具，进行抓包，然后查看抓包内容。通过</span><span>截取<span
+lang="EN-US">TCP</span>建立过程中产生的数据包，分析连接建立过程。</span></p>
+</p>
+
+</p>
+
+</p>
+
+</p>
+
+<h1><span>四、相关代码</span></h1>
+</p>
+
+<p><strong>server:</strong></p>
+</p>
+
+<p><span face="monospace" size="2" style="font-family: monospace; font-size: x-small;"><span style="line-height: normal; white-space: pre-wrap;"></p>
+<div class="cnblogs_code">
+
+</p>
+<p>
+    #include <stdio.h>#include <string.h>#include <arpa/inet.h>#include <netinet/in.h>#include <sys/socket.h>#define MAXSIZE 1024int main(int argc , char * * argv ){    char buffer[MAXSIZE];    int listenfd=socket(AF_INET,SOCK_STREAM,0);//定义socket，指向ipv4地址的字节流套接口        struct sockaddr_in serverAddr;    memset(&serverAddr,0,sizeof(serverAddr));//sockAddr_in 进行初始化    serverAddr.sin_family=AF_INET;    serverAddr.sin_addr.s_addr=htonl(INADDR_ANY);    serverAddr.sin_port=htons(2000);    if(bind(listenfd,(struct sockaddr *) &serverAddr,sizeof(serverAddr))==-1)    {        printf("There is an error during binding\n");        return -1;    }    else    {        printf("Bind successfully!!!\n");    }    //对listenfd进行监听，从最初建立时的主动套接口（用于进行connect的套接口）转化为被动套接口（接受连接）    listen(listenfd,100);//第二个参数为套接口排队的最大连接个数    int connectfd;    socklen_t addrlen;    struct sockaddr_in connectAddr;    memset(&connectAddr,0,sizeof(connectAddr));    printf("Be ready to accept a connection!\n");    while(1)    {        connectfd=accept(listenfd,(struct sockAddr * )&connectAddr,&addrlen);//接受client端一个请求的socket        char * clientAddress=inet_ntop(AF_INET,&connectAddr.sin_addr,buffer,sizeof(buffer));//获取客户端的ip地址        int clientPort=connectAddr.sin_port;//获取客户端的端口号        //打印出客户端的ip地址以及端口号        printf("Connect from %s , port %d \n",clientAddress,clientPort);        snprintf(buffer,sizeof(buffer),"%s","Welcome to server!\n");                write(connectfd,buffer,sizeof(buffer));        close(connectfd);    }    close(listenfd); //虽然因为上面有while（true），这行永远都执行不了，但是时刻注意关闭socket连接应该是个好习惯。             return 0;}
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+<p></span></span></p>
+</p>
+
+<p><strong>client:</strong></p>
+</p>
+
+<p><strong><br />
+</strong></p>
+</p>
+
+<p><span face="monospace" size="2" style="font-family: monospace; font-size: x-small;"><span style="line-height: normal; white-space: pre-wrap;"></p>
+<div class="cnblogs_code">
+
+</p>
+<p>
+    #include <stdio.h>#include <string.h>#include <arpa/inet.h>#include <netinet/in.h>#include <sys/socket.h>#define MAXLINE 4096int main( int argc , char * * argv ){    int sockfd , n ;    char recvline[ MAXLINE + 1];    struct sockaddr_in servaddr;    if( ( sockfd = socket( AF_INET , SOCK_STREAM , 0 ) ) < 0 ) {        printf( "socket error\n" );        exit( 1 );    }    memset( &servaddr , 0 , sizeof( servaddr ) );    servaddr.sin_family = AF_INET;    servaddr.sin_port = htons( 2000 );//指定Server端的端口号    char * serverAddress="127.0.0.1";    //判断指定的ip地址是否有错误    if( inet_pton( AF_INET ,serverAddress , &servaddr.sin_addr ) <= 0 )  {        printf( "inet_pton error for %s\n" , serverAddress );        exit( 1 );     }    if( connect( sockfd , (struct sockaddr *)&servaddr , sizeof( servaddr ) ) < 0 )  {        printf( "connect error\n" );        exit( 1 );    }    while( ( n = read( sockfd , recvline , MAXLINE ) ) > 0 )  {        recvline[ n ] = 0;        if( fputs( recvline , stdout ) == EOF ) {            printf( "fputs error\n" );            exit( 1 );        }    }    if( n < 0 )  {        printf( "read error\n" );        exit( 1 );    }    exit( 0 );  }
+
+</p>
+<p>
+
+</div>
+
+</p>
+
+<p></span></span></p>
+</p>
+
+<p><strong><span>编译代码：</span><span lang="EN-US"> </span></strong></p>
+</p>
+
+<p><span></p>
+<p></span></p>
+</p>
+
+<table border="0" cellpadding="0" cellspacing="0">
+</p>
+<p>
+<tbody>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td bgcolor="white" height="49" width="615">
+<!--[endif]--><!--[if !mso]--><span>
+
+</p>
+
+<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+</p>
+<p>
+<tbody>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td>
+<!--[endif]-->
+
+</p>
+
+<div class="shape">
+
+</p>
+
+<span lang="EN-US">Gcc Server.c –o server</span>
+
+</p>
+
+<span lang="EN-US">Gcc Client.c –o client</span>
+
+</p>
+<p>
+
+</div>
+
+</p>
+<p>
+<!--[if !mso]-->
+
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+</tbody>
+</p>
+<p>
+</table>
+
+<p></p>
+<p>
+</span><!--[endif]--><!--[if !mso & !vml]--> </p>
+<p></td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+</tbody>
+</p>
+<p>
+</table>
+</p></p>
+<p><span></p>
+<p></span></p>
+</p>
+
+<p><strong><span>监听抓包代码：</span><span lang="EN-US"> </span></strong></p>
+</p>
+
+<p><span><span></p>
+<p></span></span></p>
+</p>
+
+<table border="0" cellpadding="0" cellspacing="0">
+</p>
+<p>
+<tbody>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td bgcolor="white" height="33" width="615">
+<!--[endif]--><!--[if !mso]--><span>
+
+</p>
+
+<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+</p>
+<p>
+<tbody>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td>
+<!--[endif]-->
+
+</p>
+
+<div class="shape">
+
+</p>
+
+<span lang="EN-US">sudo tcpdump –s 0 –w socketlog host
+
+10.3.1.210 and host 2000</span>
+
+</p>
+<p>
+
+</div>
+
+</p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+</tbody>
+</p>
+<p>
+</table>
+
+<p></p>
+<p>
+</span></p>
+<p></td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+</tbody>
+</p>
+<p>
+</table>
+</p></p>
+<p><span><span></p>
+<p></span></span></p>
+</p>
+
+<p><span></p>
+<p></span></p>
+</p>
+
+<table border="0" cellpadding="0" cellspacing="0">
+</p>
+<p>
+<tbody>
+</p>
+<p>
+<tr>
+</p>
+<p>
+<td bgcolor="white" height="48" width="614">
+**<span>读取抓包文件代码：</span>**
+
+</td>
+</p>
+<p>
+</tr>
+</p>
+<p>
+</tbody>
+</p>
+<p>
+</table>
+
+</p>
+
+<p><span></p>
+<p></span></p>
+</p>
+
+<p><strong><span lang="EN-US"> s</span></strong>udo tcpdump –r socketlog –A >> log</p>
+</p>
+
+<p><span lang="EN-US"> vi log</span></p>
+</p>
+
+</p>
+
+<p><strong>操作过程</strong></p>
+</p>
+
+<p><span lang="EN-US"></p>
+<p></span></p>
+</p>
+
+<p><span lang="EN-US">1.</span><span>在</span><span
+lang="EN-US">Server</span><span>端，启动</span><span
+lang="EN-US">tcpdump</span><span>进行抓包。在</span><span
+lang="EN-US">Client</span><span>发出一个连接请求，并进行一次实验一的连接。</span></p>
+</p>
+
+<p><span
+lang="EN-US">2.</span><span>读取获取的包，并将其放入一个</span><span
+lang="EN-US">log</span><span>文件中，用以分析。</span></p>
+</p>
+
+<p><span lang="EN-US">3.</span><span>读取</span><span
+lang="EN-US">log</span><span>文件。</span></p>
+</p>
+
+<p><span lang="EN-US"> </span></p>
+</p>
+
+<p><span lang="EN-US"> </span></p>
+</p>
+
+<p><strong><span>分析与结论：</span><span lang="EN-US"> </span></strong></p>
+</p>
+
+<p><span
+lang="EN-US"><span>      </span></span><span>从抓包的文件可以看出，此次通信，</span><span
+lang="EN-US">Server</span><span>端获取到了所有的</span><span
+lang="EN-US">package</span><span>。不仅如此，我们也发现了，通信的内容并没有进行加密，而是明文的传送，因为我们成功获取了</span><span
+lang="EN-US">Server</span><span>端发给</span><span
+lang="EN-US">Client</span><span>的“</span><span lang="EN-US">Welcome to
+server</span><span>”的明文信息。</span><span lang="EN-US"> </span></p>
+</p>
+
+<p><span
+lang="EN-US"><span>      </span></span><span>通过包中的内容，我们不难分析出</span><span
+lang="EN-US">Tcp</span><span>通信的连接过程。</span><span
+lang="EN-US"> </span></p>
+</p>
+
+<!--[if !supportLists]-->
+
+<p><span
+lang="EN-US"><span>1.<span>     </span></span></span><!--[endif]--><span
+lang="EN-US">Client</span><span>端发送</span><span
+lang="EN-US">SYN</span><span>，请求进行连接。</span><span
+lang="EN-US"> </span></p>
+</p>
+
+<!--[if !supportLists]-->
+
+<p><span
+lang="EN-US"><span>2.<span>     </span></span></span><!--[endif]--><span
+lang="EN-US">Server</span><span>端回复</span><span lang="EN-US">ACK
+<span></span></span><span>，</span><span lang="EN-US">MSS=1460</span></p>
+</p>
+
+<!--[if !supportLists]-->
+
+<p><span
+lang="EN-US"><span>3.<span>     </span></span></span><!--[endif]--><span
+lang="EN-US">Client</span><span>端回复</span><span
+lang="EN-US">ACK</span><span>，自此</span><span
+lang="EN-US">TCP</span><span>连接建立的三次握手完成。</span><span
+lang="EN-US"> </span></p>
+</p>
+
+<!--[if !supportLists]-->
+
+<p><span
+lang="EN-US"><span>4.<span>     </span></span></span><!--[endif]--><span
+lang="EN-US">Server</span><span>端发送数据</span><span></span><span>请求</span><span
+lang="EN-US">ACK</span></p>
+</p>
+
+<!--[if !supportLists]-->
+
+<p><span
+lang="EN-US"><span>5.<span>     </span></span></span><!--[endif]--><span
+lang="EN-US">Client</span><span>端读取数据，应答</span><span
+lang="EN-US">ACK</span></p>
+</p>
+
+<!--[if !supportLists]-->
+
+<p><span
+lang="EN-US"><span>6.<span>     </span></span></span><!--[endif]--><span
+lang="EN-US">Server</span><span>端首先关闭连接，</span><span
+lang="EN-US">FIN</span></p>
+</p>
+
+<!--[if !supportLists]-->
+
+<p><span
+lang="EN-US"><span>7.<span>     </span></span></span><!--[endif]--><span
+lang="EN-US">Client</span><span>端回复</span><span
+lang="EN-US">ACK</span></p>
+</p>
+
+<!--[if !supportLists]-->
+
+<p><span
+lang="EN-US"><span>8.<span>     </span></span></span><!--[endif]--><span
+lang="EN-US">Server</span><span>端</span><span></span><span>回复</span><span
+lang="EN-US">ACK</span><span>连接自此关闭</span><span
+lang="EN-US"> </span></p>
+</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/aboutme.html" title="Previous: About">About</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/mo-ni-ge-jian-dan-de-ji-yu-tcpde-yuan-cheng-guan-ji-cheng-xu.html" title="Next: 模拟一个简单的基于tcp的远程关机程序">模拟一个简单的基于tcp的远程关机程序</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/tcplian-jie-de-jian-li-yi-ji-li-yong-tcpdumpfen-xi-lian-jie-jian-li-de-guo-cheng.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/tcplian-jie-de-jian-li-yi-ji-li-yong-tcpdumpfen-xi-lian-jie-jian-li-de-guo-cheng.html';
+    var disqus_url = 'http://lixinzhang.github.io/tcplian-jie-de-jian-li-yi-ji-li-yong-tcpdumpfen-xi-lian-jie-jian-li-de-guo-cheng.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2010-12-05T12:49:00">Dec 5, 2010</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#cnblogs-ref">cnblogs</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>
