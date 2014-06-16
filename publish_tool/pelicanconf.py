@@ -46,15 +46,15 @@ LANDING_PAGE_ABOUT = {'title':'LixinZhang\' Blog', 'details':'''
 You could find me in <a href="https://github.com/LixinZhang" title="Github">Github</a>,
  <a href="https://www.facebook.com/zhanglixin.peter" title="Facebook">Facebook</a>,
  <a href="http://www.linkedin.com/pub/lixin-zhang/72/bb/66a" title="Linkedin">Linkedin</a>,
+ <a href="http://weibo.com/zhanglixin5566" title="新浪微博">新浪微博</a> and <a href="http://www.cnblogs.com/coser" title="博客园">博客园</a> 
 or reach me via <a href="mailto:zhanglixinseu@gmail.com" title="My email address" itemprop="email">Email</a>.
-If you are in China, you also could find me in <a href="http://weibo.com/zhanglixin5566" title="新浪微博">新浪微博</a> and <a href="http://www.cnblogs.com/coser" title="博客园">博客园</a> which are popular in China.
 </p>
 
 <p>
 I mostly work in Python, C++/C on Mac OS, UNIX-style OS, windows. I also have ever used JAVA and C#. I have rich
-intern experience in different companies, like Yahoo, Alibaba and Innovation Works.
-Engineering technoledge like Web Development, Network Programming, Mysql, system architecture are my interest.
-I also focus on fields such as Computational Advertising, Recommender System, Data Mining which are now very pupular in industry and academia.
+intern experience in different companies, like Yahoo, Alibaba and Innovation Works(创新工场).
+I focus on some develop skills like Web Development, Network Programming, Mysql, Distributed System  are my interest.
+I also have some basic knowledge on Computational Advertising, Recommender System, Data Mining which are now very pupular in industry and academia.
 They help make Computers more intelligent. 
 </p>
 
