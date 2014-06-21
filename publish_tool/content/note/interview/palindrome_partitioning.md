@@ -13,7 +13,7 @@ Leetcode 题目： [palindrome-partitioning II](https://oj.leetcode.com/problems
 > Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 cut.
 
 
-由于之前，刚刚做过[DP-括号匹配(网易有道面试题)]({filename}/matchDp.md)，感觉可以利用相似的dp策略来做。后来，经历了各种超时，内存溢出，才去发现有更好的解决办法，可以针对时间和空间分别进行优化，感觉做这道题目比较有收获。
+由于之前，刚刚做过[DP-括号匹配(网易有道面试题)](./matchDp.md)，感觉可以利用相似的dp策略来做。后来，经历了各种超时，内存溢出，才去发现有更好的解决办法，可以针对时间和空间分别进行优化，感觉做这道题目比较有收获。
 
 ##Solution
 
