@@ -1,4 +1,4 @@
-Title: kfaka学习笔记
+Title: kafka学习笔记
 Date: 2014-06-12 10:20
 Category: opensource
 Tags: kafka
