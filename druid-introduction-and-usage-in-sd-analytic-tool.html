@@ -133,7 +133,7 @@
 </ol>
 <h2>Design</h2>
 <h3>Architecture</h3>
-<p><img alt="pic" src="https://sdfpaw.dm2301.livefilestore.com/y2pnlvJgGWDhJn7lYnNmnZoOfXmi1XksUIGm4b1f4hcqSoJsuIWkePduJAiVd3sO-Cpoy1MKyZBbFzop_Sl7fE94UbA5swy93yY09LOtA6828o/aa.tiff" /></p>
+<p><img alt="pic" src="https://sdfpaw.dm2301.livefilestore.com/y2pHe7KzpgAdMOMQQlel-Q4VrKoSLP2ejxwNdW_U6TZgK9UvD1Cu-JvhoqEgkeeSjS_q8SkCqq9QGWBVeGZR4wZucgbnm3QB2XSWn9wLKf61j0/QQ20140621-1.png?psid=1" /></p>
 <h3>Key features</h3>
 <h4>Data Storage</h4>
 <ul>
@@ -297,7 +297,7 @@
 }
 </pre></p>
 <h4>2. Query</h4>
-<p><pre>
+<pre>
 {
     "aggregations": [
         {"type":"count", "name":"audienceCount"},
@@ -312,34 +312,32 @@
         { "fieldName": "b9", "name": "b9", "type": "longSum" },
         { "fieldName": "b10", "name": "b10", "type": "longSum" },
         { "fieldName": "b11", "name": "b11", "type": "longSum" }
-    ],</p>
-<div class="highlight"><pre><span class="s2">&quot;filter&quot;</span><span class="o">:</span> <span class="p">{</span> 
-    <span class="s2">&quot;type&quot;</span><span class="o">:</span><span class="s2">&quot;and&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;fields&quot;</span><span class="o">:</span><span class="cp">[</span>
-    <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="s2">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;dt&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">5199421</span><span class="p">},</span>
-    <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="s2">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;gr&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
-    <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;or&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;fields&quot;</span><span class="p">:</span><span class="err">[</span>
-        <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="s2">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;us&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">113</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="s2">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;us&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">122</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="s2">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;us&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">129</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="s2">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;us&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">135</span><span class="p">}</span>
-        <span class="cp">]</span>
-    <span class="p">},</span>
-    <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span> <span class="s2">&quot;dimension&quot;</span><span class="o">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;function&quot;</span> <span class="o">:</span> <span class="s2">&quot;function(x) { return x&gt; 30 &amp;&amp; x&lt;60}&quot;</span><span class="p">}</span>
-    <span class="p">]</span>
-    <span class="p">},</span>
-<span class="s2">&quot;dataSource&quot;</span><span class="o">:</span> <span class="s2">&quot;sdafullTesting&quot;</span><span class="p">,</span>
-<span class="s2">&quot;granularity&quot;</span><span class="o">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
-<span class="s2">&quot;queryType&quot;</span><span class="o">:</span> <span class="s2">&quot;timeseries&quot;</span><span class="p">,</span>
-<span class="s2">&quot;intervals&quot;</span><span class="o">:</span> <span class="cp">[</span>
-    <span class="s2">&quot;2010-04-10T16:00:00.000+08:00/2024-04-19T16:00:00.000+08:00&quot;</span>
-<span class="cp">]</span>
-</pre></div>
+    ],
+    "filter": { 
+        "type":"and",
+        "fields":[
+        {"type": "selector", "dimension": "dt", "value": 5199421},
+        {"type": "selector", "dimension": "gr", "value": 1},
+        {"type":"or",
+            "fields":[
+            {"type": "selector", "dimension": "us", "value": 113},
+            {"type": "selector", "dimension": "us", "value": 122},
+            {"type": "selector", "dimension": "us", "value": 129},
+            {"type": "selector", "dimension": "us", "value": 135}
+            ]
+        },
+        {"type": "javascript", "dimension": "age", "function" : "function(x) { return x> 30 && x<60}"}
+        ]
+        },
+    "dataSource": "sdafullTesting",
+    "granularity": "all",
+    "queryType": "timeseries",
+    "intervals": [
+        "2010-04-10T16:00:00.000+08:00/2024-04-19T16:00:00.000+08:00"
+    ]
+}
+</pre>
 
-
-<p>}
-</pre></p>
 <h4>3. Result</h4>
 <p><pre>
 {

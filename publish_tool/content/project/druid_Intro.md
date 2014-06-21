@@ -52,7 +52,7 @@ Contains three key parts: <strong>Metrics, Dimensions, timestamp</strong>
 ##Design
 
 ###Architecture
-![pic](https://sdfpaw.dm2301.livefilestore.com/y2pnlvJgGWDhJn7lYnNmnZoOfXmi1XksUIGm4b1f4hcqSoJsuIWkePduJAiVd3sO-Cpoy1MKyZBbFzop_Sl7fE94UbA5swy93yY09LOtA6828o/aa.tiff)
+![pic](https://sdfpaw.dm2301.livefilestore.com/y2pHe7KzpgAdMOMQQlel-Q4VrKoSLP2ejxwNdW_U6TZgK9UvD1Cu-JvhoqEgkeeSjS_q8SkCqq9QGWBVeGZR4wZucgbnm3QB2XSWn9wLKf61j0/QQ20140621-1.png?psid=1)
 
 ###Key features
 ####Data Storage
@@ -159,6 +159,7 @@ Contains three key parts: <strong>Metrics, Dimensions, timestamp</strong>
 </pre>
 
 ####2. Query
+
 <pre>
 {
     "aggregations": [
@@ -175,7 +176,6 @@ Contains three key parts: <strong>Metrics, Dimensions, timestamp</strong>
         { "fieldName": "b10", "name": "b10", "type": "longSum" },
         { "fieldName": "b11", "name": "b11", "type": "longSum" }
     ],
-
     "filter": { 
         "type":"and",
         "fields":[
