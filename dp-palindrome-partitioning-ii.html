@@ -73,6 +73,34 @@ Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 
 <h3>思路0</h3>
 <p>首先，求回文的时候，可以借助DP的思想，可以加快check回文的速度：</p>
 <p>$$flag[i][j] = flag[i+1][j-1] \&amp;\&amp;  s[i]==s[j]$$</p>
+<p>顺便附带一道相关题目<a href="https://oj.leetcode.com/problems/longest-palindromic-substring/">longest-palindromic-substring</a>。</p>
+<div class="highlight"><pre><span class="c1">//利用dp性质f[i][j] = f[i+1][j-1] &amp;&amp; S[i] == S[j]</span>
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="n">string</span> <span class="n">longestPalindrome</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">bool</span> <span class="n">check</span><span class="p">[</span><span class="mi">1001</span><span class="p">][</span><span class="mi">1001</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="nb">false</span><span class="p">};</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="n">check</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="kt">int</span> <span class="n">res_low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">res_high</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">step</span><span class="o">&lt;</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">step</span><span class="o">++</span><span class="p">){</span>
+            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">-</span><span class="n">step</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+                <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">step</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">==</span><span class="n">j</span> <span class="o">||</span> <span class="n">check</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)){</span>
+                    <span class="n">check</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="o">&gt;</span> <span class="n">res_high</span><span class="o">-</span><span class="n">res_low</span><span class="o">+</span><span class="mi">1</span><span class="p">){</span>
+                        <span class="n">res_low</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+                        <span class="n">res_high</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span> 
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">res_low</span><span class="p">,</span> <span class="n">res_high</span> <span class="o">-</span> <span class="n">res_low</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+
+
 <h3>思路1</h3>
 <p>定义$$$F[i][j]$$$表示字符串$$$s$$$从位置$$$i$$$到$$$j$$$所需要的最少<code>cut</code>数，则有如下递推关系：</p>
 <p>$$

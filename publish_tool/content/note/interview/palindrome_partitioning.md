@@ -22,6 +22,35 @@ Leetcode 题目： [palindrome-partitioning II](https://oj.leetcode.com/problems
 
 $$flag[i][j] = flag[i+1][j-1] \\&\\&  s[i]==s[j]$$
 
+顺便附带一道相关题目[longest-palindromic-substring](https://oj.leetcode.com/problems/longest-palindromic-substring/)。
+
+    :::cpp
+    //利用dp性质f[i][j] = f[i+1][j-1] && S[i] == S[j]
+    class Solution {
+    public:
+        string longestPalindrome(string s) {
+            bool check[1001][1001] = {false};
+            for(int i=0; i<s.size(); i++){
+                check[i][i] = true;
+            }
+            int res_low=0, res_high=0;
+            for(int step=1; step<s.size(); step++){
+                for(int i=0; i<s.size()-step; i++){
+                    int j = i + step;
+                    if (s[i] == s[j] && (i+1==j || check[i+1][j-1] == true)){
+                        check[i][j] = true;
+                        if (j-i+1 > res_high-res_low+1){
+                            res_low = i;
+                            res_high = j;
+                        }
+                    } 
+                }
+            }
+            return s.substr(res_low, res_high - res_low + 1);
+        }
+    };
+        
+
 ###思路1
 定义$$$F[i][j]$$$表示字符串$$$s$$$从位置$$$i$$$到$$$j$$$所需要的最少<code>cut</code>数，则有如下递推关系：
 
