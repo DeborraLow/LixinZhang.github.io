@@ -1,15 +1,8 @@
 CACHE MANIFEST
-# Revision 1403533513682
+# Revision 1403420468106
 
 CACHE:
 index.html
-algorithm/README.html
-algorithm/perm.html
-c++/README.html
-linux/README.html
-python/README.html
-python/test.html
-sites/README.html
 gitbook/app.js
 gitbook/fonts/fontawesome/FontAwesome.otf
 gitbook/fonts/fontawesome/fontawesome-webfont.eot

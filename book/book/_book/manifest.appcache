@@ -1,10 +1,8 @@
 CACHE MANIFEST
-# Revision 1403533513682
+# Revision 1403421844021
 
 CACHE:
 index.html
-algorithm/README.html
-algorithm/perm.html
 c++/README.html
 linux/README.html
 python/README.html
