@@ -59,9 +59,9 @@ kafka server与consumer节点间的消息通信有两种方式：<code>Queue</co
 
 1. [https://github.com/getsamsa/samsa](https://github.com/getsamsa/samsa) 
 2. [https://github.com/mumrah/kafka-python](https://github.com/mumrah/kafka-python)
-		
-	:::python
-	
+  
+ :::python    
+    
     from kazoo.client import KazooClient
     from samsa.cluster import Cluster
     import json

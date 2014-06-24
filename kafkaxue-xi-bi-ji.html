@@ -105,34 +105,36 @@ Kafka is a distributed, partitioned, replicated commit log service. It provides 
 <h3>Python API for Kafka</h3>
 <ol>
 <li><a href="https://github.com/getsamsa/samsa">https://github.com/getsamsa/samsa</a> </li>
-<li>
-<p><a href="https://github.com/mumrah/kafka-python">https://github.com/mumrah/kafka-python</a></p>
-<p>:::python</p>
-<p>from kazoo.client import KazooClient
-from samsa.cluster import Cluster
-import json
-import time</p>
-<p>zookeeper = KazooClient("budget32.rm.ne1.yahoo.com:2181")
-zookeeper.start()
-cluster = Cluster(zookeeper)
-topic = cluster.topics['demo']
-print cluster.brokers.keys()
-consumer = topic.subscribe('group-name')
-impression = 0
-for message in consumer:
-    try:
-        obj = json.loads(message)
-        t = time.strptime(obj['timestamp'], '%Y-%m-%dT%H:%M:%S')
-        if t.tm_min &gt;= 45 &amp; t.tm_min &lt; 50 :
-            impression += obj['impression']
-        if (impression % 1000 == 0) :
-            print impression
-        if t.tm_min &gt; 52:
-            break
-    except :
-        print mssage</p>
-</li>
+<li><a href="https://github.com/mumrah/kafka-python">https://github.com/mumrah/kafka-python</a></li>
 </ol>
+<p>:::python    </p>
+<div class="highlight"><pre><span class="n">from</span> <span class="n">kazoo</span><span class="p">.</span><span class="n">client</span> <span class="n">import</span> <span class="n">KazooClient</span>
+<span class="n">from</span> <span class="n">samsa</span><span class="p">.</span><span class="n">cluster</span> <span class="n">import</span> <span class="n">Cluster</span>
+<span class="n">import</span> <span class="n">json</span>
+<span class="n">import</span> <span class="n">time</span>
+
+<span class="n">zookeeper</span> <span class="o">=</span> <span class="n">KazooClient</span><span class="p">(</span><span class="s">&quot;budget32.rm.ne1.yahoo.com:2181&quot;</span><span class="p">)</span>
+<span class="n">zookeeper</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+<span class="n">cluster</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">zookeeper</span><span class="p">)</span>
+<span class="n">topic</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">.</span><span class="n">topics</span><span class="p">[</span><span class="err">&#39;</span><span class="n">demo</span><span class="err">&#39;</span><span class="p">]</span>
+<span class="n">print</span> <span class="n">cluster</span><span class="p">.</span><span class="n">brokers</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="n">consumer</span> <span class="o">=</span> <span class="n">topic</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="err">&#39;</span><span class="n">group</span><span class="o">-</span><span class="n">name</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="n">impression</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">message</span> <span class="n">in</span> <span class="n">consumer</span><span class="o">:</span>
+    <span class="nl">try:</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="err">&#39;</span><span class="n">timestamp</span><span class="err">&#39;</span><span class="p">],</span> <span class="err">&#39;</span><span class="o">%</span><span class="n">Y</span><span class="o">-%</span><span class="n">m</span><span class="o">-%</span><span class="n">dT</span><span class="o">%</span><span class="n">H</span><span class="o">:%</span><span class="n">M</span><span class="o">:%</span><span class="n">S</span><span class="err">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="n">tm_min</span> <span class="o">&gt;=</span> <span class="mi">45</span> <span class="o">&amp;</span> <span class="n">t</span><span class="p">.</span><span class="n">tm_min</span> <span class="o">&lt;</span> <span class="mi">50</span> <span class="o">:</span>
+            <span class="n">impression</span> <span class="o">+=</span> <span class="n">obj</span><span class="p">[</span><span class="err">&#39;</span><span class="n">impression</span><span class="err">&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">impression</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span>
+            <span class="n">print</span> <span class="n">impression</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="n">tm_min</span> <span class="o">&gt;</span> <span class="mi">52</span><span class="o">:</span>
+            <span class="k">break</span>
+    <span class="n">except</span> <span class="o">:</span>
+        <span class="n">print</span> <span class="n">mssage</span>
+</pre></div>
+
+
 <h3>kafka存储</h3>
 <p>Kafka的存储布局非常简单。话题的每个分区对应一个逻辑日志。物理上，一个日志为相同大小的一组分段文件。每次生产者发布消息到一个分区，代理就将消息追加到最后一个段文件中。当发布的消息数量达到设定值或者经过一定的时间后，段文件真正写入磁盘中。写入完成后，消息公开给消费者。</p>
 <p>与传统的消息系统不同，Kafka系统中存储的消息没有明确的消息Id。</p>
