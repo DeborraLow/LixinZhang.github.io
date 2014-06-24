@@ -46,8 +46,47 @@ kafka server与consumer节点间的消息通信有两种方式：<code>Queue</co
 另外，要记住多个partition间是无法保证全局有序性的，因此如果有全局有序性的需求，只能指定一个partition，当然也只有个consumer。
 
 
+
+##遇到的一些问题
+1. 设置partition的数量，当consumer大于partition数量时，多余的consumer不会工作。默认partition为1，所以实际工作中要改一下。
+2. 注意log的生命周期设置，默认kafka server会保存一周时间内所有日志文件，因此会占用巨大的磁盘空间，根据自己实际情况，去配置文件中改一下。要不然，很容易磁盘就满了（悲剧过一次）。
+
+
 ##其他引用资料
 来自于[Kafka：下一代分布式消息系统](http://blog.ithomer.net/2014/06/kafka-the-next-generation-of-distributed-messaging-systems/)
+
+###Python API for Kafka
+
+1. [https://github.com/getsamsa/samsa](https://github.com/getsamsa/samsa) 
+2. [https://github.com/mumrah/kafka-python](https://github.com/mumrah/kafka-python)
+		
+	:::python
+	
+    from kazoo.client import KazooClient
+    from samsa.cluster import Cluster
+    import json
+    import time
+
+    zookeeper = KazooClient("budget32.rm.ne1.yahoo.com:2181")
+    zookeeper.start()
+    cluster = Cluster(zookeeper)
+    topic = cluster.topics['demo']
+    print cluster.brokers.keys()
+    consumer = topic.subscribe('group-name')
+    impression = 0
+    for message in consumer:
+        try:
+            obj = json.loads(message)
+            t = time.strptime(obj['timestamp'], '%Y-%m-%dT%H:%M:%S')
+            if t.tm_min >= 45 & t.tm_min < 50 :
+                impression += obj['impression']
+            if (impression % 1000 == 0) :
+                print impression
+            if t.tm_min > 52:
+                break
+        except :
+            print mssage
+
 
 ###kafka存储
 Kafka的存储布局非常简单。话题的每个分区对应一个逻辑日志。物理上，一个日志为相同大小的一组分段文件。每次生产者发布消息到一个分区，代理就将消息追加到最后一个段文件中。当发布的消息数量达到设定值或者经过一定的时间后，段文件真正写入磁盘中。写入完成后，消息公开给消费者。

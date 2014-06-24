@@ -95,8 +95,44 @@ Kafka is a distributed, partitioned, replicated commit log service. It provides 
 </blockquote>
 <p>在同一个group里，每个partition只会有一个consumer与其对应，即partition 与 consumer是多对一的关系。这样可以保证同一个partition上的message可以有序的被consume。因此，consumer的数量不应该多余partition的数量，多余的partition就空闲掉了。</p>
 <p>另外，要记住多个partition间是无法保证全局有序性的，因此如果有全局有序性的需求，只能指定一个partition，当然也只有个consumer。</p>
+<h2>遇到的一些问题</h2>
+<ol>
+<li>设置partition的数量，当consumer大于partition数量时，多余的consumer不会工作。默认partition为1，所以实际工作中要改一下。</li>
+<li>注意log的生命周期设置，默认kafka server会保存一周时间内所有日志文件，因此会占用巨大的磁盘空间，根据自己实际情况，去配置文件中改一下。要不然，很容易磁盘就满了（悲剧过一次）。</li>
+</ol>
 <h2>其他引用资料</h2>
 <p>来自于<a href="http://blog.ithomer.net/2014/06/kafka-the-next-generation-of-distributed-messaging-systems/">Kafka：下一代分布式消息系统</a></p>
+<h3>Python API for Kafka</h3>
+<ol>
+<li><a href="https://github.com/getsamsa/samsa">https://github.com/getsamsa/samsa</a> </li>
+<li>
+<p><a href="https://github.com/mumrah/kafka-python">https://github.com/mumrah/kafka-python</a></p>
+<p>:::python</p>
+<p>from kazoo.client import KazooClient
+from samsa.cluster import Cluster
+import json
+import time</p>
+<p>zookeeper = KazooClient("budget32.rm.ne1.yahoo.com:2181")
+zookeeper.start()
+cluster = Cluster(zookeeper)
+topic = cluster.topics['demo']
+print cluster.brokers.keys()
+consumer = topic.subscribe('group-name')
+impression = 0
+for message in consumer:
+    try:
+        obj = json.loads(message)
+        t = time.strptime(obj['timestamp'], '%Y-%m-%dT%H:%M:%S')
+        if t.tm_min &gt;= 45 &amp; t.tm_min &lt; 50 :
+            impression += obj['impression']
+        if (impression % 1000 == 0) :
+            print impression
+        if t.tm_min &gt; 52:
+            break
+    except :
+        print mssage</p>
+</li>
+</ol>
 <h3>kafka存储</h3>
 <p>Kafka的存储布局非常简单。话题的每个分区对应一个逻辑日志。物理上，一个日志为相同大小的一组分段文件。每次生产者发布消息到一个分区，代理就将消息追加到最后一个段文件中。当发布的消息数量达到设定值或者经过一定的时间后，段文件真正写入磁盘中。写入完成后，消息公开给消费者。</p>
 <p>与传统的消息系统不同，Kafka系统中存储的消息没有明确的消息Id。</p>
