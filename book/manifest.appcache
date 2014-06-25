@@ -1,19 +1,38 @@
 CACHE MANIFEST
-# Revision 1403689217252
+# Revision 1403708613562
 
 CACHE:
+computational_advertising/README.html
 index.html
 algorithm/README.html
 algorithm/dynamic_programming.html
 algorithm/perm.html
 algorithm/sdf.html
+algorithm/sorts.html
+algorithm/string_sorts.html
 c++/README.html
+c++/basic.html
+c++/c.html
+c++/interview_questions.html
 data_structure/README.html
+data_structure/matrix.html
 data_structure/priority_queue.html
+data_structure/trees.html
+data_structure/tries.html
 linux/README.html
+linux/command.html
+machine_learning/README.html
+open_source/README.html
+open_source/druid.html
+open_source/hadoop.html
+open_source/kafka.html
+open_source/storm.html
+operating_system/README.html
 python/README.html
-python/test.html
-sites/README.html
+python/common.html
+python/library.html
+python/time.html
+recommender_system/README.html
 gitbook/app.js
 gitbook/fonts/fontawesome/FontAwesome.otf
 gitbook/fonts/fontawesome/fontawesome-webfont.eot
