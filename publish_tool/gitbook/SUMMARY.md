@@ -1,7 +1,11 @@
 # Summary
 
 * [Algorithm](algorithm/README.md)
-   * [perm](algorithm/perm.md)
+   * [Permutation](algorithm/perm.md)
+   * [Dynamic Programming](algorithm/dynamic_programming.md)
+       * [Two strings](algorithm/sdf.md)
+* [Data Structure](data_structure/README.md)
+   * [Priority Queue](data_structure/priority_queue.md)
 * [C++](c++/README.md)
 * [Python](python/README.md)
    * [test](python/test.md)
