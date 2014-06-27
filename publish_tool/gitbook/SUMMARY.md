@@ -30,5 +30,5 @@
    * [Storm](open_source/storm.md)
    * [Kafka](open_source/kafka.md)
    * [Druid](open_source/druid.md)
-   * [Zookeeper](open_source/zookeeper)
+   * [Zookeeper](open_source/zookeeper.md)
 

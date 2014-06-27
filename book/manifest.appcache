@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Revision 1403708613562
+# Revision 1403874659832
 
 CACHE:
 computational_advertising/README.html
@@ -27,6 +27,7 @@ open_source/druid.html
 open_source/hadoop.html
 open_source/kafka.html
 open_source/storm.html
+open_source/zookeeper.html
 operating_system/README.html
 python/README.html
 python/common.html
