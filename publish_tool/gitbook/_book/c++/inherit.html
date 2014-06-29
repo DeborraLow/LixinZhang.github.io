@@ -4,7 +4,7 @@
     <head>
         
         <meta charset="UTF-8">
-        <title>Data Structure | Notes</title>
+        <title>Inherit | Notes</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 0.5.2">
@@ -19,10 +19,10 @@
     <meta name="author" content="LixinZhang">
     
     
-    <link rel="next" href="../data_structure/priority_queue.html" />
+    <link rel="next" href="../c++/more_effective_c++.html" />
     
     
-    <link rel="prev" href="../algorithm/string_sorts.html" />
+    <link rel="prev" href="../c++/interview_questions.html" />
     
 
         
@@ -34,7 +34,7 @@
 
 
         
-    <div class="book" data-github="LixinZhang/LixinZhang.github.io" data-level="2" data-basepath=".." data-revision="1403955223826">
+    <div class="book" data-github="LixinZhang/LixinZhang.github.io" data-level="4.4" data-basepath=".." data-revision="1403955223826">
     <div class="book-header">
     <!-- Actions Left -->
     <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
@@ -118,7 +118,7 @@
         
         
         <li>
-            <a href="https://github.com/LixinZhang/LixinZhang.github.io/edit/master/data_structure/README.md" target="blank" class="contribute-link">Edit and Contribute</a>
+            <a href="https://github.com/LixinZhang/LixinZhang.github.io/edit/master/c++/inherit.md" target="blank" class="contribute-link">Edit and Contribute</a>
         </li>
         
 
@@ -507,7 +507,7 @@
             <div class="page-wrapper" tabindex="-1">
                 <div class="book-progress">
     <div class="bar">
-        <div class="inner" style="width: 20.58823529411765%;min-width: 17.647058823529413%;"></div>
+        <div class="inner" style="width: 50%;min-width: 47.05882352941177%;"></div>
     </div>
     <div class="chapters">
     
@@ -527,25 +527,25 @@
     
         <a href="../data_structure/README.html" title="Data Structure" class="chapter done new-chapter" data-progress="2" style="left: 20.58823529411765%;"></a>
     
-        <a href="../data_structure/priority_queue.html" title="Priority Queue" class="chapter  " data-progress="2.1" style="left: 23.529411764705884%;"></a>
+        <a href="../data_structure/priority_queue.html" title="Priority Queue" class="chapter done " data-progress="2.1" style="left: 23.529411764705884%;"></a>
     
-        <a href="../data_structure/trees.html" title="Trees" class="chapter  " data-progress="2.2" style="left: 26.470588235294116%;"></a>
+        <a href="../data_structure/trees.html" title="Trees" class="chapter done " data-progress="2.2" style="left: 26.470588235294116%;"></a>
     
-        <a href="../data_structure/tries.html" title="Tries" class="chapter  " data-progress="2.3" style="left: 29.41176470588235%;"></a>
+        <a href="../data_structure/tries.html" title="Tries" class="chapter done " data-progress="2.3" style="left: 29.41176470588235%;"></a>
     
-        <a href="../data_structure/matrix.html" title="Matrix" class="chapter  " data-progress="2.4" style="left: 32.35294117647059%;"></a>
+        <a href="../data_structure/matrix.html" title="Matrix" class="chapter done " data-progress="2.4" style="left: 32.35294117647059%;"></a>
     
-        <a href="../operating_system/README.html" title="Operating System" class="chapter  new-chapter" data-progress="3" style="left: 35.294117647058826%;"></a>
+        <a href="../operating_system/README.html" title="Operating System" class="chapter done new-chapter" data-progress="3" style="left: 35.294117647058826%;"></a>
     
-        <a href="../c++/README.html" title="C++" class="chapter  new-chapter" data-progress="4" style="left: 38.23529411764706%;"></a>
+        <a href="../c++/README.html" title="C++" class="chapter done new-chapter" data-progress="4" style="left: 38.23529411764706%;"></a>
     
-        <a href="../c++/c.html" title="C" class="chapter  " data-progress="4.1" style="left: 41.1764705882353%;"></a>
+        <a href="../c++/c.html" title="C" class="chapter done " data-progress="4.1" style="left: 41.1764705882353%;"></a>
     
-        <a href="../c++/basic.html" title="Basic" class="chapter  " data-progress="4.2" style="left: 44.11764705882353%;"></a>
+        <a href="../c++/basic.html" title="Basic" class="chapter done " data-progress="4.2" style="left: 44.11764705882353%;"></a>
     
-        <a href="../c++/interview_questions.html" title="Interview Questions" class="chapter  " data-progress="4.3" style="left: 47.05882352941177%;"></a>
+        <a href="../c++/interview_questions.html" title="Interview Questions" class="chapter done " data-progress="4.3" style="left: 47.05882352941177%;"></a>
     
-        <a href="../c++/inherit.html" title="Inherit" class="chapter  " data-progress="4.4" style="left: 50%;"></a>
+        <a href="../c++/inherit.html" title="Inherit" class="chapter done " data-progress="4.4" style="left: 50%;"></a>
     
         <a href="../c++/more_effective_c++.html" title="More Effective C++" class="chapter  " data-progress="4.5" style="left: 52.94117647058823%;"></a>
     
@@ -586,9 +586,122 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_1260">
+                    <section class="normal" id="section-gitbook_1256">
                     
-                        <h1 id="data-structure">Data Structure</h1>
+                        <h1 id="inherit">Inherit</h1>
+<h2 id="-">多继承</h2>
+<pre><code class="lang-cpp"><span class="hljs-keyword">class</span> B{
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> print(){
+        <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"B"</span>&lt;&lt;endl;
+    }
+};
+
+<span class="hljs-keyword">class</span> C{
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> print(){
+        <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"C"</span>&lt;&lt;endl;
+    }
+};
+
+<span class="hljs-keyword">class</span> D : <span class="hljs-keyword">public</span> B, <span class="hljs-keyword">public</span> C{
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">void</span> print2(){
+        <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"D"</span>&lt;&lt;endl;
+    }
+};
+
+
+<span class="hljs-keyword">int</span> main(){
+    <span class="hljs-comment">//D d; d.print(); error</span>
+    B * b = <span class="hljs-keyword">new</span> D();
+    b-&gt;print();
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<ol>
+<li>在发生多继承的情况下，如果继承类D，实例化一个对象，那么由于其两个父类都包含print这个成员函数，因此它不知道应该调用哪一个，于是编译时会出错</li>
+<li>利用虚函数多态的机制，D中包含了两张指向B，C的虚函数表。因此，<code>B * b = new D();</code>均是合法的操作。</li>
+</ol>
+<h2 id="-">虚继承</h2>
+<p>参考:<a href="http://www.cnblogs.com/BeyondAnyTime/archive/2012/06/05/2537451.html" target="_blank">http://www.cnblogs.com/BeyondAnyTime/archive/2012/06/05/2537451.html</a></p>
+<h3 id="-">为什么要引入虚拟继承</h3>
+<p>虚拟继承是多重继承中特有的概念。虚拟基类是为解决多重继承而出现的。如:类D继承自类B1、B2，而类B1、B2都继承自类A，因此在类D中两次出现类A中的变量和函数。为了节省内存空间，可以将B1、B2对A的继承定义为虚拟继承，而A就成了虚拟基类。实现的代码如下：</p>
+<p>class A</p>
+<p>class B1:public virtual A;</p>
+<p>class B2:public virtual A;</p>
+<p>class D:public B1,public B2;</p>
+<p>虚拟继承在一般的应用中很少用到，所以也往往被忽视，这也主要是因为在C++中，多重继承是不推荐的，也并不常用，而一旦离开了多重继承，虚拟继承就完全失去了存在的必要因为这样只会降低效率和占用更多的空间。</p>
+<h3 id="-size-">附一些求size的常见类型</h3>
+<ul>
+<li>空类及只包含成员函数: sizeof(class) = 1</li>
+<li>包含虚函数： sizeof(class) = 指针的大小(64位机器为8，32位机器为4)</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-keyword">class</span> Test{
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> test(){
+
+    }
+};
+</code></pre>
+<ul>
+<li>普通继承： sizeof(class) = 指针的大小(64位机器为8，32位机器为4)</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-keyword">class</span> C{
+<span class="hljs-keyword">public</span>
+    <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> print(){
+        <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"C"</span>&lt;&lt;endl;
+    }
+};
+
+<span class="hljs-keyword">class</span> D : <span class="hljs-keyword">public</span> B{
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">void</span> print2(){
+        <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"D"</span>&lt;&lt;endl;
+    }
+};
+</code></pre>
+<ul>
+<li>多重继承 sizeof(class) = 两个指针大小</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-keyword">class</span> D : <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">public</span> B, <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">public</span> C{
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> print2(){
+        <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"D"</span>&lt;&lt;endl;
+    }
+};
+</code></pre>
+<ul>
+<li>菱形虚继承，这个应该是虚继承的关键，虚继承的子类共享内存。</li>
+</ul>
+<p>下面的sizeof(D) 为24，即8(指向C的指针)+8(指向D的指针)+8(int的4+补对齐)</p>
+<pre><code class="lang-cpp"><span class="hljs-keyword">class</span> A{
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">int</span> a;
+};
+
+<span class="hljs-keyword">class</span> B: <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">public</span> A{
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> print(){
+        <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"B"</span>&lt;&lt;endl;
+    }
+};
+
+<span class="hljs-keyword">class</span> C: <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">public</span> A{
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> print(){
+        <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"C"</span>&lt;&lt;endl;
+    }
+};
+
+<span class="hljs-keyword">class</span> D : <span class="hljs-keyword">public</span> B, <span class="hljs-keyword">public</span> C{
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">void</span> print2(){
+        <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"D"</span>&lt;&lt;endl;
+    }
+};
+</code></pre>
+<p>若将上面代码中的B与C的虚继承去掉，则sizeof(D)为32，因为32=8(指向C的指针)+8(指向D的指针)+8(C中继承来的int的4+补对齐)+8(D中继承来的int的4+补对齐)</p>
 
                     
                     </section>
@@ -598,10 +711,10 @@
         </div>
 
         
-        <a href="../algorithm/string_sorts.html" class="navigation navigation-prev " aria-label="Previous page: String Sorts"><i class="fa fa-angle-left"></i></a>
+        <a href="../c++/interview_questions.html" class="navigation navigation-prev " aria-label="Previous page: Interview Questions"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../data_structure/priority_queue.html" class="navigation navigation-next " aria-label="Next page: Priority Queue"><i class="fa fa-angle-right"></i></a>
+        <a href="../c++/more_effective_c++.html" class="navigation navigation-next " aria-label="Next page: More Effective C++"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>
