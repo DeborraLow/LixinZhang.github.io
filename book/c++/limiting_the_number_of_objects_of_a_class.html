@@ -1,0 +1,810 @@
+<!DOCTYPE HTML>
+<html lang="en-US" manifest="../manifest.appcache">
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <title>Limiting the number of objects of a class | Notes</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 0.5.2">
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    
+    
+    <meta name="author" content="LixinZhang">
+    
+    
+    <link rel="next" href="../c++/requiring_or_prohibiting_heap-based_objects.html" />
+    
+    
+    <link rel="prev" href="../c++/techniques,_idioms,_patterns.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+<link rel="stylesheet" href="../gitbook/style.css">
+
+
+        
+    <div class="book" data-github="LixinZhang/LixinZhang.github.io" data-level="4.5.2" data-basepath=".." data-revision="1404220071555">
+    <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    
+    <a href="https://github.com/LixinZhang/LixinZhang.github.io" target="_blank" class="btn pull-left home-bookmark" aria-label="GitHub home"><i class="fa fa-bookmark-o"></i></a>
+    
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    <span id="font-settings-wrapper">
+        <a href="#" class="btn pull-left toggle-font-settings" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="btn-group btn-block">
+        <button id="reduce-font-size" class="btn btn-default">A</button>
+        <button id="enlarge-font-size" class="btn btn-default">A</button>
+    </div>
+
+    <ul class="list-group font-family-list">
+        <li class="list-group-item" data-font="0">Serif</li>
+        <li class="list-group-item" data-font="1">Sans</li>
+    </ul>
+
+    <div class="btn-group btn-group-xs btn-block color-theme-list">
+        <button type="button" class="btn btn-default" id="color-theme-preview-0" data-theme="0">White</button>
+        <button type="button" class="btn btn-default" id="color-theme-preview-1" data-theme="1">Sepia</button>
+        <button type="button" class="btn btn-default" id="color-theme-preview-2" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </span>
+
+    <!-- Actions Right -->
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+
+    
+    <a href="https://github.com/LixinZhang/LixinZhang.github.io/stargazers" target="_blank" class="btn pull-right count-star hidden-xs"><i class="fa fa-star-o"></i> Star (<span>-</span>)</a>
+    <a href="https://github.com/LixinZhang/LixinZhang.github.io/watchers" target="_blank" class="btn pull-right count-watch hidden-xs"><i class="fa fa-eye"></i> Watch (<span>-</span>)</a>
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-spinner fa-spin"></i>
+        <a href="../" >Notes</a>
+    </h1>
+</div>
+
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        
+        
+        <li>
+            <a href="https://github.com/LixinZhang" target="blank" class="author-link">About the author</a>
+        </li>
+        
+
+        
+        
+        <li>
+            <a href="https://github.com/LixinZhang/LixinZhang.github.io/issues" target="blank"class="issues-link">Questions and Issues</a>
+        </li>
+        
+
+        
+        
+        <li>
+            <a href="https://github.com/LixinZhang/LixinZhang.github.io/edit/master/c++/limiting_the_number_of_objects_of_a_class.md" target="blank" class="contribute-link">Edit and Contribute</a>
+        </li>
+        
+
+        
+        <li class="divider"></li>
+        
+
+        <li data-level="0" data-path="index.html">
+            <a href="../"><i class="fa fa-check"></i> Introduction</a>
+        </li>
+        
+    
+        <li class="chapter " data-level="1" data-path="algorithm/README.html">
+            
+            <a href="../algorithm/README.html">
+                <i class="fa fa-check"></i> <b>1.</b> Algorithm
+            </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="algorithm/perm.html">
+            
+            <a href="../algorithm/perm.html">
+                <i class="fa fa-check"></i> <b>1.1.</b> Permutation
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="algorithm/dynamic_programming.html">
+            
+            <a href="../algorithm/dynamic_programming.html">
+                <i class="fa fa-check"></i> <b>1.2.</b> Dynamic Programming
+            </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="algorithm/sdf.html">
+            
+            <a href="../algorithm/sdf.html">
+                <i class="fa fa-check"></i> <b>1.2.1.</b> Two strings
+            </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="algorithm/sorts.html">
+            
+            <a href="../algorithm/sorts.html">
+                <i class="fa fa-check"></i> <b>1.3.</b> Sorts
+            </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="algorithm/string_sorts.html">
+            
+            <a href="../algorithm/string_sorts.html">
+                <i class="fa fa-check"></i> <b>1.3.1.</b> String Sorts
+            </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="data_structure/README.html">
+            
+            <a href="../data_structure/README.html">
+                <i class="fa fa-check"></i> <b>2.</b> Data Structure
+            </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="data_structure/priority_queue.html">
+            
+            <a href="../data_structure/priority_queue.html">
+                <i class="fa fa-check"></i> <b>2.1.</b> Priority Queue
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="data_structure/trees.html">
+            
+            <a href="../data_structure/trees.html">
+                <i class="fa fa-check"></i> <b>2.2.</b> Trees
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="data_structure/tries.html">
+            
+            <a href="../data_structure/tries.html">
+                <i class="fa fa-check"></i> <b>2.3.</b> Tries
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="data_structure/matrix.html">
+            
+            <a href="../data_structure/matrix.html">
+                <i class="fa fa-check"></i> <b>2.4.</b> Matrix
+            </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="operating_system/README.html">
+            
+            <a href="../operating_system/README.html">
+                <i class="fa fa-check"></i> <b>3.</b> Operating System
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="c++/README.html">
+            
+            <a href="../c++/README.html">
+                <i class="fa fa-check"></i> <b>4.</b> C++
+            </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1" data-path="c++/c.html">
+            
+            <a href="../c++/c.html">
+                <i class="fa fa-check"></i> <b>4.1.</b> C
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="c++/basic.html">
+            
+            <a href="../c++/basic.html">
+                <i class="fa fa-check"></i> <b>4.2.</b> Basic
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="c++/interview_questions.html">
+            
+            <a href="../c++/interview_questions.html">
+                <i class="fa fa-check"></i> <b>4.3.</b> Interview Questions
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="c++/inherit.html">
+            
+            <a href="../c++/inherit.html">
+                <i class="fa fa-check"></i> <b>4.4.</b> Inherit
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="c++/more_effective_c++.html">
+            
+            <a href="../c++/more_effective_c++.html">
+                <i class="fa fa-check"></i> <b>4.5.</b> More Effective C++
+            </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.5.1" data-path="c++/techniques,_idioms,_patterns.html">
+            
+            <a href="../c++/techniques,_idioms,_patterns.html">
+                <i class="fa fa-check"></i> <b>4.5.1.</b> Techniques, Idioms, Patterns
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5.2" data-path="c++/limiting_the_number_of_objects_of_a_class.html">
+            
+            <a href="../c++/limiting_the_number_of_objects_of_a_class.html">
+                <i class="fa fa-check"></i> <b>4.5.2.</b> Limiting the number of objects of a class
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5.3" data-path="c++/requiring_or_prohibiting_heap-based_objects.html">
+            
+            <a href="../c++/requiring_or_prohibiting_heap-based_objects.html">
+                <i class="fa fa-check"></i> <b>4.5.3.</b> Requiring or prohibiting heap-based objects.
+            </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="python/README.html">
+            
+            <a href="../python/README.html">
+                <i class="fa fa-check"></i> <b>5.</b> Python
+            </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1" data-path="python/library.html">
+            
+            <a href="../python/library.html">
+                <i class="fa fa-check"></i> <b>5.1.</b> Library
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="python/common.html">
+            
+            <a href="../python/common.html">
+                <i class="fa fa-check"></i> <b>5.2.</b> Common
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="python/time.html">
+            
+            <a href="../python/time.html">
+                <i class="fa fa-check"></i> <b>5.3.</b> Time
+            </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="linux/README.html">
+            
+            <a href="../linux/README.html">
+                <i class="fa fa-check"></i> <b>6.</b> Linux
+            </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1" data-path="linux/command.html">
+            
+            <a href="../linux/command.html">
+                <i class="fa fa-check"></i> <b>6.1.</b> Command
+            </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="machine_learning/README.html">
+            
+            <a href="../machine_learning/README.html">
+                <i class="fa fa-check"></i> <b>7.</b> Machine Learning
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="computational_advertising/README.html">
+            
+            <a href="../computational_advertising/README.html">
+                <i class="fa fa-check"></i> <b>8.</b> Computational Advertising
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9" data-path="recommender_system/README.html">
+            
+            <a href="../recommender_system/README.html">
+                <i class="fa fa-check"></i> <b>9.</b> Recommender System
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10" data-path="open_source/README.html">
+            
+            <a href="../open_source/README.html">
+                <i class="fa fa-check"></i> <b>10.</b> Open Source
+            </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="10.1" data-path="open_source/hadoop.html">
+            
+            <a href="../open_source/hadoop.html">
+                <i class="fa fa-check"></i> <b>10.1.</b> Hadoop
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10.2" data-path="open_source/storm.html">
+            
+            <a href="../open_source/storm.html">
+                <i class="fa fa-check"></i> <b>10.2.</b> Storm
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10.3" data-path="open_source/kafka.html">
+            
+            <a href="../open_source/kafka.html">
+                <i class="fa fa-check"></i> <b>10.3.</b> Kafka
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10.4" data-path="open_source/druid.html">
+            
+            <a href="../open_source/druid.html">
+                <i class="fa fa-check"></i> <b>10.4.</b> Druid
+            </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10.5" data-path="open_source/zookeeper.html">
+            
+            <a href="../open_source/zookeeper.html">
+                <i class="fa fa-check"></i> <b>10.5.</b> Zookeeper
+            </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="http://www.gitbook.io/" target="blank" class="gitbook-link">Generated using GitBook</a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="page-wrapper" tabindex="-1">
+                <div class="book-progress">
+    <div class="bar">
+        <div class="inner" style="width: 55.55555555555556%;min-width: 52.77777777777778%;"></div>
+    </div>
+    <div class="chapters">
+    
+        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+    
+        <a href="../algorithm/README.html" title="Algorithm" class="chapter done new-chapter" data-progress="1" style="left: 2.7777777777777777%;"></a>
+    
+        <a href="../algorithm/perm.html" title="Permutation" class="chapter done " data-progress="1.1" style="left: 5.555555555555555%;"></a>
+    
+        <a href="../algorithm/dynamic_programming.html" title="Dynamic Programming" class="chapter done " data-progress="1.2" style="left: 8.333333333333334%;"></a>
+    
+        <a href="../algorithm/sdf.html" title="Two strings" class="chapter done " data-progress="1.2.1" style="left: 11.11111111111111%;"></a>
+    
+        <a href="../algorithm/sorts.html" title="Sorts" class="chapter done " data-progress="1.3" style="left: 13.88888888888889%;"></a>
+    
+        <a href="../algorithm/string_sorts.html" title="String Sorts" class="chapter done " data-progress="1.3.1" style="left: 16.666666666666668%;"></a>
+    
+        <a href="../data_structure/README.html" title="Data Structure" class="chapter done new-chapter" data-progress="2" style="left: 19.444444444444443%;"></a>
+    
+        <a href="../data_structure/priority_queue.html" title="Priority Queue" class="chapter done " data-progress="2.1" style="left: 22.22222222222222%;"></a>
+    
+        <a href="../data_structure/trees.html" title="Trees" class="chapter done " data-progress="2.2" style="left: 25%;"></a>
+    
+        <a href="../data_structure/tries.html" title="Tries" class="chapter done " data-progress="2.3" style="left: 27.77777777777778%;"></a>
+    
+        <a href="../data_structure/matrix.html" title="Matrix" class="chapter done " data-progress="2.4" style="left: 30.555555555555557%;"></a>
+    
+        <a href="../operating_system/README.html" title="Operating System" class="chapter done new-chapter" data-progress="3" style="left: 33.333333333333336%;"></a>
+    
+        <a href="../c++/README.html" title="C++" class="chapter done new-chapter" data-progress="4" style="left: 36.111111111111114%;"></a>
+    
+        <a href="../c++/c.html" title="C" class="chapter done " data-progress="4.1" style="left: 38.888888888888886%;"></a>
+    
+        <a href="../c++/basic.html" title="Basic" class="chapter done " data-progress="4.2" style="left: 41.666666666666664%;"></a>
+    
+        <a href="../c++/interview_questions.html" title="Interview Questions" class="chapter done " data-progress="4.3" style="left: 44.44444444444444%;"></a>
+    
+        <a href="../c++/inherit.html" title="Inherit" class="chapter done " data-progress="4.4" style="left: 47.22222222222222%;"></a>
+    
+        <a href="../c++/more_effective_c++.html" title="More Effective C++" class="chapter done " data-progress="4.5" style="left: 50%;"></a>
+    
+        <a href="../c++/techniques,_idioms,_patterns.html" title="Techniques, Idioms, Patterns" class="chapter done " data-progress="4.5.1" style="left: 52.77777777777778%;"></a>
+    
+        <a href="../c++/limiting_the_number_of_objects_of_a_class.html" title="Limiting the number of objects of a class" class="chapter done " data-progress="4.5.2" style="left: 55.55555555555556%;"></a>
+    
+        <a href="../c++/requiring_or_prohibiting_heap-based_objects.html" title="Requiring or prohibiting heap-based objects." class="chapter  " data-progress="4.5.3" style="left: 58.333333333333336%;"></a>
+    
+        <a href="../python/README.html" title="Python" class="chapter  new-chapter" data-progress="5" style="left: 61.111111111111114%;"></a>
+    
+        <a href="../python/library.html" title="Library" class="chapter  " data-progress="5.1" style="left: 63.888888888888886%;"></a>
+    
+        <a href="../python/common.html" title="Common" class="chapter  " data-progress="5.2" style="left: 66.66666666666667%;"></a>
+    
+        <a href="../python/time.html" title="Time" class="chapter  " data-progress="5.3" style="left: 69.44444444444444%;"></a>
+    
+        <a href="../linux/README.html" title="Linux" class="chapter  new-chapter" data-progress="6" style="left: 72.22222222222223%;"></a>
+    
+        <a href="../linux/command.html" title="Command" class="chapter  " data-progress="6.1" style="left: 75%;"></a>
+    
+        <a href="../machine_learning/README.html" title="Machine Learning" class="chapter  new-chapter" data-progress="7" style="left: 77.77777777777777%;"></a>
+    
+        <a href="../computational_advertising/README.html" title="Computational Advertising" class="chapter  new-chapter" data-progress="8" style="left: 80.55555555555556%;"></a>
+    
+        <a href="../recommender_system/README.html" title="Recommender System" class="chapter  new-chapter" data-progress="9" style="left: 83.33333333333333%;"></a>
+    
+        <a href="../open_source/README.html" title="Open Source" class="chapter  " data-progress="10" style="left: 86.11111111111111%;"></a>
+    
+        <a href="../open_source/hadoop.html" title="Hadoop" class="chapter  " data-progress="10.1" style="left: 88.88888888888889%;"></a>
+    
+        <a href="../open_source/storm.html" title="Storm" class="chapter  " data-progress="10.2" style="left: 91.66666666666667%;"></a>
+    
+        <a href="../open_source/kafka.html" title="Kafka" class="chapter  " data-progress="10.3" style="left: 94.44444444444444%;"></a>
+    
+        <a href="../open_source/druid.html" title="Druid" class="chapter  " data-progress="10.4" style="left: 97.22222222222223%;"></a>
+    
+        <a href="../open_source/zookeeper.html" title="Zookeeper" class="chapter  " data-progress="10.5" style="left: 100%;"></a>
+    
+    </div>
+</div>
+
+                <div class="page-inner">
+                
+                    <section class="normal" id="section-gitbook_16">
+                    
+                        <h1 id="limiting-the-number-of-objects-of-a-class">Limiting the number of objects of a class</h1>
+<p>限制某个class所能产生的对象数量</p>
+<h2 id="-">产生零个或一个对象</h2>
+<h3 id="-">原则：</h3>
+<ol>
+<li>将类的构造函数定义为private（防止构造多个）</li>
+<li>为这个类产生一个提供static对象的接口（只允许访问至多一个）</li>
+</ol>
+<h3 id="-">两种方式</h3>
+<p>举个打印机的例子，代码和说明如下。</p>
+<pre><code class="lang-cpp"><span class="hljs-preprocessor">#include&lt;iostream&gt;</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">class</span> Printer{
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">void</span> print(){
+        <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"Message"</span>&lt;&lt;endl;
+    }
+    <span class="hljs-comment">//将Printer &amp; thePrinter()这个函数声明为友员函数，否则它无法调用私有的构造函数</span>
+    <span class="hljs-keyword">friend</span> Printer &amp; thePrinter();
+    <span class="hljs-keyword">static</span> Printer &amp; thePrinterInClass(){
+        <span class="hljs-keyword">static</span> Printer p;
+        <span class="hljs-keyword">return</span> p;
+    }
+    ~Printer(){
+        <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"Desctructor"</span>&lt;&lt;endl;
+    }
+<span class="hljs-keyword">private</span>:
+    Printer(){
+
+    }
+};
+<span class="hljs-comment">//放在全局区域</span>
+Printer &amp; thePrinter(){
+    <span class="hljs-keyword">static</span> Printer p;
+    <span class="hljs-keyword">return</span> p;
+}
+</code></pre>
+<p>但是将<code>thePrinter</code>函数放在class外面还是里面有比较大的不同。放在类外面有优势：</p>
+<ol>
+<li>由于类的静态函数中的静态成员会在编译期进行初始化，那么无论我们后来用不用，他都会被构造出来。而放在外面作为一个全局函数而言，则只会在调用该函数的时候，构造出来。</li>
+<li>由于类的静态成员的构造顺序根据编译器不同，会有很多不可预测的事情，无法保证有序性，而对于全局函数而言则可以。</li>
+</ol>
+<p>由于<code>thePrinter</code>函数很短小，因此考虑是够可以使用<code>inline</code>技术，作者有如下说明：</p>
+<blockquote>
+<p>函数如果带有内部连接，可能会程序中被复制，也就是说程序的目标代码(object code)可能会带有内部连接的函数复制一份以上的代码，而此复行为也包括函数内的static对象。结果程序可能会出现多份该static对象的拷贝。因此，千万不要产生内含local static对象的inline non-member fucntions</p>
+</blockquote>
+<h2 id="-">不同的对象构造状态</h2>
+<ol>
+<li>它自己</li>
+<li>派生物的&quot;base class&quot;成分</li>
+<li>内嵌于较大对象之中</li>
+</ol>
+<h3 id="-">设计一个产生有限个数对象的类</h3>
+<p>利用计数机制与<code>pseudo-constructors</code></p>
+<pre><code class="lang-cpp"><span class="hljs-keyword">class</span> Printer {
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">class</span> TooManyObjects{};
+    <span class="hljs-comment">// pseudo-constructors,使用伪构造函数产生对象</span>
+    <span class="hljs-comment">// 将构造函数声明为private，防止由于继承等导致的混淆的对象计数</span>
+    <span class="hljs-keyword">static</span> Printer * makePrinter();
+    <span class="hljs-keyword">static</span> Printer * makePrinter(<span class="hljs-keyword">const</span> Printer&amp; rhs);
+
+    <span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">static</span> size_t numObjects;
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> size_t maxObjects;
+    Printer();
+    Printer(<span class="hljs-keyword">const</span> Printer&amp; rhs);
+};
+<span class="hljs-comment">// see below</span>
+<span class="hljs-comment">// Obligatory definitions of class statics size_t Printer::numObjects = 0;</span>
+<span class="hljs-keyword">const</span> size_t Printer::maxObjects = <span class="hljs-number">10</span>;
+size_t Printer::numObjects = <span class="hljs-number">0</span>;
+
+Printer::Printer() {
+    <span class="hljs-keyword">if</span> (numObjects &gt;= maxObjects) {
+        <span class="hljs-keyword">throw</span> TooManyObjects();
+    }
+}
+Printer::Printer(<span class="hljs-keyword">const</span> Printer&amp; rhs) {
+    <span class="hljs-keyword">if</span> (numObjects &gt;= maxObjects) {
+        <span class="hljs-keyword">throw</span> TooManyObjects();
+    }
+}
+Printer * Printer::makePrinter() {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Printer;
+}
+Printer * Printer::makePrinter(<span class="hljs-keyword">const</span> Printer&amp; rhs) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Printer(rhs);
+}
+</code></pre>
+<ul>
+<li>使用伪构造函数产生对象,将构造函数声明为private，防止由于继承等导致的混淆的对象计数。如下代码中，均是非法的。<pre><code class="lang-cpp"><span class="hljs-keyword">class</span> PrinterB: <span class="hljs-keyword">public</span> Printer{
+};
+<span class="hljs-keyword">class</span> PrinterC{
+<span class="hljs-keyword">public</span>:
+  Printer A;
+};
+<span class="hljs-comment">//PrinterB b; 非法</span>
+<span class="hljs-comment">//PrinterC c; 非法</span>
+</code></pre>
+</li>
+<li>上条很好的解释了对象的不同构造状态的影响</li>
+</ul>
+<h3 id="-base-class">设计一个通用的用来计算对象个数的Base Class</h3>
+<pre><code class="lang-cpp"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">class</span> BeingCounted&gt; <span class="hljs-keyword">class</span> Counted {
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">class</span> TooManyObjects {}; <span class="hljs-comment">/* for throwing exceptions */</span>
+    <span class="hljs-keyword">static</span> size_t objectCount()
+    {
+        <span class="hljs-keyword">return</span>(numObjects);
+    }
+<span class="hljs-keyword">protected</span>:
+    Counted();
+    Counted( <span class="hljs-keyword">const</span> Counted &amp; rhs );
+    ~Counted()
+    {
+        --numObjects;
+    }
+
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">static</span> size_t    numObjects;
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> size_t maxObjects;
+    <span class="hljs-keyword">void</span>        init(); <span class="hljs-comment">/* to avoid ctor code }; // duplication */</span>
+    <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">class</span> BeingCounted&gt; Counted&lt;BeingCounted&gt;::Counted()
+    {
+        init();
+    }
+    <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">class</span> BeingCounted&gt; Counted&lt;BeingCounted&gt;::Counted( <span class="hljs-keyword">const</span> Counted&lt;BeingCounted&gt; &amp; )
+    {
+        init();
+    }
+    <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">class</span> BeingCounted&gt;
+    <span class="hljs-keyword">void</span> Counted&lt;BeingCounted&gt;::init()
+    {
+        <span class="hljs-keyword">if</span> ( numObjects &gt;= maxObjects )
+            <span class="hljs-keyword">throw</span> TooManyObjects();
+        ++numObjects;
+    }
+</code></pre>
+<p>使用</p>
+<pre><code class="lang-cpp"><span class="hljs-keyword">class</span> Printer: <span class="hljs-keyword">private</span> Counted&lt;Printer&gt; { <span class="hljs-keyword">public</span>:
+<span class="hljs-comment">// pseudo-constructors</span>
+<span class="hljs-keyword">static</span> Printer * makePrinter();
+<span class="hljs-keyword">static</span> Printer * makePrinter(<span class="hljs-keyword">const</span> Printer&amp; rhs);
+~Printer();
+<span class="hljs-keyword">void</span> submitJob(<span class="hljs-keyword">const</span> PrintJob&amp; job); <span class="hljs-keyword">void</span> reset();
+<span class="hljs-keyword">void</span> performSelfTest();
+...
+<span class="hljs-keyword">using</span> Counted&lt;Printer&gt;::objectCount;
+<span class="hljs-keyword">using</span> Counted&lt;Printer&gt;::TooManyObjects; <span class="hljs-comment">// see below</span>
+<span class="hljs-keyword">private</span>:
+Printer();
+Printer(<span class="hljs-keyword">const</span> Printer&amp; rhs);
+<span class="hljs-comment">//在实现cpp文件中加入下面这行，设定每个特定类的不同最大可实例化的对象的个数</span>
+<span class="hljs-keyword">const</span> size_t Counted&lt;Printer&gt;::maxObjects = <span class="hljs-number">10</span>;
+};
+</code></pre>
+
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../c++/techniques,_idioms,_patterns.html" class="navigation navigation-prev " aria-label="Previous page: Techniques, Idioms, Patterns"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../c++/requiring_or_prohibiting_heap-based_objects.html" class="navigation navigation-next " aria-label="Next page: Requiring or prohibiting heap-based objects."><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

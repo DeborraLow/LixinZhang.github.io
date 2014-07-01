@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Revision 1403874659832
+# Revision 1404220071556
 
 CACHE:
 computational_advertising/README.html
@@ -13,7 +13,12 @@ algorithm/string_sorts.html
 c++/README.html
 c++/basic.html
 c++/c.html
+c++/inherit.html
 c++/interview_questions.html
+c++/limiting_the_number_of_objects_of_a_class.html
+c++/more_effective_c++.html
+c++/requiring_or_prohibiting_heap-based_objects.html
+c++/techniques,_idioms,_patterns.html
 data_structure/README.html
 data_structure/matrix.html
 data_structure/priority_queue.html
