@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 AUTHOR = u'LixinZhang'
-SITENAME = u'LixinZhang'
+SITENAME = u'Backyard of LixinZhang'
 SITEURL = 'http://lixinzhang.github.io'
 
 TIMEZONE = 'Europe/Paris'
@@ -39,7 +39,7 @@ GITHUB_URL = 'https://github.com/LixinZhang'
 DISQUS_SITENAME = 'zhanglixinseu'
 OUTPUT_PATH = './'
 
-LANDING_PAGE_ABOUT = {'title':'LixinZhang\' Blog', 'details':'''
+LANDING_PAGE_ABOUT = {'title':'Backyard of LixinZhang', 'details':'''
 <p>My name is Lixin Zhang. I am now a master student majoring in Computer Science in Beihang University, Beijing, China.</p>
 
 <p>
@@ -47,15 +47,14 @@ You could find me in <a href="https://github.com/LixinZhang" title="Github">Gith
  <a href="https://www.facebook.com/zhanglixin.peter" title="Facebook">Facebook</a>,
  <a href="http://www.linkedin.com/pub/lixin-zhang/72/bb/66a" title="Linkedin">Linkedin</a>,
  <a href="http://weibo.com/zhanglixin5566" title="新浪微博">新浪微博</a> and <a href="http://www.cnblogs.com/coser" title="博客园">博客园</a> 
-or reach me via <a href="mailto:zhanglixinseu@gmail.com" title="My email address" itemprop="email">Email</a>.
+or reach me via <a href="mailto:zhanglixinseu@gmail.com" title="My email address" itemprop="email">Gmail</a>.
 </p>
 
 <p>
-I mostly work in Python, C++/C on Mac OS, UNIX-style OS, windows. I also have ever used JAVA and C#. I have rich
-intern experience in different companies, like Yahoo, Alibaba and Innovation Works(创新工场).
-I focus on some develop skills like Web Development, Network Programming, Mysql, Distributed System  are my interest.
-I also have some basic knowledge on Computational Advertising, Recommender System, Data Mining which are now very pupular in industry and academia.
-They help make Computers more intelligent. 
+I mostly work in Python, C++/C on Mac OS, UNIX-style OS, windows and I have rich
+intern experience in many companies, like Yahoo, Alibaba and Innovation Works(创新工场).
+Now I am focusing on Web Development, Network Programming, Distributed System and Computational Advertising, 
+Recommender System, Data Mining which are now very pupular in industry and academia.
 </p>
 
 <p>

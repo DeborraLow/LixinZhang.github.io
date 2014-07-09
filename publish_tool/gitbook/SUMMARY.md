@@ -14,6 +14,7 @@
    * [Tries](data_structure/tries.md)
    * [Matrix](data_structure/matrix.md)
    * [Stack and Queue](data_structure/stack_and_queue.md)
+   * [Bit manipulation](data_structure/bit_manipulation.md)
 * [Operating System](operating_system/README.md)
 * [C++](c++/README.md)
    * [C](c++/c.md)
