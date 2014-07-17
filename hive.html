@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="LixinZhang" />
+        <meta name="copyright" content="LixinZhang" />
+
+<meta name="keywords" content="Hive, opensource, " />
+        <title>Hive - Backyard of LixinZhang
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>Backyard of LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/book">Notes</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.pdf">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/hive.html"> Hive  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <h2>基本操作</h2>
+<p>DDL:</p>
+<pre>
+HiveQL DDL statements are documented here, including:
+CREATE DATABASE/SCHEMA, TABLE, VIEW, FUNCTION, INDEX
+DROP DATABASE/SCHEMA, TABLE, VIEW, INDEX
+TRUNCATE TABLE
+ALTER DATABASE/SCHEMA, TABLE, VIEW
+MSCK REPAIR TABLE (or ALTER TABLE RECOVER PARTITIONS)
+SHOW DATABASES/SCHEMAS, TABLES, TBLPROPERTIES, PARTITIONS, FUNCTIONS, INDEX[ES], COLUMNS, CREATE TABLE
+DESCRIBE DATABASE, table_name, view_name
+</pre>
+
+<h3>表的类型</h3>
+<h4>托管表</h4>
+<p>加载数据时到托管表时，Hive把数据移到仓库目录中，这是默认方式，即直接使用<code>CREATE TABLE</code>。当<code>drop table</code>的时候，会直接删除掉相关的Hive管理路径上的数据和元数据。</p>
+<h4>外部表</h4>
+<p>使用<code>EXTERNAL</code>关键字以后，Hive知道数据并不由自己管理，因此不会把数据移到自己的仓库目录。在drop的时候，hive只会删除元数据，而不会碰到真正的数据。</p>
+<h3>基本的创建表</h3>
+<p><pre>
+CREATE TABLE pokes (foo INT, bar STRING);
+</pre></p>
+<h3>使用分区（partition）</h3>
+<h4>创建包含分区的表</h4>
+<p><pre>
+CREATE TABLE invites (foo INT, bar STRING) PARTITIONED BY (ds STRING);
+</pre>
+注意，partition 可以包含多个。</p>
+<p><code>Hive</code>将表组织为“分区”，根据“分区列”的值对表进行粗略的划分，使用分区可以加快数据分片(slice)的查询速度，但并不影响跨多分区的全局遍历。</p>
+<p>可以使用<code>show partitions invites;</code>来查看某表中存在哪些分区。</p>
+<h4>加载数据</h4>
+<p><pre>
+LOAD DATA LOCAL INPATH './examples/files/kv2.txt' OVERWRITE INTO TABLE invites PARTITION (ds='2008-08-15');
+LOAD DATA LOCAL INPATH './examples/files/kv3.txt' OVERWRITE INTO TABLE invites PARTITION (ds='2008-08-08');
+</pre></p>
+<p>把数据加载到分区表的时候，必须显式指定分区值。 <code>OVERWRITE</code>用于覆盖原有值，如果不加这个关键字的话，会以<code>append</code>的方式添加进去。</p>
+<p><code>./examples/files/kv2.txt</code>数据格式如下：
+<pre>
+287^Aval_288
+246^Aval_247
+440^Aval_441
+31^Aval_32
+373^Aval_374
+447^Aval_448
+443^Aval_444
+</pre>
+原始数据中并不包含<code>ds</code>这个partition列，因此这些分区列源于目录名。我们可以check一下hdfs存放数据文件的路径，如下：
+<pre>
+-bash-4.1$ hadoop fs -ls /user/hive/warehouse/invites
+Found 2 items
+drwxr-xr-x   - zhanglx supergroup          0 2014-07-03 06:42 /user/hive/warehouse/invites/ds=2008-08-08
+drwxr-xr-x   - zhanglx supergroup          0 2014-07-03 05:55 /user/hive/warehouse/invites/ds=2008-08-15
+</pre>
+发现，分区列(partition column)作为子目录来划分这些数据的。但是在查询过程中，无需关注这些，可以将分区列看做正式的列进行正常的操作，如：
+<pre>
+SELECT a.foo FROM invites a WHERE a.ds='2008-08-15'; 
+</pre></p>
+<h3>使用桶（bucket）</h3>
+<p>使用桶的优势：</p>
+<ol>
+<li>获得更高的查询处理效率。</li>
+<li>使<code>sampling</code>更加有效。在处理大规模数据集时，在开发和修改查询的阶段，如果能自爱数据集的一小部分数据上运行查询，会很方便。</li>
+</ol>
+<h3>复杂类型TABLE</h3>
+<p>创建一个复杂类型的表：
+<pre>
+create table complex(
+    &gt; col1 ARRAY<INT>,
+    &gt; col2 MAP<STRING, INT>,
+    &gt; col3 STRUCT<a:STRING, b:INT, c:DOUBLE>);
+</pre></p>
+<p>对应的文件格式为：
+<pre>
+1^B2^B3^Aa^C10^Bb^C20^Bc^C30^Aa^B100^B0.1
+</pre></p>
+<p>查询结果：
+<pre>
+[1,2,3] {"a":10,"b":20,"c":30}  {"a":"a","b":100,"c":0.1}
+</pre></p>
+<p>其实在创建表的时候，我们省略了一些内容，默认执行如下：
+<pre>
+ CREATE TABLE ...
+ ROW FORMAT DELIMITED
+   FIELDS TERMINATED BY '\001'
+   COLLECTION ITEMS TERMINATED BY '\002'
+   MAP KEYS TERMINATED BY '\003'
+ STORED AS TEXTFILE;
+</pre>
+我们可以根据具体的数据文件格式，来修改分隔符。STORED AS 也可以改为SequenceFile
+其中SequenceFile的意义为：</p>
+<blockquote>
+<p>对于某些应用而言，需要特殊的数据结构来存储自己的数据。对于基于MapReduce的数据处理，将每个二进制数据的大对象融入自己的文件中并不能实现很高的可扩展性，针对上述情况，Hadoop开发了一组更高层次的容器SequenceFile。</p>
+<p>考虑日志文件，其中每一条日志记录是一行文本。如果想记录二进制类型，纯文本是不合适的。这种情况下，Hadoop的SequenceFile类非常合适，因为上述提供了二进制键/值对的永久存储的数据结构。当作为日志文件的存储格式时，可以自己选择键，比如由LongWritable类型表示的时间戳，以及值可以是Writable类型，用于表示日志记录的数量。SequenceFile同样为可以作为小文件的容器。而HDFS和 MapReduce是针对大文件进行优化的，所以通过SequenceFile类型将小文件包装起来，可以获得更高效率的存储和处理。</p>
+</blockquote>
+<p>另一种是面向列的存储格式<code>RCFile</code>,稍后不一张图：</p>
+<h3>导入数据</h3>
+<p><pre>
+insert overwrite table target 
+select foo, bar from pokes;
+</pre>或
+<pre>
+from pokes
+insert overwrite table target 
+select foo, bar;
+</pre>
+这里的<code>overwrite</code>是必须的，如果有分区列，可以这样：
+<pre>
+insert overwrite table target 
+partition(dt)
+select foo, bar, dt from pokes;
+</pre></p>
+<p>如果希望得到append的方式，只能通过load的形式。</p>
+<p>还可以在表未定义的情况下，创建表并插入数据：
+<pre>
+CREATE TABLE target
+AS
+SELECT col1, col2
+FROM source;
+</pre></p>
+<h2>查询</h2>
+<h3>排序与聚集</h3>
+<h4>使用order by</h4>
+<p><pre>
+from target 
+select bar, foo 
+order by foo asc;
+</pre></p>
+<p>order by有个致命的弱点，即最后只使用1个reducer来完成最后的merge操作。这样对于大数据而言，肯定会成为瓶颈。</p>
+<h4>使用sort by</h4>
+<p>如设置：set mapreduce.job.reduces=5;
+<pre>
+from target 
+select bar, foo 
+distribute by bar
+sort by foo asc;
+</pre></p>
+<p>通过指定distribute by, 可以开启多个reducer并行工作。相当于在每个聚集里，进行排序。但这样只能保证每个reducer里面的有序，不能保证全局有序。
+举个例子：</p>
+<table>
+<thead>
+<tr>
+<th>原始文件</th>
+<th>order by结果</th>
+<th>sort by结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>aa^A12</td>
+<td>aa^A12</td>
+<td>bb^A11</td>
+</tr>
+<tr>
+<td>aa^A22</td>
+<td>aa^A22</td>
+<td>aa^A12</td>
+</tr>
+<tr>
+<td>bb^A32</td>
+<td>bb^A11</td>
+<td>aa^A22</td>
+</tr>
+<tr>
+<td>bb^A11</td>
+<td>bb^A32</td>
+<td>bb^A32</td>
+</tr>
+</tbody>
+</table>
+<h2>连接</h2>
+<h4>Table format</h4>
+<table>
+<tr>
+<td><strong>sales</strong></td><td><strong>things</strong></td>
+</tr>
+<tr>
+<td><pre>
+Joe     2
+Hank    4
+Ali     0
+Eve     3
+Hank    2
+</pre></td>
+<td>
+<pre>
+2   Tie
+4   Coat
+3   Hat
+1   Scarf
+</pre>
+</td>
+</tr>
+</table>
+
+<h3>内连接</h3>
+<p><pre>SELECT sales.<em>, things.</em> FROM sales JOIN things ON (sales.id = things.id);</pre></p>
+<p>使用<code>explain</code>或<code>explain extended</code>来查看HiveQL的详细执行计划。</p>
+<pre>
+Joe     2   2   Tie
+Hank    4   4   Coat
+Eve     3   3   Hat
+Hank    2   2   Tie
+Time taken: 18.131 seconds, Fetched: 4 row(s)
+</pre>
+
+<h3>外连接</h3>
+<p><pre>
+SELECT sales.<em>, things.</em> FROM sales LEFT OUTER JOIN things ON (sales.id = things.id);
+</pre>
+无匹配的行，返回空值<code>NULL</code></p>
+<pre>
+OK
+Joe     2   2   Tie
+Hank    4   4   Coat
+Ali     0   NULL    NULL
+Eve     3   3   Hat
+Hank    2   2   Tie
+</pre>
+
+<h3>半连接</h3>
+<p><pre>
+SELECT * FROM things LEFT SEMI JOIN sales ON (sales.id = things.id);
+</pre></p>
+<p>半连接相当于SQL中得IN集合操作。如上行SQL等价于:
+<pre>
+select * from things where things.id in (select id from sales);
+</pre>
+写<code>LEFT SEMI JOIN</code>查询时必须遵循一个限制：右表(sales)只能在<code>ON</code>子句中出现。例如，我们不能在<code>SELECT</code>表达式中引用右表。</p>
+<pre>
+OK
+2   Tie
+4   Coat
+3   Hat
+</pre>
+
+<h2>子查询</h2>
+<p>子查询是内嵌在另一个SQL语句中的SELECT语句。
+<pre>
+SELECT name
+FROM(
+     SELECT id, name FROM things WHERE id &gt; 2
+) mt;
+</pre></p>
+<p>只允许子查询出现在SELECT语句的FROM子句中。</p>
+<p>一般情况下，通过create table as + select语句的形式存储查询数据。</p>
+<h3>视图</h3>
+<ul>
+<li>视图是一种用SELECT语句定义的"虚表"(virtual table)。创建视图时，并不把实际数据写到磁盘上，它只是一张逻辑表，存储在<code>metastore</code>中，且只在执行引用视图的语句时才执行，这是与<code>create table ... as select</code>最主要的区别。</li>
+<li>可以把使用视图的查询组织成一系列的作业。</li>
+<li>Hive中的视图是只读的，所以无法通过视图向基表加载或插入数据。</li>
+</ul>
+<pre>
+CREATE VIEW valid_records
+AS
+SELECT *
+FROM sales;
+</pre>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/dp-palindrome-partitioning-ii.html" title="Previous: DP-palindrome-partitioning II">DP-palindrome-partitioning II</a></li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/hive.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/hive.html';
+    var disqus_url = 'http://lixinzhang.github.io/hive.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2014-07-17T12:53:00">Jul 17, 2014</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#opensource-ref">opensource</a> 
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article"> 
+                <li><a href="/tags.html#Hive-ref">Hive
+                    <span>1</span>
+</a></li>
+            </ul>
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>
