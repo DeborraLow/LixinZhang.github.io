@@ -60,124 +60,111 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <h2>模板与泛型编程</h2>
-<h3>了解隐式接口与编译期多态</h3>
-<ol>
-<li>classes和templates都支持接口(interface)和多态(polymorphism)</li>
-<li>对class而言接口是显示的(explicit)，以函数签名为中心。多态则是通过virtual函数发生于<code>运行期</code>。</li>
-<li>对于template参数而言，接口是隐式的（implicit），奠基于有效表达式。多态则是通过template具现化和函数重载解析发生于<code>编译器</code>。</li>
-</ol>
-<h3>了解typename的双重含义</h3>
-<p>*. 声明template参数时，关键字<code>class</code>与<code>typename</code>可互换，如:</p>
-<div class="highlight"><pre><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
-<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+            <h2>继承与面向对象设计</h2>
+<h3>避免遮掩继承而来的名称</h3>
+<ul>
+<li>local变量的作用于会掩盖外部同名变量，且与变量的类型无关。</li>
+</ul>
+<p>看个例子：</p>
+<div class="highlight"><pre><span class="cp">#include&lt;iostream&gt;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 
-<span class="o">*</span><span class="p">.</span> <span class="err">当标示嵌套从属类型名称时，必须使用</span><span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">typename</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span><span class="p">,</span> <span class="err">如：</span>
-
-    <span class="o">:::</span><span class="n">cpp</span>
-    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="kt">void</span> <span class="n">print2nd</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span><span class="n">container</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span><span class="p">(</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">iter</span><span class="o">=</span><span class="n">container</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">iter</span><span class="o">!=</span><span class="n">container</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">iter</span><span class="o">++</span><span class="p">){</span>
-        <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="o">*</span><span class="n">iter</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+<span class="k">class</span> <span class="nc">Base</span><span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">void</span> <span class="n">fun</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span><span class="p">){</span>
+        <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Base:&quot;</span><span class="o">&lt;&lt;</span><span class="n">num</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
     <span class="p">}</span>
-<span class="p">}</span>
+    <span class="kt">void</span> <span class="n">fun</span><span class="p">(</span><span class="kt">double</span> <span class="n">num</span><span class="p">){</span>
+        <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Base:&quot;</span><span class="o">&lt;&lt;</span><span class="n">num</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
 
-<span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">;</span>
-    <span class="n">v</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">v</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-    <span class="n">v</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
-    <span class="n">v</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
-    <span class="n">print2nd</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+
+<span class="k">class</span> <span class="nc">Derived</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Base</span> <span class="p">{</span>
+<span class="k">public</span> <span class="o">:</span>
+    <span class="c1">//using Base::fun;</span>
+    <span class="kt">void</span> <span class="n">fun</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span><span class="p">){</span>
+        <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Derived&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">fun</span><span class="p">(){</span>
+        <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Derived&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+    <span class="n">Derived</span> <span class="n">d</span> <span class="o">=</span> <span class="n">Derived</span><span class="p">();</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">fun</span><span class="p">();</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">fun</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">fun</span><span class="p">(</span><span class="mf">10.1</span><span class="p">);</span>
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 
 
-<p><code>typename T::const_iterator iter</code>不使用<code>typename</code>，或者使用<code>class</code>编译均报错。这里的<code>T</code>指代<code>vector\&lt;int></code>，属于嵌套模板类型。</p>
-<h3>学习处理模板化基类内的名称</h3>
-<p>看下面的例子，定义一个模板化的基类MsgSender，然后定义继承类LoggingMsgSender：</p>
-<div class="highlight"><pre><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Company</span><span class="o">&gt;</span>
-<span class="k">class</span> <span class="nc">MsgSender</span><span class="p">{</span>
+<p>继承类<code>Derived</code>中的变量相当于local，而<code>Base</code>类中的相当于global。因此<code>Derived</code>的类函数名称默认会掩盖掉<code>Base</code>中的同名函数，因此外部调用Derived对象的时候只能看得见<code>void fun(int num)</code>和<code>void fun()</code>，而Base类中的<code>void fun(double num)</code>即使参数不同也被掩盖掉。如果想暴露这个函数，就必须在Derived中声明<code>using Base::fun;</code>。</p>
+<h3>避免遮掩继承而来的名称</h3>
+<ol>
+<li>接口继承与实现继承不同。在public继承下，derived classes总是继承base class的接口。</li>
+<li>纯虚函数只具体指定接口继承。</li>
+<li>非纯虚函数具体指定接口继承及<code>缺省</code>是实现继承。</li>
+<li>非虚函数具体指定接口继承以及<code>强制性</code>实现继承。</li>
+</ol>
+<h3>绝不重新定义继承而来的缺省参数值</h3>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Base</span><span class="p">{</span>
 <span class="nl">public:</span>
-    <span class="kt">void</span> <span class="n">sendmsg</span><span class="p">(){</span>
-        <span class="n">Company</span> <span class="n">c</span><span class="p">;</span>
-        <span class="n">c</span><span class="p">.</span><span class="n">saysomething</span><span class="p">();</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">fun</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">){</span>
+        <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Base:&quot;</span><span class="o">&lt;&lt;</span><span class="n">num</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
 
-<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Company</span><span class="o">&gt;</span>
-<span class="k">class</span> <span class="nc">LoggingMsgSender</span><span class="o">:</span> <span class="k">public</span> <span class="n">MsgSender</span><span class="o">&lt;</span><span class="n">Company</span><span class="o">&gt;</span><span class="p">{</span>
-<span class="nl">public:</span>
-    <span class="kt">void</span> <span class="n">sendLoggingMsg</span><span class="p">(){</span>
-        <span class="n">sendmsg</span><span class="p">();</span> <span class="c1">//编译error</span>
+<span class="k">class</span> <span class="nc">Derived</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Base</span> <span class="p">{</span>
+<span class="k">public</span> <span class="o">:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">fun</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">10</span><span class="p">){</span>
+        <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Derived:&quot;</span><span class="o">&lt;&lt;</span><span class="n">num</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</pre></div>
 
-
-<p>上述代码直接编译会报错，原因是继承类<code>LoggingMsgSender</code>在继承<code>MsgSender<Company></code>，并不知道它继承什么样的class，在<code>MsgSender<Company></code>未具现化之前，无法判断是够存在一个sendmsg函数。因此，我们需要明确的指出来，有三种方式：</p>
-<p>用this指针明确告知存在。
-    :::cpp
-    template<typename Company>
-    class LoggingMsgSender: public MsgSender<Company>{
-    public:
-        void sendLoggingMsg(){
-            this-&gt;sendmsg();
-        }
-    };</p>
-<p>用using声明存在。
-    :::cpp
-    template<typename Company>
-    class LoggingMsgSender: public MsgSender<Company>{
-    using MsgSender<Company>::sendmsg;
-    public:
-        void sendLoggingMsg(){
-            sendmsg();
-        }
-    };</p>
-<p>直接使用基类，但是也关掉了多态性质，因此不提倡这种方法。
-    :::cpp
-    template<typename Company>
-    class LoggingMsgSender: public MsgSender<Company>{
-    public:
-        void sendLoggingMsg(){
-            MsgSender<Company>::sendmsg();
-        }
-    };</p>
-<p>在看一下：</p>
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">CompanyA</span><span class="p">{</span>
-<span class="p">};</span>
 <span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
-<span class="n">LoggingMsgSender</span><span class="o">&lt;</span><span class="n">CompanyA</span><span class="o">&gt;</span> <span class="n">sender</span><span class="p">;</span>
-<span class="c1">//sender.sendLoggingMsg();</span>
-<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">Base</span> <span class="o">*</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Derived</span><span class="p">();</span>
+    <span class="n">Derived</span> <span class="o">*</span> <span class="n">d</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Derived</span><span class="p">();</span>
+    <span class="n">b</span><span class="o">-&gt;</span><span class="n">fun</span><span class="p">();</span> <span class="c1">//echo Derived:100</span>
+    <span class="n">d</span><span class="o">-&gt;</span><span class="n">fun</span><span class="p">();</span> <span class="c1">//echo Derived:10</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 
 
-<p>如不调用<code>sender.sendLoggingMsg()</code>，现在完成的情况就可以通过编译，然而若调用<code>sender.sendLoggingMsg()</code>，则会编译出错，原因很简单，找不到<code>CompanyA</code>是否存在<code>saysomething</code>函数。 因此，模板的诊断可以发生在定义时，也可能发生在具体实现时。最后，在<code>CompanyA</code>类中添加缺失的函数。</p>
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">CompanyA</span><span class="p">{</span>
-<span class="nl">public:</span>
-    <span class="kt">void</span> <span class="n">saysomething</span><span class="p">(){</span>
-        <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;hi&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
-    <span class="p">}</span>
+<p>C++涉及两种类型，静态类型与动态类型。<code>Base * b = new Derived();</code>中，<code>b</code>本身为静态类型，而所指的对象类型为动态类型。而缺省参数值都是静态绑定的，因此即使<code>b</code>以多态的方式调用<code>Derived</code>中的函数，然而<code>num</code>的默认值仍未Base类中定义的缺省参数。</p>
+<h3>Private 继承</h3>
+<p>Private继承意味着<code>is-implemented-in-terms-of</code>(根据某物实现出)，它通常比复合（has-a）的级别低。但是当继承类需要访问基类的protected成员，或需要重新定义继承而来的virtual函数时，这么设计是合理的。</p>
+<p>Private继承并不代表<code>is a</code>的关系，如：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Person</span> <span class="p">{</span>
+
 <span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">Student</span> <span class="o">:</span> <span class="k">private</span> <span class="n">Person</span> <span class="p">{</span>
+
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="nf">testPerson</span><span class="p">(</span><span class="n">Person</span> <span class="o">&amp;</span> <span class="n">p</span><span class="p">){</span>
+
+<span class="p">}</span>
+<span class="n">Person</span> <span class="n">p</span><span class="p">;</span>
+<span class="n">Student</span> <span class="n">s</span><span class="p">;</span>
+<span class="n">testPerson</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="n">testPerson</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="c1">//Error</span>
 </pre></div>
+
+
+<p>由于Student是<code>private</code>继承，因此无法通过函数<code>testPerson</code>, 若改为<code>public</code>继承则可以。</p>
             <aside>
-            <nav>
-            <ul class="articles_timeline">
- 
-                <li class="previous_article">« <a href="http://lixinzhang.github.io/effective-c-bi-ji-chapter6.html" title="Previous: Effective C++ 笔记 Chapter6">Effective C++ 笔记 Chapter6</a></li>
-            </ul>
-            </nav>
             <nav>
             <ul class="articles_timeline">
  
                 <li class="previous_article">« <a href="http://lixinzhang.github.io/hive.html" title="Previous: Hive">Hive</a></li>
  
-                <li class="next_article"><a href="http://lixinzhang.github.io/effective-c-bi-ji-chapter6.html" title="Next: Effective C++ 笔记 Chapter6">Effective C++ 笔记 Chapter6</a> »</li>
+                <li class="next_article"><a href="http://lixinzhang.github.io/effective-c-bi-ji-chapter7.html" title="Next: Effective C++ 笔记 Chapter7">Effective C++ 笔记 Chapter7</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -217,7 +204,7 @@
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2014-08-02T18:23:00">Aug 2, 2014</time>
+            <time pubdate="pubdate" datetime="2014-08-01T09:23:00">Aug 1, 2014</time>
             <h4>Category</h4>
             <a class="category-link" href="/categories.html#CPP-ref">CPP</a> 
             <h4>Tags</h4>

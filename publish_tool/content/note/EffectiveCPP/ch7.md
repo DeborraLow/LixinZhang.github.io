@@ -1,4 +1,4 @@
-Title: Effective C++ 笔记 Chapter6
+Title: Effective C++ 笔记 Chapter7
 Date: 2014-08-02 18:23
 Category: CPP
 Tags: CPP
@@ -20,10 +20,11 @@ Tags: CPP
     template<class T>
     template<typename T>
 
-    *. 当标示嵌套从属类型名称时，必须使用<code>typename</code>, 如：
-        
-        :::cpp
-        template<typename T>
+
+*. 当标示嵌套从属类型名称时，必须使用<code>typename</code>, 如：
+
+    :::cpp
+    template<typename T>
     void print2nd(const T&container) {
         for(typename T::const_iterator iter=container.begin(); iter!=container.end(); iter++){
             cout<<(*iter)<<endl;
@@ -39,6 +40,7 @@ Tags: CPP
         print2nd(v);
         return 0;
     }
+
 
 <code>typename T::const_iterator iter</code>不使用<code>typename</code>，或者使用<code>class</code>编译均报错。这里的<code>T</code>指代<code>vector\<int\></code>，属于嵌套模板类型。
 
@@ -68,6 +70,7 @@ Tags: CPP
 上述代码直接编译会报错，原因是继承类<code>LoggingMsgSender</code>在继承<code>MsgSender<Company></code>，并不知道它继承什么样的class，在<code>MsgSender<Company></code>未具现化之前，无法判断是够存在一个sendmsg函数。因此，我们需要明确的指出来，有三种方式：
 
 用this指针明确告知存在。
+
     :::cpp
     template<typename Company>
     class LoggingMsgSender: public MsgSender<Company>{
@@ -78,6 +81,7 @@ Tags: CPP
     };
 
 用using声明存在。
+
     :::cpp
     template<typename Company>
     class LoggingMsgSender: public MsgSender<Company>{
@@ -89,6 +93,7 @@ Tags: CPP
     };
 
 直接使用基类，但是也关掉了多态性质，因此不提倡这种方法。
+
     :::cpp
     template<typename Company>
     class LoggingMsgSender: public MsgSender<Company>{
