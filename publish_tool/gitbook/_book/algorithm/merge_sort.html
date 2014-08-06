@@ -4,7 +4,7 @@
     <head>
         
         <meta charset="UTF-8">
-        <title>String Sorts | Notes</title>
+        <title>merge sort | Notes</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 0.7.0">
@@ -19,10 +19,10 @@
     <meta name="author" content="LixinZhang">
     
     
-    <link rel="next" href="../algorithm/merge_sort.html" />
+    <link rel="next" href="../algorithm/kmp.html" />
     
     
-    <link rel="prev" href="../algorithm/sorts.html" />
+    <link rel="prev" href="../algorithm/string_sorts.html" />
     
 
         
@@ -34,7 +34,7 @@
 
 
         
-    <div class="book" data-github="LixinZhang/LixinZhang.github.io" data-level="1.3.1" data-basepath=".." data-revision="1407142866424">
+    <div class="book" data-github="LixinZhang/LixinZhang.github.io" data-level="1.3.2" data-basepath=".." data-revision="1407142866424">
     <div class="book-header">
     <!-- Actions Left -->
     <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
@@ -114,7 +114,7 @@
         
         
         <li>
-            <a href="https://github.com/LixinZhang/LixinZhang.github.io/edit/master/algorithm/string_sorts.md" target="blank" class="contribute-link">Edit and Contribute</a>
+            <a href="https://github.com/LixinZhang/LixinZhang.github.io/edit/master/algorithm/merge_sort.md" target="blank" class="contribute-link">Edit and Contribute</a>
         </li>
         
 
@@ -229,7 +229,7 @@
                 
     
         
-        <li class="chapter active" data-level="1.3.1" data-path="algorithm/string_sorts.html">
+        <li class="chapter " data-level="1.3.1" data-path="algorithm/string_sorts.html">
             
                 
                     <a href="../algorithm/string_sorts.html">
@@ -245,7 +245,7 @@
         </li>
     
         
-        <li class="chapter " data-level="1.3.2" data-path="algorithm/merge_sort.html">
+        <li class="chapter active" data-level="1.3.2" data-path="algorithm/merge_sort.html">
             
                 
                     <a href="../algorithm/merge_sort.html">
@@ -920,7 +920,7 @@
             <div class="page-wrapper" tabindex="-1">
                 <div class="book-progress">
     <div class="bar">
-        <div class="inner" style="width: 13.636363636363637%;min-width: 11.363636363636363%;"></div>
+        <div class="inner" style="width: 15.909090909090908%;min-width: 13.636363636363637%;"></div>
     </div>
     <div class="chapters">
     
@@ -938,7 +938,7 @@
     
         <a href="../algorithm/string_sorts.html" title="String Sorts" class="chapter done " data-progress="1.3.1" style="left: 13.636363636363637%;"></a>
     
-        <a href="../algorithm/merge_sort.html" title="merge sort" class="chapter  " data-progress="1.3.2" style="left: 15.909090909090908%;"></a>
+        <a href="../algorithm/merge_sort.html" title="merge sort" class="chapter done " data-progress="1.3.2" style="left: 15.909090909090908%;"></a>
     
         <a href="../algorithm/kmp.html" title="KMP" class="chapter  " data-progress="1.4" style="left: 18.181818181818183%;"></a>
     
@@ -1019,167 +1019,47 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_46">
+                    <section class="normal" id="section-gitbook_41">
                     
-                        <h1 id="string-sorts">String Sorts</h1>
-<p>对字符串的排序，主要涉及一种<code>count</code>技术，即根据字符的有限性通过计数的方式来划分rerank的位置。</p>
-<h2 id="lsd-string-sort">LSD string sort</h2>
-<h3 id="">原理</h3>
-<ol>
-<li>LSD算法是典型的针对固定长度字符串排序的方法，如对IP地址，账号的排序。</li>
-<li>主要的的思想，从右向左，对每个位置的字符进行rerank。</li>
-<li>rerank, 采用一个counter记录每个字符所对应字符串rerank后的起始位置。这个方法有小技巧和逻辑性，值得一读。<code>Pay attention!</code></li>
-</ol>
-<h3 id="">特性</h3>
-<ol>
-<li>LSD是稳定的排序算法</li>
-<li>LSD算法需要使用7WN+3WR的数组访问以及N+R的内存空间。W为key string的长度，N为待排序元素个数，由于实际应用中R远远小于N，因此近似时间复杂度为WN。</li>
-</ol>
-<h3 id="source-code">Source Code</h3>
-<pre><code class="lang-cpp"><span class="hljs-keyword">void</span> LSD_sort(<span class="hljs-built_in">string</span> arr[], <span class="hljs-keyword">int</span> N, <span class="hljs-keyword">int</span> W) {
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> R = <span class="hljs-number">256</span>;
-    <span class="hljs-built_in">string</span> * aux = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span> [N];
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=W-<span class="hljs-number">1</span>; i&gt;=<span class="hljs-number">0</span>; i--){
-        <span class="hljs-keyword">int</span> counter[R] = {<span class="hljs-number">0</span>};
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>; j&lt;N; j++){
-            counter[arr[j][i]+<span class="hljs-number">1</span>] += <span class="hljs-number">1</span>;
-        }
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">1</span>; j&lt;R; j++){
-            counter[j] += counter[j-<span class="hljs-number">1</span>];
-        }
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>; j&lt;N; j++){
-            aux[counter[arr[j][i]]++] = arr[j];
-        }
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>; j&lt;N; j++){
-            arr[j] = aux[j];
-        }
-    }
-    <span class="hljs-keyword">delete</span> [] aux;
-}
-</code></pre>
-<h2 id="msd-string-sort">MSD string Sort</h2>
-<p><code>MSD</code> is most-significant-digit-first.</p>
-<h3 id="">原理</h3>
-<ol>
-<li>MSD主要解决当字符串长度不一致时的，更普遍的的字符串排序问题</li>
-<li>与LSD不同，MSD方法从左向右进行比较，并且每次比较都会将原字符串序列分成多个partition。然后对每个patition再进行子问题求解。</li>
-<li>MSD仍需要借助<code>count</code>技术，对不同的字符串进行划分。但存在一个问题，因为利用<code>count</code>技术的时候，需要访问<code>R</code>数组访问，但与长度已经很小的子序列而言是不值得的，因此对于小长度的子问题，直接采用朴素的插入排序求解。</li>
-</ol>
-<h3 id="">特性</h3>
-<ol>
-<li>MSD主要针对不同长度的字符串，因此当有字符串到达末尾的时候，即C++/C中的<code>\0</code>时，由于accsi码值为0，因此具有高优先级，使得其自然排序上升。</li>
-<li>MSD算法会耗费非常多的内存空间，因为在应用<code>    count</code>方法时，count数组不能放在外面作为类成员变量共享（辅助数组aux则可以）。</li>
-<li>MSD的算法效率与输入数据非常相关，如若第一列就可以很好的区分开256个部分，那么一次就完成了排序；最差的情况是，数组里的所有字符串都相等，那么就不得不一直走到队尾。</li>
-<li>MSD需要<code>8N+3R ~ 7wN+3WR</code>之间的数组访问次数。 其中w为平均的字符串长度。</li>
-</ol>
-<p><img src="https://sdfpaw.dm2301.livefilestore.com/y2pg0ab5n0cQhaMrbyvGdwW4u3dvM2ZKSluHbZhhK9cWcPwO9tJ_9ble_Bxsdx5l10g02TQQ5gkytn9_JVrvR2Sm_L8A24MbML6Mikdg1CUd-M/QQ20140627-1.png?psid=1" alt="https://sdfpaw.dm2301.livefilestore.com/y2pg0ab5n0cQhaMrbyvGdwW4u3dvM2ZKSluHbZhhK9cWcPwO9tJ_9ble_Bxsdx5l10g02TQQ5gkytn9_JVrvR2Sm_L8A24MbML6Mikdg1CUd-M/QQ20140627-1.png?psid=1"></p>
-<h3 id="source-code">Source Code</h3>
+                        <h1 id="merge-sort">merge sort</h1>
+<h3 id="basic">Basic</h3>
+<h4 id="source-code">source code</h4>
 <pre><code class="lang-cpp"><span class="hljs-preprocessor">#include&lt;iostream&gt;</span>
-<span class="hljs-preprocessor">#include&lt;string&gt;</span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 
-<span class="hljs-keyword">class</span> MSD{
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> sort(<span class="hljs-built_in">string</span> arr[], <span class="hljs-keyword">int</span> size);
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> sort(<span class="hljs-built_in">string</span> arr[], <span class="hljs-keyword">int</span> lo, <span class="hljs-keyword">int</span> hi, <span class="hljs-keyword">int</span> d);
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> insertSort(<span class="hljs-built_in">string</span> arr[], <span class="hljs-keyword">int</span> lo, <span class="hljs-keyword">int</span> hi, <span class="hljs-keyword">int</span> d);
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> * aux;
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> * a;
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> R;
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> M; <span class="hljs-comment">//cutoff for small subarrays</span>
-};
-
-
-<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MSD::R = <span class="hljs-number">256</span>;
-<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MSD::M = <span class="hljs-number">0</span>;
-<span class="hljs-built_in">string</span> * MSD::aux = NULL;
-
-<span class="hljs-keyword">void</span> MSD::sort(<span class="hljs-built_in">string</span> arr[], <span class="hljs-keyword">int</span> size){
-    <span class="hljs-keyword">if</span>(size &lt;= <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span>;
-    MSD::aux = <span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>[size];
-    sort(arr, <span class="hljs-number">0</span>, size-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>);
-}
-<span class="hljs-keyword">void</span> MSD::sort(<span class="hljs-built_in">string</span> arr[], <span class="hljs-keyword">int</span> lo, <span class="hljs-keyword">int</span> hi, <span class="hljs-keyword">int</span> d){
-    <span class="hljs-keyword">if</span>(lo &gt;= hi) <span class="hljs-keyword">return</span> ;
-    <span class="hljs-keyword">if</span>(hi&lt;lo+M){
-        insertSort(arr, lo, hi, d);
-        <span class="hljs-keyword">return</span> ;
-    }
-    <span class="hljs-keyword">int</span> count [R+<span class="hljs-number">1</span>] = {<span class="hljs-number">0</span>};
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=lo; i&lt;=hi; i++){
-        count[arr[i][d] + <span class="hljs-number">1</span>] ++;
-    }
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> r=<span class="hljs-number">1</span>; r&lt;R+<span class="hljs-number">1</span>; r++){
-        count[r] += count[r-<span class="hljs-number">1</span>];
-    }
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=lo; i&lt;=hi; i++){
-        aux[count[arr[i][d]]++] = arr[i];
-    }
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=lo; i&lt;=hi; i++){
-        arr[i] = aux[i-lo];
-    }
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> r=<span class="hljs-number">0</span>; r&lt;R; r++){
-        MSD::sort(arr, lo+count[r], lo+count[r+<span class="hljs-number">1</span>]-<span class="hljs-number">1</span>, d+<span class="hljs-number">1</span>);
-    }
-}
-
-<span class="hljs-keyword">void</span> MSD::insertSort(<span class="hljs-built_in">string</span> arr[], <span class="hljs-keyword">int</span> lo, <span class="hljs-keyword">int</span> hi, <span class="hljs-keyword">int</span> d){
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=lo+<span class="hljs-number">1</span>; i&lt;=hi; i++){
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=i; j&gt;lo; j--){
-            <span class="hljs-keyword">if</span>(arr[i][d] &gt; arr[j][d]){
-                swap(arr[i], arr[j]);
-            }
+<span class="hljs-keyword">void</span> merge(<span class="hljs-keyword">int</span> arr[], <span class="hljs-keyword">int</span> tmp[], <span class="hljs-keyword">int</span> low, <span class="hljs-keyword">int</span> mid, <span class="hljs-keyword">int</span> high){
+    <span class="hljs-keyword">int</span> i = low, j = mid+<span class="hljs-number">1</span>;
+    <span class="hljs-keyword">int</span> idx = low;
+    <span class="hljs-keyword">while</span>(i&lt;=mid &amp;&amp; j&lt;=high){
+        <span class="hljs-keyword">if</span> (arr[i] &lt; arr[j]){
+            tmp[idx++] = arr[i++];
+        }<span class="hljs-keyword">else</span>{
+            tmp[idx++] = arr[j++];
         }
     }
+    <span class="hljs-keyword">while</span>(i&lt;=mid) tmp[idx++] = arr[i++];
+    <span class="hljs-keyword">while</span>(j&lt;=high) tmp[idx++] = arr[j++];
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=low; i&lt;=high; i++) arr[i] = tmp[i];
+}
+
+<span class="hljs-keyword">void</span> merge_sort(<span class="hljs-keyword">int</span> arr[], <span class="hljs-keyword">int</span> tmp[], <span class="hljs-keyword">int</span> low, <span class="hljs-keyword">int</span> high){
+    <span class="hljs-keyword">if</span> (low &gt;= high) <span class="hljs-keyword">return</span>;
+    <span class="hljs-keyword">int</span> mid = (low + high) / <span class="hljs-number">2</span>;
+    merge_sort(arr, tmp, low, mid);
+    merge_sort(arr, tmp, mid+<span class="hljs-number">1</span>, high);
+    merge(arr, tmp, low, mid, high);
 }
 
 <span class="hljs-keyword">int</span> main(){
-    <span class="hljs-comment">//MSD::R = 10;</span>
-    <span class="hljs-built_in">string</span> arr[] = {<span class="hljs-string">"she"</span>, <span class="hljs-string">"sells"</span>, <span class="hljs-string">"seashells"</span>, <span class="hljs-string">"by"</span>, <span class="hljs-string">"the"</span>, <span class="hljs-string">"sea"</span>,
-    <span class="hljs-string">"shore"</span>, <span class="hljs-string">"the"</span>, <span class="hljs-string">"shells"</span>, <span class="hljs-string">"she"</span>, <span class="hljs-string">"sells"</span>, <span class="hljs-string">"are"</span>, <span class="hljs-string">"surely"</span>, <span class="hljs-string">"seashells"</span>};
-    <span class="hljs-keyword">int</span> len = <span class="hljs-number">14</span>;
-    MSD::sort(arr, len);
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;len; i++)
+    <span class="hljs-keyword">int</span> arr[] = {<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">0</span>,<span class="hljs-number">8</span>,<span class="hljs-number">1</span>,<span class="hljs-number">6</span>,<span class="hljs-number">9</span>,<span class="hljs-number">7</span>};
+    <span class="hljs-keyword">int</span> tmp[<span class="hljs-number">1000</span>];
+    merge_sort(arr, tmp, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(arr) / <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) -<span class="hljs-number">1</span>);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-keyword">sizeof</span>(arr)/<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>); i++){
         <span class="hljs-built_in">cout</span>&lt;&lt;arr[i]&lt;&lt;endl;
+    }
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<h2 id="three-way-string-quicksort">Three-way string quicksort</h2>
-<h3 id="">原理</h3>
-<ol>
-<li>参考MSD方法的思想，很容易想到一种基于partition的排序方法——<code>quick sort</code>.</li>
-<li>我们可以按照每个位置的字符作为比较元素，然后划分为3个partition。根据之前所了解的三路快排，我们知道中间的那份partition包含的元素是相同的，因此在进行子问题递归的时候，比较元素的位置+1。而另外两个，则继续在该位置上进行子问题计算。</li>
-</ol>
-<h3 id="">特性</h3>
-<ol>
-<li>时间赋值度约定于<code>2NlnN</code></li>
-</ol>
-<h3 id="">源代码</h3>
-<pre><code class="lang-cpp"><span class="hljs-keyword">class</span> Quick3string{
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> sort(<span class="hljs-built_in">string</span> arr[], <span class="hljs-keyword">int</span> size){
-        sort(arr, <span class="hljs-number">0</span>, size-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>);
-    }
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> sort(<span class="hljs-built_in">string</span> arr[], <span class="hljs-keyword">int</span> lo, <span class="hljs-keyword">int</span> hi, <span class="hljs-keyword">int</span> d){
-        <span class="hljs-keyword">if</span>(lo&gt;=hi) <span class="hljs-keyword">return</span>;
-        <span class="hljs-keyword">int</span> lt = lo, gt = hi;
-        <span class="hljs-keyword">int</span> v = arr[lo][d];
-        <span class="hljs-keyword">int</span> i = lo+<span class="hljs-number">1</span>;
-        <span class="hljs-keyword">while</span>(i&lt;=gt){
-            <span class="hljs-keyword">int</span> t = arr[i][d];
-            <span class="hljs-keyword">if</span>(t&lt;v) swap(arr[lt++], arr[i++]);
-            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (t&gt;v) swap(arr[i], arr[gt--]);
-            <span class="hljs-keyword">else</span> i++;
-        }
-        sort(arr, lo, lt-<span class="hljs-number">1</span>, d);
-        <span class="hljs-keyword">if</span>(v&gt;=<span class="hljs-number">0</span>) sort(arr, lt, gt, d+<span class="hljs-number">1</span>);
-        sort(arr, gt+<span class="hljs-number">1</span>, hi, d);
-    }
-};
-</code></pre>
-<h3 id="conclution">Conclution</h3>
-<p><img src="https://sdfpaw.dm2301.livefilestore.com/y2pEB9tecW9w8PnfRrPnhN0dGvP_-ZJiSmDQORpXT2gyaHvXDGvNoOzAfTzP34tytKjPcx8ZjUsCx-joMoVKMBV1OtaY2pFRBQLIe38tLtTkr8/QQ20140627-2.png?psid=1" alt="https://sdfpaw.dm2301.livefilestore.com/y2pEB9tecW9w8PnfRrPnhN0dGvP_-ZJiSmDQORpXT2gyaHvXDGvNoOzAfTzP34tytKjPcx8ZjUsCx-joMoVKMBV1OtaY2pFRBQLIe38tLtTkr8/QQ20140627-2.png?psid=1"></p>
 
                     
                     </section>
@@ -1189,10 +1069,10 @@
         </div>
 
         
-        <a href="../algorithm/sorts.html" class="navigation navigation-prev " aria-label="Previous page: Sorts"><i class="fa fa-angle-left"></i></a>
+        <a href="../algorithm/string_sorts.html" class="navigation navigation-prev " aria-label="Previous page: String Sorts"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../algorithm/merge_sort.html" class="navigation navigation-next " aria-label="Next page: merge sort"><i class="fa fa-angle-right"></i></a>
+        <a href="../algorithm/kmp.html" class="navigation navigation-next " aria-label="Next page: KMP"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

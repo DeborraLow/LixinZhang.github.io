@@ -1,13 +1,24 @@
 CACHE MANIFEST
-# Revision 1403955223826
+# Revision 1407142866424
 
 CACHE:
-computational_advertising/README.html
+data_structure/README.html
+data_structure/bit_manipulation.html
+data_structure/cut_the_tree.html
+data_structure/matrix.html
+data_structure/priority_queue.html
+data_structure/stack_and_queue.html
+data_structure/trees.html
+data_structure/tries.html
 index.html
 algorithm/README.html
 algorithm/dynamic_programming.html
+algorithm/kmp.html
+algorithm/linked_list.html
+algorithm/merge_sort.html
 algorithm/perm.html
 algorithm/sdf.html
+algorithm/search.html
 algorithm/sorts.html
 algorithm/string_sorts.html
 c++/README.html
@@ -15,19 +26,18 @@ c++/basic.html
 c++/c.html
 c++/inherit.html
 c++/interview_questions.html
+c++/limiting_the_number_of_objects_of_a_class.html
 c++/more_effective_c++.html
+c++/requiring_or_prohibiting_heap-based_objects.html
 c++/techniques,_idioms,_patterns.html
-data_structure/README.html
-data_structure/matrix.html
-data_structure/priority_queue.html
-data_structure/trees.html
-data_structure/tries.html
+computational_advertising/README.html
 linux/README.html
 linux/command.html
 machine_learning/README.html
 open_source/README.html
 open_source/druid.html
 open_source/hadoop.html
+open_source/hive.html
 open_source/kafka.html
 open_source/storm.html
 open_source/zookeeper.html
