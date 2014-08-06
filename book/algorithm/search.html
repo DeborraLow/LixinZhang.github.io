@@ -4,7 +4,7 @@
     <head>
         
         <meta charset="UTF-8">
-        <title>Trees | Notes</title>
+        <title>Search | Notes</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 0.7.0">
@@ -19,10 +19,10 @@
     <meta name="author" content="LixinZhang">
     
     
-    <link rel="next" href="../data_structure/cut_the_tree.html" />
+    <link rel="next" href="../data_structure/README.html" />
     
     
-    <link rel="prev" href="../data_structure/priority_queue.html" />
+    <link rel="prev" href="../algorithm/kmp.html" />
     
 
         
@@ -34,7 +34,7 @@
 
 
         
-    <div class="book" data-github="LixinZhang/LixinZhang.github.io" data-level="2.3" data-basepath=".." data-revision="1407300660863">
+    <div class="book" data-github="LixinZhang/LixinZhang.github.io" data-level="1.5" data-basepath=".." data-revision="1407300764370">
     <div class="book-header">
     <!-- Actions Left -->
     <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
@@ -114,7 +114,7 @@
         
         
         <li>
-            <a href="https://github.com/LixinZhang/LixinZhang.github.io/edit/master/data_structure/trees.md" target="blank" class="contribute-link">Edit and Contribute</a>
+            <a href="https://github.com/LixinZhang/LixinZhang.github.io/edit/master/algorithm/search.md" target="blank" class="contribute-link">Edit and Contribute</a>
         </li>
         
 
@@ -282,7 +282,7 @@
         </li>
     
         
-        <li class="chapter " data-level="1.5" data-path="algorithm/search.html">
+        <li class="chapter active" data-level="1.5" data-path="algorithm/search.html">
             
                 
                     <a href="../algorithm/search.html">
@@ -352,7 +352,7 @@
         </li>
     
         
-        <li class="chapter active" data-level="2.3" data-path="data_structure/trees.html">
+        <li class="chapter " data-level="2.3" data-path="data_structure/trees.html">
             
                 
                     <a href="../data_structure/trees.html">
@@ -920,7 +920,7 @@
             <div class="page-wrapper" tabindex="-1">
                 <div class="book-progress">
     <div class="bar">
-        <div class="inner" style="width: 29.545454545454547%;min-width: 27.272727272727273%;"></div>
+        <div class="inner" style="width: 20.454545454545453%;min-width: 18.181818181818183%;"></div>
     </div>
     <div class="chapters">
     
@@ -944,13 +944,13 @@
     
         <a href="../algorithm/search.html" title="Search" class="chapter done " data-progress="1.5" style="left: 20.454545454545453%;"></a>
     
-        <a href="../data_structure/README.html" title="Data Structure" class="chapter done new-chapter" data-progress="2" style="left: 22.727272727272727%;"></a>
+        <a href="../data_structure/README.html" title="Data Structure" class="chapter  new-chapter" data-progress="2" style="left: 22.727272727272727%;"></a>
     
-        <a href="../algorithm/linked_list.html" title="Linked List" class="chapter done " data-progress="2.1" style="left: 25%;"></a>
+        <a href="../algorithm/linked_list.html" title="Linked List" class="chapter  " data-progress="2.1" style="left: 25%;"></a>
     
-        <a href="../data_structure/priority_queue.html" title="Priority Queue" class="chapter done " data-progress="2.2" style="left: 27.272727272727273%;"></a>
+        <a href="../data_structure/priority_queue.html" title="Priority Queue" class="chapter  " data-progress="2.2" style="left: 27.272727272727273%;"></a>
     
-        <a href="../data_structure/trees.html" title="Trees" class="chapter done " data-progress="2.3" style="left: 29.545454545454547%;"></a>
+        <a href="../data_structure/trees.html" title="Trees" class="chapter  " data-progress="2.3" style="left: 29.545454545454547%;"></a>
     
         <a href="../data_structure/cut_the_tree.html" title="Online Judge" class="chapter  " data-progress="2.3.1" style="left: 31.818181818181817%;"></a>
     
@@ -1019,9 +1019,50 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_9">
+                    <section class="normal" id="section-gitbook_18">
                     
-                        <h1 id="trees">Trees</h1>
+                        <h1 id="search">Search</h1>
+<h2 id="median-of-two-sorted-arrays">查找两个有序数组的中位数,Median of Two Sorted Arrays</h2>
+<p><a href="https://oj.leetcode.com/problems/median-of-two-sorted-arrays/" target="_blank">https://oj.leetcode.com/problems/median-of-two-sorted-arrays/</a></p>
+<h3 id="source-code">Source Code</h3>
+<pre><code class="lang-cpp"><span class="hljs-comment">//Baidu面试的时候，被问到过这道题。</span>
+<span class="hljs-keyword">class</span> Solution {
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">double</span> findMedianSortedArrays(<span class="hljs-keyword">int</span> A[], <span class="hljs-keyword">int</span> m, <span class="hljs-keyword">int</span> B[], <span class="hljs-keyword">int</span> n) {
+        <span class="hljs-keyword">int</span> total_len = (m + n);
+        <span class="hljs-keyword">if</span> (total_len % <span class="hljs-number">2</span> == <span class="hljs-number">1</span>){
+            <span class="hljs-keyword">return</span> find_KthItem_in_sorted_arrays(A, m , B, n, total_len / <span class="hljs-number">2</span> + <span class="hljs-number">1</span>);
+        }<span class="hljs-keyword">else</span>{
+            <span class="hljs-keyword">int</span> mid_1 = find_KthItem_in_sorted_arrays(A, m , B, n, total_len / <span class="hljs-number">2</span>);
+            <span class="hljs-keyword">int</span> mid_2 = find_KthItem_in_sorted_arrays(A, m , B, n, total_len / <span class="hljs-number">2</span> + <span class="hljs-number">1</span>);
+            <span class="hljs-keyword">return</span> (mid_1 + mid_2) / <span class="hljs-number">2.0</span>;
+        }
+    }
+    <span class="hljs-comment">//更通用的两个有序的列表中，找第k大的元素的方法，这里假设数组A长度大于数组B，若长度A&lt;B，则调换下位置即可</span>
+    <span class="hljs-keyword">int</span> find_KthItem_in_sorted_arrays(<span class="hljs-keyword">int</span> A[], <span class="hljs-keyword">int</span> m, <span class="hljs-keyword">int</span> B[], <span class="hljs-keyword">int</span> n, <span class="hljs-keyword">int</span> k){
+        <span class="hljs-keyword">if</span> (m&lt;n) <span class="hljs-keyword">return</span> find_KthItem_in_sorted_arrays(B, n, A, m, k);
+        <span class="hljs-keyword">if</span> (n==<span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> A[k-<span class="hljs-number">1</span>];
+        <span class="hljs-keyword">if</span> (k==<span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> min(A[<span class="hljs-number">0</span>], B[<span class="hljs-number">0</span>]);
+
+        <span class="hljs-comment">//由于保证A的长度大于B，所以k - kth_b一定为正数，而kth_b需要min(k/2, n);</span>
+        <span class="hljs-keyword">int</span> kth_b = min(k/<span class="hljs-number">2</span>, n);
+        <span class="hljs-keyword">int</span> kth_a = k - kth_b;
+
+        <span class="hljs-keyword">if</span>(A[kth_a-<span class="hljs-number">1</span>] &gt; B[kth_b-<span class="hljs-number">1</span>]){
+            <span class="hljs-comment">//当去掉B的前kth_b元素的时候，使用的方法是B的指针位置+kth_b，偏移量，</span>
+            <span class="hljs-comment">//这个方法很好，避免再记录low等index用于标记</span>
+            <span class="hljs-keyword">return</span> find_KthItem_in_sorted_arrays(A, m, B+kth_b, n-kth_b, kth_a);
+        }
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(A[kth_a-<span class="hljs-number">1</span>] &lt; B[kth_b-<span class="hljs-number">1</span>]){
+            <span class="hljs-keyword">return</span> find_KthItem_in_sorted_arrays(A+kth_a, m-kth_a, B, n, kth_b);
+        }
+        <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> A[kth_a-<span class="hljs-number">1</span>];
+        }
+
+    }
+};
+</code></pre>
 
                     
                     </section>
@@ -1031,10 +1072,10 @@
         </div>
 
         
-        <a href="../data_structure/priority_queue.html" class="navigation navigation-prev " aria-label="Previous page: Priority Queue"><i class="fa fa-angle-left"></i></a>
+        <a href="../algorithm/kmp.html" class="navigation navigation-prev " aria-label="Previous page: KMP"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../data_structure/cut_the_tree.html" class="navigation navigation-next " aria-label="Next page: Online Judge"><i class="fa fa-angle-right"></i></a>
+        <a href="../data_structure/README.html" class="navigation navigation-next " aria-label="Next page: Data Structure"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>
