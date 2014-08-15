@@ -1,4 +1,7 @@
-# String Sorts
+Title: String Sorts 字符串排序
+Date: 2014-08-15 18:23
+Category: CPP
+Tags: CPP
 
 对字符串的排序，主要涉及一种<code>count</code>技术，即根据字符的有限性通过计数的方式来划分rerank的位置。
 
