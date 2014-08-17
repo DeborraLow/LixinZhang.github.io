@@ -6,8 +6,8 @@
         <meta name="author" content="LixinZhang" />
         <meta name="copyright" content="LixinZhang" />
 
-<meta name="keywords" content="BugFix, Note, " />
-        <title>Issues met when installing software on Mac or PC - Backyard of LixinZhang
+<meta name="keywords" content="Algorithm, Algorithm, " />
+        <title>斐波那契数列及尾递归 - Backyard of LixinZhang
 </title>
         <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
@@ -53,46 +53,74 @@
 <article>
 <div class="row-fluid">
     <header class="page_header span10 offset2">
-    <h1><a href="http://lixinzhang.github.io/issues-met-when-installing-software-on-mac-or-pc.html"> Issues met when installing software on Mac or PC  </a></h1>
+    <h1><a href="http://lixinzhang.github.io/fei-bo-na-qi-shu-lie-ji-wei-di-gui.html"> 斐波那契数列及尾递归  </a></h1>
     </header>
 </div>
 
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <h3>解决Ubuntu下ImportError: libblas.so.3gf</h3>
-<p>如果你<code>import scipy</code>时出现，类似：
-<pre>
-import scipy
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "/usr/lib/python2.7/dist-packages/scipy/<strong>init</strong>.py", line 78, in <module>
-    from numpy import show_config as show_numpy_config
-  File "/usr/lib/python2.7/dist-packages/numpy/<strong>init</strong>.py", line 137, in <module>
-    import add_newdocs
-  File "/usr/lib/python2.7/dist-packages/numpy/add_newdocs.py", line 9, in <module>
-    from numpy.lib import add_newdoc
-  File "/usr/lib/python2.7/dist-packages/numpy/lib/<strong>init</strong>.py", line 13, in <module>
-    from polynomial import <em>
-  File "/usr/lib/python2.7/dist-packages/numpy/lib/polynomial.py", line 17, in <module>
-    from numpy.linalg import eigvals, lstsq
-  File "/usr/lib/python2.7/dist-packages/numpy/linalg/<strong>init</strong>.py", line 48, in <module>
-    from linalg import </em>
-  File "/usr/lib/python2.7/dist-packages/numpy/linalg/linalg.py", line 23, in <module>
-    from numpy.linalg import lapack_lite
-ImportError: liblapack.so.3gf: cannot open shared object file: No such file or directory
-</pre></p>
-<p>那么尝试安装<code>libatlas-base-dev</code>，至少我越到的问题解决了。</p>
+            <p>之前有同学去面试，被问到<a href="http://zh.wikipedia.org/zh/%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97">斐波那契数列</a>的递归求法。其实大多数人会认为这个非常简单，很快给出答案。如下：</p>
+<p>根据定义很容易写出的斐波那契数列:</p>
+<div class="highlight"><pre><span class="kt">int</span> <span class="nf">Fibonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">Fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>但是面试官接着问这样不断的压栈很浪费内存空间，问是否可以优化？可能很多人给不出其他解法了，或者说感觉其他解法如果也是递归的话，也需要压栈，一样会占用内存空间。其实，面试官想考察的是<code>尾递归</code>。</p>
+<h3>什么是<a href="http://zh.wikipedia.org/wiki/%E5%B0%BE%E8%B0%83%E7%94%A8">尾递归</a> ？</h3>
 <blockquote>
-<p>sudo apt-get install libatlas-base-dev</p>
+<p>在计算机科学里，尾调用是指一个函数里的最后一个动作是一个函数调用的情形即这个调用的返回值直接被当前函数返回的情形。这种情形下称该调用位置为尾位置。若这个函数在尾位置调用本身（或是一个尾调用本身的其他函数等等），则称这种情况为尾递归，是递归的一种特殊情形。尾调用不一定是递归调用，但是尾递归特别有用，也比较容易实现。</p>
+<p>尾调用的重要性在于它可以不在调用栈上面添加一个新的堆栈帧——而是更新它，如同迭代一般。尾递归因而具有两个特征：
+调用自身函数(Self-called)；
+计算仅占用常量栈空间(Stack Space)。
+而形式上只要是最后一个return语句返回的是一个完整函数，它就是尾递归。</p>
 </blockquote>
+<p>简单理解，就是处于函数尾部的递归调用本身的情形下，前面的变量状态都不需要再保存了，可以释放，从而节省很大的内存空间。在前面的代码中，明显在调用递归调用<code>Fibonacci(n-1)</code>的时候，还有<code>Fibonacci(n-2)</code>没有执行，需要保存前面的状态，因此开销较大的。</p>
+<p>于是，我们可以改写这个斐波那契数列：</p>
+<div class="highlight"><pre><span class="kt">int</span> <span class="nf">Fibonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">Fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>详细的可以参考上面给出的<a href="http://zh.wikipedia.org/wiki/%E5%B0%BE%E8%B0%83%E7%94%A8">尾递归</a>链接。</p>
+<h3>关于斐波那契数列的变形</h3>
+<h4>青蛙跳台阶的问题</h4>
+<p>这个问题很常见，就是找到$$$F[n] = F[n-1] + F[n-2]$$$递推关系，转化为斐波那契数列问题方法求解。</p>
+<h4>青蛙跳台阶问题的变形</h4>
+<p>青蛙可以从$$$1,2,3...n-1$$$跳到n层，数学归纳法。</p>
+<p>$$F[1] = 1, F[2] = 2$$
+$$F[3] = F[2] + F[1]$$
+$$F[4] = F[3] + F[2] + F[1]$$
+$$F[5] = F[4] + F[3] + F[2] + F[1]$$
+易得到：
+$$F[N] - F[N-1] = F[N-1]$$
+然后最终结果：
+$$F[N]=2*F[N-1]$$</p>
+<h4>再变形，一个2*N的矩形，用1*2的小矩形覆盖，有多少种方法。</h4>
+<p>仍然归纳：</p>
+<p>如果在最左边竖着放小矩形，则转化为求解F[N-1]。</p>
+<p>如果在最左边横着放小矩形，则一定要有个同样的小矩形也横着与其并排放，这转化为求解F[N-2]</p>
+<p>因此，转化为了斐波那契数列问题，$$$F[N] = F[N-1] + F[N-2]$$$</p>
             <aside>
             <nav>
             <ul class="articles_timeline">
  
-                <li class="previous_article">« <a href="http://lixinzhang.github.io/ju-zhen-xi-shu-biao-shi.html" title="Previous: 矩阵稀疏表示">矩阵稀疏表示</a></li>
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/effective-c-bi-ji-chapter7.html" title="Previous: Effective C++ 笔记 Chapter7">Effective C++ 笔记 Chapter7</a></li>
  
-                <li class="next_article"><a href="http://lixinzhang.github.io/expert_c_programming-reading-notes.html" title="Next: Expert_C_Programming Reading Notes">Expert_C_Programming Reading Notes</a> »</li>
+                <li class="next_article"><a href="http://lixinzhang.github.io/string-sorts-zi-fu-chuan-pai-xu.html" title="Next: String Sorts 字符串排序">String Sorts 字符串排序</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -101,7 +129,7 @@ ImportError: liblapack.so.3gf: cannot open shared object file: No such file or d
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
-                href="http://lixinzhang.github.io/issues-met-when-installing-software-on-mac-or-pc.html/#disqus_thread">
+                href="http://lixinzhang.github.io/fei-bo-na-qi-shu-lie-ji-wei-di-gui.html/#disqus_thread">
                 Comments
             </a>
         </div>
@@ -111,8 +139,8 @@ ImportError: liblapack.so.3gf: cannot open shared object file: No such file or d
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'zhanglixinseu';
-        var disqus_identifier = 'http://lixinzhang.github.io/issues-met-when-installing-software-on-mac-or-pc.html';
-    var disqus_url = 'http://lixinzhang.github.io/issues-met-when-installing-software-on-mac-or-pc.html';
+        var disqus_identifier = 'http://lixinzhang.github.io/fei-bo-na-qi-shu-lie-ji-wei-di-gui.html';
+    var disqus_url = 'http://lixinzhang.github.io/fei-bo-na-qi-shu-lie-ji-wei-di-gui.html';
 
     (function() {
          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -132,12 +160,12 @@ ImportError: liblapack.so.3gf: cannot open shared object file: No such file or d
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2014-03-04T10:20:00">Mar 4, 2014</time>
+            <time pubdate="pubdate" datetime="2014-08-07T10:20:00">Aug 7, 2014</time>
             <h4>Category</h4>
-            <a class="category-link" href="/categories.html#Note-ref">Note</a> 
+            <a class="category-link" href="/categories.html#Algorithm-ref">Algorithm</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
-                <li><a href="/tags.html#BugFix-ref">BugFix
+                <li><a href="/tags.html#Algorithm-ref">Algorithm
                     <span>1</span>
 </a></li>
             </ul>
