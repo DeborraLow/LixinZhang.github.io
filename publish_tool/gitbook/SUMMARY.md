@@ -1,5 +1,6 @@
 # Summary
 
+* [Introduction](README.md)
 * [Algorithm](algorithm/README.md)
    * [Permutation](algorithm/perm.md)
    * [Dynamic Programming](algorithm/dynamic_programming.md)
@@ -9,6 +10,9 @@
        * [merge sort](algorithm/merge_sort.md)
    * [KMP](algorithm/kmp.md)
    * [Search](algorithm/search.md)
+* [Leetcode](leetcode.md)
+   * [直方图系列](21.md)
+   * [stock买进卖出系列](22.md)
 * [Data Structure](data_structure/README.md)
    * [Linked List](algorithm/linked_list.md)
    * [Priority Queue](data_structure/priority_queue.md)

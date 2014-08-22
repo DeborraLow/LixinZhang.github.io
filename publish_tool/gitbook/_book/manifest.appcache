@@ -1,15 +1,9 @@
 CACHE MANIFEST
-# Revision 1407142866424
+# Revision 1408511420006
 
 CACHE:
-data_structure/README.html
-data_structure/bit_manipulation.html
-data_structure/cut_the_tree.html
-data_structure/matrix.html
-data_structure/priority_queue.html
-data_structure/stack_and_queue.html
-data_structure/trees.html
-data_structure/tries.html
+computational_advertising/README.html
+21.html
 index.html
 algorithm/README.html
 algorithm/dynamic_programming.html
@@ -30,7 +24,16 @@ c++/limiting_the_number_of_objects_of_a_class.html
 c++/more_effective_c++.html
 c++/requiring_or_prohibiting_heap-based_objects.html
 c++/techniques,_idioms,_patterns.html
-computational_advertising/README.html
+22.html
+data_structure/README.html
+data_structure/bit_manipulation.html
+data_structure/cut_the_tree.html
+data_structure/matrix.html
+data_structure/priority_queue.html
+data_structure/stack_and_queue.html
+data_structure/trees.html
+data_structure/tries.html
+leetcode.html
 linux/README.html
 linux/command.html
 machine_learning/README.html
