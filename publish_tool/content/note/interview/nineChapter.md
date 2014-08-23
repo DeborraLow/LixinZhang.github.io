@@ -106,16 +106,18 @@ Tags: 面试题
 ```cpp
 int FindK(vector<vector<int> > & mq, int N, int k)
 {
-    int ans = INT_MIN;
+    int ans_upper = INT_MAX;
+    int ans_lower = INT_MIN;
     int sum_len = 0;
     while(sum_len != k)
     {
-     for (int i=0; i<N; i++)
-     {
-        sum_len += left_count_binarySearch(mq[i], ans);
-     }
-     if (sum_len > k) ans /= 2;
-     if (sum_len < k) ans += 2;
+        ans = ans_lower + (ans_upper - ans_lower) /2;
+        for (int i=0; i<N; i++)
+        {
+           sum_len += left_count_binarySearch(mq[i], ans);
+        }
+        if (sum_len > k) ans_upper = ans;
+        if (sum_len < k) ans_lower = ans;
     }
     return ans;
 }
