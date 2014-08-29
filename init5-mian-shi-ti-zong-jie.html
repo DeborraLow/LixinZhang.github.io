@@ -138,6 +138,29 @@
     <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
+
+
+<h2>环形路加油</h2>
+<p>给定一个非负整数a（不超过10^6），是否存在整数b，使得a和b的乘积全为1。如果存在，返回最小的乘积的位数。如果不存在，返回-1。</p>
+<p>样例：a=3，存在b=37，使得3*37=111，则函数应返回3（111的位数）。</p>
+<h3>分析</h3>
+<p>一开始，想着正向的方式去枚举质数，然后检验乘积为111*11，发现无论时间规模或者空间规模都不行。</p>
+<p>于是，考虑反向枚举111*111，因为这个的候选集合是非常少的。</p>
+<p>然后，另一个需要解决的问题是，枚举111*111，但很容易超出数据类型范围。因此，枚举过程中，可以适当的减少候选值的规模，因为$$$X % b$$$的结果等价于$$$(X - X/b * b) % b$$$结果。因此，在迭代过程中，可以逐渐减少数据大小范围。</p>
+<h3>程序</h3>
+<div class="highlight"><pre><span class="kt">int</span> <span class="nf">findMinAllOne</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">a</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">a</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">base</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">base</span> <span class="o">%</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="n">base</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">base</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">)</span> <span class="n">base</span> <span class="o">=</span> <span class="n">base</span> <span class="o">-</span> <span class="n">base</span><span class="o">/</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">;</span>
+        <span class="n">result</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
             <aside>
             <nav>
             <ul class="articles_timeline">
