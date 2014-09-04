@@ -146,7 +146,7 @@
 <h3>分析</h3>
 <p>一开始，想着正向的方式去枚举质数，然后检验乘积为111*11，发现无论时间规模或者空间规模都不行。</p>
 <p>于是，考虑反向枚举111*111，因为这个的候选集合是非常少的。</p>
-<p>然后，另一个需要解决的问题是，枚举111*111，但很容易超出数据类型范围。因此，枚举过程中，可以适当的减少候选值的规模，因为$$$X % b$$$的结果等价于$$$(X - X/b * b) % b$$$结果。因此，在迭代过程中，可以逐渐减少数据大小范围。</p>
+<p>然后，另一个需要解决的问题是，枚举111*111，但很容易超出数据类型范围。因此，枚举过程中，可以适当的减少候选值的规模，因为$$$X \% b$$$的结果等价于$$$(X - X/b * b) % b$$$结果。因此，在迭代过程中，可以逐渐减少数据大小范围。</p>
 <h3>程序</h3>
 <div class="highlight"><pre><span class="kt">int</span> <span class="nf">findMinAllOne</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">a</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">a</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
@@ -166,6 +166,8 @@
             <ul class="articles_timeline">
  
                 <li class="previous_article">« <a href="http://lixinzhang.github.io/jiu-zhang-suan-fa-mian-shi-ti-zong-jie.html" title="Previous: 九章算法-面试题总结">九章算法-面试题总结</a></li>
+ 
+                <li class="next_article"><a href="http://lixinzhang.github.io/zhi-fang-tu-xi-lie.html" title="Next: 直方图系列">直方图系列</a> »</li>
             </ul>
             </nav>
             </aside>
