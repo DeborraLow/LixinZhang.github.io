@@ -320,6 +320,54 @@ nums: ["54", "546", "548", "60"]
         <span class="n">count_complete_binary_tree_nodes</span><span class="p">(</span><span class="n">getRightChildNode</span><span class="p">(</span><span class="n">root</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
+
+
+<h2>统计完全二叉树个数</h2>
+<h3>题目</h3>
+<p>有一个包含n个元素的首尾相连的环形数组arr，计算最大的子段和（允许空段）。</p>
+<p>样例：数组[1, 3, -2, 6, -1]，最大子段和应该为9，对应的子段为[6, -1, 1, 3]。</p>
+<h3>分析</h3>
+<p>两种情况，一种包括中间分割点，另一种不包括。</p>
+<p>不包括是经典的求最大连续子数组和的题目，得到$$$max_sub_arr$$$。
+包括的话，是求（总和$$$sum$$$ - 最小连续子数组和$$$min_sub_arr$$$）。</p>
+<p>最终结果为 $$$max(max_sub_arr, sum - min_sub_arr)$$$</p>
+<h3>源代码</h3>
+<div class="highlight"><pre><span class="k">const</span> <span class="kt">int</span> <span class="n">INT_MIN</span> <span class="o">=</span> <span class="o">-</span><span class="mi">9999999</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">INT_MAX</span> <span class="o">=</span> <span class="mi">9999999</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">maxConsSum2</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">cur_max_sum</span><span class="p">,</span> <span class="n">pre_max_sum</span><span class="p">,</span> <span class="n">max_sum</span> <span class="o">=</span> <span class="n">INT_MIN</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">cur_min_sum</span><span class="p">,</span> <span class="n">pre_min_sum</span><span class="p">,</span> <span class="n">min_sum</span> <span class="o">=</span> <span class="n">INT_MAX</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">totalsum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">pre_max_sum</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="n">max_sum</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="n">pre_min_sum</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="n">min_sum</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="n">totalsum</span> <span class="o">+=</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">totalsum</span> <span class="o">+=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>   
+        <span class="k">if</span> <span class="p">(</span><span class="n">pre_max_sum</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
+            <span class="n">cur_max_sum</span> <span class="o">=</span> <span class="n">pre_max_sum</span> <span class="o">+</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+            <span class="n">cur_max_sum</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="n">max_sum</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">cur_max_sum</span><span class="p">,</span> <span class="n">max_sum</span><span class="p">);</span>
+        <span class="n">pre_max_sum</span> <span class="o">=</span> <span class="n">cur_max_sum</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">pre_min_sum</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">){</span>
+            <span class="n">cur_min_sum</span> <span class="o">=</span> <span class="n">pre_min_sum</span> <span class="o">+</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+            <span class="n">cur_min_sum</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="n">min_sum</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">cur_min_sum</span><span class="p">,</span> <span class="n">min_sum</span><span class="p">);</span>
+        <span class="n">pre_min_sum</span> <span class="o">=</span> <span class="n">cur_min_sum</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">max</span><span class="p">(</span><span class="n">max_sum</span><span class="p">,</span> <span class="n">totalsum</span> <span class="o">-</span> <span class="n">min_sum</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
             <aside>
             <nav>
             <ul class="articles_timeline">
@@ -372,7 +420,7 @@ nums: ["54", "546", "548", "60"]
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
                 <li><a href="/tags.html#面试题-ref">面试题
-                    <span>7</span>
+                    <span>8</span>
 </a></li>
             </ul>
 

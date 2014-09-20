@@ -308,3 +308,60 @@ int count_complete_binary_tree_nodes(TreeNode root) {
         count_complete_binary_tree_nodes(getRightChildNode(root)) + 1;
 }
 ```
+
+
+##统计完全二叉树个数
+
+###题目
+
+有一个包含n个元素的首尾相连的环形数组arr，计算最大的子段和（允许空段）。
+
+样例：数组[1, 3, -2, 6, -1]，最大子段和应该为9，对应的子段为[6, -1, 1, 3]。
+
+###分析
+两种情况，一种包括中间分割点，另一种不包括。
+
+不包括是经典的求最大连续子数组和的题目，得到$$$max_sub_arr$$$。
+包括的话，是求（总和$$$sum$$$ - 最小连续子数组和$$$min_sub_arr$$$）。
+
+最终结果为 $$$max(max_sub_arr, sum - min_sub_arr)$$$
+
+###源代码
+
+```cpp
+const int INT_MIN = -9999999;
+const int INT_MAX = 9999999;
+
+int maxConsSum2(const vector<int> &arr) {
+    if (arr.size() == 0) return 0;
+    int sum = 0;
+    int cur_max_sum, pre_max_sum, max_sum = INT_MIN;
+    int cur_min_sum, pre_min_sum, min_sum = INT_MAX;
+    int totalsum = 0;
+    pre_max_sum = arr[0];
+    max_sum = arr[0];
+    pre_min_sum = arr[0];
+    min_sum = arr[0];
+    totalsum += arr[0];
+    for(int i=1; i<arr.size(); i++)
+    {
+        totalsum += arr[i];   
+        if (pre_max_sum > 0){
+            cur_max_sum = pre_max_sum + arr[i];
+        }else{
+            cur_max_sum = arr[i];
+        }
+        max_sum = max(cur_max_sum, max_sum);
+        pre_max_sum = cur_max_sum;
+        
+        if (pre_min_sum < 0){
+            cur_min_sum = pre_min_sum + arr[i];
+        }else{
+            cur_min_sum = arr[i];
+        }
+        min_sum = min(cur_min_sum, min_sum);
+        pre_min_sum = cur_min_sum;
+    }
+    return max(max_sum, totalsum - min_sum);
+}
+```
