@@ -1,3 +1,8 @@
+Title: Hadoop基础知识
+Date: 2014-10-09 10:20
+Category: opensource
+Tags: Hadoop
+
 ##Hadoop 基础知识笔记
 
 Hadoop博大精深，很多关键问题需要记录。这篇blog争取持续更新遇到的关于Hadoop的知识点和问题。
