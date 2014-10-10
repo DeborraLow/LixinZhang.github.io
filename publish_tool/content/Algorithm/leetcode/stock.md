@@ -124,45 +124,31 @@ class Solution {
 public:
     int maxProfit(vector<int> &prices) {
         if(prices.size() <= 1) return 0;
-        vector<int> pre_max_prices(prices.size()-1, 0), post_max_prices(prices.size()-1, 0);
-
-        pre_max_prices[0] = prices[1] - prices[0];
-        int once_max_profix = pre_max_prices[0];
-        if(prices.size() == 2) return max(once_max_profix, 0);
-
-        for(int i=1; i<prices.size()-1; i++)
-        {
-            if (pre_max_prices[i-1] > 0){
-                pre_max_prices[i] = (prices[i+1] - prices[i]) + pre_max_prices[i-1];
-            }else{
-                pre_max_prices[i] = (prices[i+1] - prices[i]);
-            }
-            once_max_profix = max(once_max_profix, pre_max_prices[i]);
+                
+        vector<int> pre(prices.size(), 0), post(prices.size(), 0);
+        int len = prices.size();
+        pre[0] = 0;
+        post[len-1] = 0;
+        int pre_min = prices[0];
+        int post_max = prices[len-1];
+        int singleTrans = 0;
+        for(int i=1; i<prices.size(); i++){
+            pre[i] = prices[i] - pre_min;
+            pre[i] = max(pre[i-1], pre[i]);
+            pre_min = min(pre_min,  prices[i]);
+            singleTrans = max(singleTrans, pre[i]);
         }
-        for(int i=1; i<pre_max_prices.size(); i++){
-            pre_max_prices[i] = max(pre_max_prices[i-1], pre_max_prices[i]);
+        for(int i=len-2; i>=0; i--){
+            post[i] = post_max - prices[i];
+            post[i] = max(post[i+1], post[i]);
+            post_max = max(post_max, prices[i]);
         }
-
-        post_max_prices[prices.size() -2] = prices[prices.size() - 1] - prices[prices.size() - 2];
-        for(int i=prices.size()-3; i>=0; i--)
-        {
-            if (post_max_prices[i+1] > 0){
-                post_max_prices[i] = post_max_prices[i+1] + (prices[i+1] - prices[i]);
-            }else{
-                post_max_prices[i] = (prices[i+1] - prices[i]);
-            }
+        int doubleTrans = 0;
+        for(int i=0; i<len-1; i++){
+            doubleTrans = max(doubleTrans, pre[i] + post[i+1]);
         }
-        for(int i=post_max_prices.size()-2; i>=0; i--){
-            post_max_prices[i] = max(post_max_prices[i+1], post_max_prices[i]);
-        }
-
-        int twice_max_profix = 0;
-        for(int i=1; i<pre_max_prices.size() - 1; i++){
-            twice_max_profix = max(twice_max_profix, pre_max_prices[i-1] + post_max_prices[i+1]);
-        }
-        return max(once_max_profix, twice_max_profix) > 0 ? max(once_max_profix, twice_max_profix) : 0;
-
-
+        //cout<<singleTrans<<"\t"<<doubleTrans;
+        return max(singleTrans, doubleTrans);
     }
 };
 ```
