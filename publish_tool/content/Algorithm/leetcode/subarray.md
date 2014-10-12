@@ -6,7 +6,7 @@ Tags: Leetcode
 ##Subarray常见变形
 
 求子序列的问题，很多可以转化为前缀和问题。
-前缀和$$sum[i] = sum[0] + sum[1] + sum[2] + … sum[i]$$
+前缀和$$sum[i] = arr[0] + arr[1] + arr[2] + … arr[i]$$
 
 补充几道题：
 
