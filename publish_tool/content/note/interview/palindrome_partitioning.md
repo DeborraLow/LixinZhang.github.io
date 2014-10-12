@@ -50,6 +50,37 @@ $$flag[i][j] = flag[i+1][j-1] \\&\\&  s[i]==s[j]$$
         }
     };
         
+###最长回文子串的另一O(N^2)解法
+
+```cpp
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        if (s.size() <= 1) return s;
+        int maxLen = 1;
+        int ans_start = 0;
+        for(int i=1; i<s.size(); i++){
+            update(s, i-1, i+1, ans_start, maxLen);
+            update(s, i-1, i, ans_start, maxLen);
+        }
+        //cout<<ans_start<<"\t"<<maxLen<<endl;
+        return s.substr(ans_start, maxLen);
+    }
+    void update(string & s, int start, int end, int & ans_start,  int & maxLen){
+            int curlen = 1;
+            if(start == end -1) curlen = 0;
+            while(start >= 0 && end < s.size() && s[start] == s[end]){
+                start--;
+                end++;
+                curlen += 2;
+            }
+            if(curlen > maxLen){
+                ans_start = start+1;
+                maxLen = curlen;
+            }
+    }
+};
+```
 
 ###思路1
 定义$$$F[i][j]$$$表示字符串$$$s$$$从位置$$$i$$$到$$$j$$$所需要的最少<code>cut</code>数，则有如下递推关系：
