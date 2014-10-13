@@ -31,6 +31,8 @@ F[2][N], F[0][i]表示以i结尾的连续子序列的最大乘积，F[1][i]表�
 $$$F[0][i] = maxThree(F[0][i-1] * A[i], F[1][i-1] * A[i], A[i])$$$
 $$$F[1][i] = minThree(F[0][i-1] * A[i], F[1][i-1] * A[i], A[i])$$$
 
+改进一下，跟最大子序列和的subarray问题一样，只用一个单变量记录状态也是可以的，这样就保证了O(1)空间+ one-pass。
+
 ```cpp
 class Solution {
 public:
@@ -43,16 +45,14 @@ public:
     int maxProduct(int A[], int n) {
         if(n <= 0) return 0;
         if(n <= 1) return A[0];
-        vector<vector<int> > F;
-        F.push_back(vector<int>(n));
-        F.push_back(vector<int>(n));
-        F[0][0] = A[0]; //max
-        F[1][0] = A[0]; //min
+        int pre_max = A[0];
+        int pre_min = A[0];
         int res = A[0];
         for(int i=1; i<n; i++){
-            F[0][i] = maxThree(F[0][i-1] * A[i], F[1][i-1] * A[i], A[i]);
-            F[1][i] = minThree(F[0][i-1] * A[i], F[1][i-1] * A[i], A[i]);
-            res = max(F[0][i], res);
+            int next_max = maxThree(pre_max * A[i], pre_min * A[i], A[i]);
+            pre_min = minThree(pre_max * A[i], pre_min * A[i], A[i]);
+            pre_max = next_max;
+            res = max(pre_max, res);
         }
         return res;
     }
