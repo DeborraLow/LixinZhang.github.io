@@ -64,23 +64,46 @@
 <p>求子序列的问题，很多可以转化为前缀和问题。
 前缀和$$sum[i] = arr[0] + arr[1] + arr[2] + … arr[i]$$</p>
 <p>补充几道题：</p>
-<ul>
-<li>
-<p>最长连续子序列，仍然可以转化为前缀和问题。</p>
-</li>
-<li>
-<p>Find the subarray which abs(sum) is biggest. 求前缀和数组中，最大和最小值，其差为最大</p>
-</li>
-<li>
-<p>Find the subarray which sum equals to zero. 利用hash表，O(n)， 前缀和数组，找两个前缀和相等的位置</p>
-</li>
-<li>
-<p>Find the subarray which sum is closest to zero. 对前缀和数组进行排序，然后找离最近的两个位置。</p>
-</li>
-<li>
-<p>环形最大子序列和，因为所有数组总和S不变，所以考虑两种情况，跨循环点（S - minsubarray），不跨循环点（正常求maxsubarray）</p>
-</li>
-</ul>
+<h3>最长连续子序列</h3>
+<p>仍然可以转化为前缀和问题。</p>
+<h3>Find the subarray which abs(sum) is biggest.</h3>
+<p>求前缀和数组中，最大和最小值，其差为最大</p>
+<h3>Find the subarray which sum equals to zero.</h3>
+<p>利用hash表，O(n)， 前缀和数组，找两个前缀和相等的位置</p>
+<h3>Find the subarray which sum is closest to zero.</h3>
+<p>对前缀和数组进行排序，然后找离最近的两个位置。</p>
+<h3>环形最大子序列和</h3>
+<p>因为所有数组总和S不变，所以考虑两种情况，跨循环点（S - minsubarray），不跨循环点（正常求maxsubarray）</p>
+<h3>Maximum Product Subarray(Leetcode 新题)</h3>
+<p>F[2][N], F[0][i]表示以i结尾的连续子序列的最大乘积，F[1][i]表示以i结尾的连续子序列的最小乘积，那么当前i的状态转移方程可以写为：</p>
+<p>$$$F[0][i] = maxThree(F[0][i-1] * A[i], F[1][i-1] * A[i], A[i])$$$
+$$$F[1][i] = minThree(F[0][i-1] * A[i], F[1][i-1] * A[i], A[i])$$$</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">int</span> <span class="n">minThree</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">){</span>
+        <span class="k">return</span> <span class="n">min</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">),</span><span class="n">c</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">maxThree</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">){</span>
+        <span class="k">return</span> <span class="n">max</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">),</span> <span class="n">c</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">maxProduct</span><span class="p">(</span><span class="kt">int</span> <span class="n">A</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">F</span><span class="p">;</span>
+        <span class="n">F</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">));</span>
+        <span class="n">F</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">));</span>
+        <span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="c1">//max</span>
+        <span class="n">F</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="c1">//min</span>
+        <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">maxThree</span><span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">F</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+            <span class="n">F</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">minThree</span><span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">F</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">res</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
             <aside>
             <nav>
             <ul class="articles_timeline">
