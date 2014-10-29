@@ -17,6 +17,8 @@ Druid是神马？
 
 之前写过的：[Druid Introduction and usage in S&D Analytic Tool](http://lixinzhang.github.io/druid-introduction-and-usage-in-sd-analytic-tool.html)
 
+![http://images.cnblogs.com/cnblogs_com/coser/561971/o_Druid.jpg](http://images.cnblogs.com/cnblogs_com/coser/561971/o_Druid.jpg)
+
 ###我对Druid的理解
 
 * 主要用于数据分析，而非查询，因此如果想拿到某条具体的instance，Druid是不合适的。虽然可以通过GroupBy的操作拿到这样的结果。
