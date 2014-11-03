@@ -6,8 +6,8 @@
         <meta name="author" content="LixinZhang" />
         <meta name="copyright" content="LixinZhang" />
 
-<meta name="keywords" content="Leetcode, Algorithm, " />
-        <title>Subarray常见变形 - Backyard of LixinZhang
+<meta name="keywords" content="Life, Life, " />
+        <title>我的2015年校招总结 - Backyard of LixinZhang
 </title>
         <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
@@ -53,62 +53,144 @@
 <article>
 <div class="row-fluid">
     <header class="page_header span10 offset2">
-    <h1><a href="http://lixinzhang.github.io/subarraychang-jian-bian-xing.html"> Subarray常见变形  </a></h1>
+    <h1><a href="http://lixinzhang.github.io/wo-de-2015nian-xiao-zhao-zong-jie.html"> 我的2015年校招总结  </a></h1>
     </header>
 </div>
 
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <p>求子序列的问题，很多可以转化为前缀和问题。
-前缀和$$sum[i] = arr[0] + arr[1] + arr[2] + … arr[i]$$</p>
-<p>补充几道题：</p>
-<h2>最长连续子序列</h2>
-<p>仍然可以转化为前缀和问题。</p>
-<h2>Find the subarray which abs(sum) is biggest.</h2>
-<p>求前缀和数组中，最大和最小值，其差为最大</p>
-<h2>Find the subarray which sum equals to zero.</h2>
-<p>利用hash表，O(n)， 前缀和数组，找两个前缀和相等的位置</p>
-<h2>Find the subarray which sum is closest to zero.</h2>
-<p>对前缀和数组进行排序，然后找离最近的两个位置。</p>
-<h2>环形最大子序列和</h2>
-<p>因为所有数组总和S不变，所以考虑两种情况，跨循环点（S - minsubarray），不跨循环点（正常求maxsubarray）</p>
-<h2>Maximum Product Subarray(Leetcode 新题)</h2>
-<p>F[2][N], F[0][i]表示以i结尾的连续子序列的最大乘积，F[1][i]表示以i结尾的连续子序列的最小乘积，那么当前i的状态转移方程可以写为：</p>
-<p>$$$F[0][i] = maxThree(F[0][i-1] * A[i], F[1][i-1] * A[i], A[i])$$$
-$$$F[1][i] = minThree(F[0][i-1] * A[i], F[1][i-1] * A[i], A[i])$$$</p>
-<p>改进一下，跟最大子序列和的subarray问题一样，只用一个单变量记录状态也是可以的，这样就保证了O(1)空间+ one-pass。</p>
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="nl">public:</span>
-    <span class="kt">int</span> <span class="n">minThree</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">){</span>
-        <span class="k">return</span> <span class="n">min</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">),</span><span class="n">c</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="kt">int</span> <span class="n">maxThree</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">){</span>
-        <span class="k">return</span> <span class="n">max</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">),</span> <span class="n">c</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="kt">int</span> <span class="n">maxProduct</span><span class="p">(</span><span class="kt">int</span> <span class="n">A</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-        <span class="kt">int</span> <span class="n">pre_max</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-        <span class="kt">int</span> <span class="n">pre_min</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-        <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-            <span class="kt">int</span> <span class="n">next_max</span> <span class="o">=</span> <span class="n">maxThree</span><span class="p">(</span><span class="n">pre_max</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">pre_min</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-            <span class="n">pre_min</span> <span class="o">=</span> <span class="n">minThree</span><span class="p">(</span><span class="n">pre_max</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">pre_min</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-            <span class="n">pre_max</span> <span class="o">=</span> <span class="n">next_max</span><span class="p">;</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">pre_max</span><span class="p">,</span> <span class="n">res</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">};</span>
-</pre></div>
+            <h3>写在前面</h3>
+<blockquote>
+<p>2015年的校招早已结束，本来早就想写一篇总结的，但是一直没时间。而最近公司开始各种催三方了，貌似也该做个决定了，可是从小我就是个很难做选择的人。所以还请大家帮忙分析分析，你们的建议对我真的很重要的。</p>
+</blockquote>
+<h3>Overview</h3>
+<ul>
+<li>我一共参加过9家公司的面试，包括阿里巴巴、点评、雅虎北研、亚马逊、宜信大数据、网易游戏、有道、Hulu、搜狗。</li>
+<li>我的简历帮我免去了除网易游戏以外的所有笔试，所以我这几年的积累还是起了很多作用的。另外，这里要感谢所有帮我内推的认识的或不认识的朋友。</li>
+<li>校招前，本来还想面的公司如（Freewheel，Microsoft，百度，美团），后由于提前拿到比这些好的offer了，于是这些都放弃了。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>公司</th>
+<th>面试过程</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>大众点评</strong></td>
+<td>获奖免试offer + 一轮技术总监面 + VP面</td>
+<td><code>offer</code></td>
+</tr>
+<tr>
+<td></td>
+<td>special offer+可观数量的股票，传言即将上市？</br>跟内部员工打听了一下，是个非常不错的offer，一般应届生工作2年左右才会配股，所以这也许是个很好的机会？</br>算法团队据说还不错，未来主管为某算法大牛，前ebay的scientist</br>上海积分貌似不够，户口有点危险</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>阿里巴巴</strong></td>
+<td>免笔试 + 提前批 + 交叉面 + HR面</td>
+<td><code>offer</code></td>
+</tr>
+<tr>
+<td></td>
+<td>阿里妈妈算法，原实习部门，方向是广告，很match</br>Menter和manager对我非常好。</br>核心base在北京，很难户口，待遇略低</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>雅虎北研</strong></td>
+<td>intern conversion + (2+1)轮技术面</td>
+<td>口头<code>offer</code></br>(strong hire)</td>
+</tr>
+<tr>
+<td></td>
+<td>Transfer美国的机会？福利很好，工作很舒服。</br>实习部门，同事很nice，manager对我很好。</br>部门整体偏工程，未来可能转到更有挑战的方向</br>待遇未定。</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>亚马逊</strong></td>
+<td>免笔试，两轮技术面+HR面</td>
+<td><code>offer</code></td>
+</tr>
+<tr>
+<td></td>
+<td>一开始没收到笔试通知，后来竟然直接获得了面试机会。</br>SDE，部门较边缘，但北京户口概率很高，待遇中上</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>宜信大数据</strong></td>
+<td>三轮on-site技术面 + Boss面</td>
+<td><code>offer</code></td>
+</tr>
+<tr>
+<td></td>
+<td>互联网金融，团队牛逼（大量google、hulu员工组成）</br>joyce zhang靠谱，终面聊得很开心</br>后续发展是否有瓶颈？毕竟偏金融，且不是大牌IT企业</br>待遇未定</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>网易游戏</strong></td>
+<td>内推电面+笔试+3轮on-site技术面</td>
+<td><code>offer</code></td>
+</tr>
+<tr>
+<td></td>
+<td>好哥们的盘古游戏工作室，杭州，PC端游，后台开发</br>新的领域，很多东西需要重头学起</br>游戏即将上线，有可能进去会分红，据说很给力</br>加班较多，待遇没想象中高</td>
+<td></td>
+</tr>
+<tr>
+<td>网易有道</td>
+<td>三面通过，终面放弃</td>
+<td>Give up</td>
+</tr>
+<tr>
+<td></td>
+<td>为攒人品，终面就不去了</td>
+<td></td>
+</tr>
+<tr>
+<td>Hulu</td>
+<td>电面过，on-site面取消</td>
+<td>Give up</td>
+</tr>
+<tr>
+<td></td>
+<td>状态差+hulu太难，放弃了面试</br>面试体验很好，电面题目记忆犹新</td>
+<td></td>
+</tr>
+<tr>
+<td>搜狗</td>
+<td>超级提前批，7月份，三面挂</td>
+<td>Fuck + Shit</td>
+</tr>
+<tr>
+<td></td>
+<td>极品面试官，惨不忍睹，面试体验极差</br>如果看到本文的你正好有搜狗的offer，并在犹豫不决，那么还是直接据了吧</td>
+<td></td>
+</tr>
+<tr>
+<td>Google</td>
+<td>两次在线笔试都过不了线，题目太难，无奈放弃</td>
+<td>Give up</td>
+</tr>
+<tr>
+<td></td>
+<td>Google注定无缘</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>求offer比较</h3>
+<h4>目前的纠结</h4>
+<p>北京or上海or杭州，外企or国企，大公司or发展中公司，游戏or互联网，算法or工程。oh，shit！</p>
+<p>大众点评 or 阿里巴巴 or 雅虎北研 or 亚马逊 or 宜信大数据 or 网易游戏 ？？？</p>
+<p>这几家的待遇都还可以，我个人比较倾向以后能做富有挑战的事情，但是我目前看不清到底应该选哪个？每个选择，都可能决定后来完全不同的人生。</p>
             <aside>
             <nav>
             <ul class="articles_timeline">
  
-                <li class="previous_article">« <a href="http://lixinzhang.github.io/hadoopji-chu-zhi-shi.html" title="Previous: Hadoop基础知识">Hadoop基础知识</a></li>
- 
-                <li class="next_article"><a href="http://lixinzhang.github.io/wo-de-2015nian-xiao-zhao-zong-jie.html" title="Next: 我的2015年校招总结">我的2015年校招总结</a> »</li>
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/subarraychang-jian-bian-xing.html" title="Previous: Subarray常见变形">Subarray常见变形</a></li>
             </ul>
             </nav>
             </aside>
@@ -117,7 +199,7 @@ $$$F[1][i] = minThree(F[0][i-1] * A[i], F[1][i-1] * A[i], A[i])$$$</p>
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
-                href="http://lixinzhang.github.io/subarraychang-jian-bian-xing.html/#disqus_thread">
+                href="http://lixinzhang.github.io/wo-de-2015nian-xiao-zhao-zong-jie.html/#disqus_thread">
                 Comments
             </a>
         </div>
@@ -127,8 +209,8 @@ $$$F[1][i] = minThree(F[0][i-1] * A[i], F[1][i-1] * A[i], A[i])$$$</p>
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'zhanglixinseu';
-        var disqus_identifier = 'http://lixinzhang.github.io/subarraychang-jian-bian-xing.html';
-    var disqus_url = 'http://lixinzhang.github.io/subarraychang-jian-bian-xing.html';
+        var disqus_identifier = 'http://lixinzhang.github.io/wo-de-2015nian-xiao-zhao-zong-jie.html';
+    var disqus_url = 'http://lixinzhang.github.io/wo-de-2015nian-xiao-zhao-zong-jie.html';
 
     (function() {
          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -148,13 +230,13 @@ $$$F[1][i] = minThree(F[0][i-1] * A[i], F[1][i-1] * A[i], A[i])$$$</p>
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2014-10-11T12:54:00">Oct 11, 2014</time>
+            <time pubdate="pubdate" datetime="2014-11-03T10:20:00">Nov 3, 2014</time>
             <h4>Category</h4>
-            <a class="category-link" href="/categories.html#Algorithm-ref">Algorithm</a> 
+            <a class="category-link" href="/categories.html#Life-ref">Life</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
-                <li><a href="/tags.html#Leetcode-ref">Leetcode
-                    <span>3</span>
+                <li><a href="/tags.html#Life-ref">Life
+                    <span>2</span>
 </a></li>
             </ul>
 
