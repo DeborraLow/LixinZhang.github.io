@@ -40,8 +40,9 @@ DISQUS_SITENAME = 'zhanglixinseu'
 OUTPUT_PATH = './'
 
 LANDING_PAGE_ABOUT = {'title':'Backyard of LixinZhang', 'details':'''
-<p>My name is Lixin Zhang. I am now a master student majoring in Computer Science in Beihang University, Beijing, China.</p>
-
+<p>I am now a FTE working for Yahoo!(Beijing R&D). 
+I graduated from Beihang University(BUAA, Beijing) with master degree in Computer Science, 
+and got bachelor degree in Software Engineering from Southeast University(SEU, Nanjing).
 <p>
 You could find me in <a href="https://github.com/LixinZhang" title="Github">Github</a>,
  <a href="https://www.facebook.com/zhanglixin.peter" title="Facebook">Facebook</a>,
@@ -51,15 +52,16 @@ or reach me via <a href="mailto:zhanglixinseu@gmail.com" title="My email address
 </p>
 
 <p>
-I mostly work in Python, C++/C on Mac OS, UNIX-style OS, windows and I have rich
-intern experience in many companies, like Yahoo, Alibaba and Innovation Works(创新工场).
-Now I am focusing on Web Development, Network Programming, Distributed System and Computational Advertising, 
-Recommender System, Data Mining which are now very pupular in industry and academia.
+I mostly work in Python, C++/C on Mac OS, UNIX-style OS and I have rich intern experience 
+in many companies on my school-days, like Yahoo(one year), Alibaba(one year) 
+and Innovation Works(two month). 
+Now I am focusing on Computational Advertising, Recommender System, Data Mining which are now very pupular in industry and academia. 
+I am also familiar with Web Development, Distributed System and Network Programming.
 </p>
 
 <p>
-My hobbies are Winning Eleven computer game and music of Linkin Park, Taylor Swift, Avril Lavigne, Taiwan Mayday. 
-English as my second language is very poor to me. So I try to write some blogs or notes in English to improve my language skill.
+My hobbies are Winning Eleven computer game and music of Linkin Park, Taylor Swift, Avril Lavigne, Taiwan Mayday and 逃跑计划. 
+English as my second language is very poor to me. So I try to write some blogs and notes in English to improve my language skill.
 </p>
 
  '''}
