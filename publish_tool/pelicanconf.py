@@ -62,7 +62,7 @@ English as my second language is very poor to me. So I try to write some blogs a
 PROJECTS = [
      {'name':'Gmail',
      'url':'mailto:zhanglixinseu@gmail.com',
-     'description': 'Feel free to reach me via Email'}
+     'description': 'Feel free to reach me via Email'},
      {'name': '新浪微博',
      'url': 'http://weibo.com/zhanglixin5566',
      'description': '扯淡用的'},
@@ -74,10 +74,10 @@ PROJECTS = [
      'description': ''},
      {'name':'Linkedin',
      'url':'http://www.linkedin.com/pub/lixin-zhang/72/bb/66a',
-     'description': ''}
+     'description': ''},
      {'name':'知乎',
      'url':'http://www.zhihu.com/people/zhanglixin',
-     'description': ''}
+     'description': ''},
      {'name':'博客园',
      'url':'http://www.cnblogs.com/coser',
      'description': '原来的中文博客，很多是本科时候记录的东西'}
