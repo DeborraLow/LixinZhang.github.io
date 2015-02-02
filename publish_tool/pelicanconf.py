@@ -43,13 +43,6 @@ LANDING_PAGE_ABOUT = {'title':'Backyard of LixinZhang', 'details':'''
 <p>I am now a FTE working for Yahoo!(Beijing R&D). 
 I graduated from Beihang University(BUAA, Beijing) with master degree in Computer Science, 
 and got bachelor degree in Software Engineering from Southeast University(SEU, Nanjing).
-<p>
-You could find me in <a href="https://github.com/LixinZhang" title="Github">Github</a>,
- <a href="https://www.facebook.com/zhanglixin.peter" title="Facebook">Facebook</a>,
- <a href="http://www.linkedin.com/pub/lixin-zhang/72/bb/66a" title="Linkedin">Linkedin</a>,
- <a href="http://weibo.com/zhanglixin5566" title="新浪微博">新浪微博</a> and <a href="http://www.cnblogs.com/coser" title="博客园">博客园</a> 
-or reach me via <a href="mailto:zhanglixinseu@gmail.com" title="My email address" itemprop="email">Gmail</a>.
-</p>
 
 <p>
 I mostly work in Python, C++/C on Mac OS, UNIX-style OS and I have rich intern experience 
@@ -66,17 +59,26 @@ English as my second language is very poor to me. So I try to write some blogs a
 
  '''}
 
-PROJECTS = [{
-     'name': 'L2R for BT',
-     'url': 'https://github.com/LixinZhang/advertisingLab',
-     'description': 'Audience Ranking : an algorithm helps longtail'
-     ' advertisers to select top-ranked audience according to their relevance with advertisements.'},
-     {'name': 'miniCrowler',
-     'url': 'https://github.com/LixinZhang/miniCrowler',
-     'description': 'MiniCrawler is a simple web crawler implemented by Python.'},
-     {'name':'ServerClusterManageTool',
-     'url':'https://github.com/LixinZhang/ServerClusterManageTool',
-     'description': 'A tool help users to manage machines on PaaS in web clients.'},
-     {'name':'DistributedCrawler',
-     'url':'https://github.com/LixinZhang/DistributedCrawler',
-     'description': 'This is a Distributed Web Crawler Project using C++ on Linux platform.'}]
+PROJECTS = [
+     {'name':'Gmail',
+     'url':'mailto:zhanglixinseu@gmail.com',
+     'description': 'Feel free to reach me via Email'}
+     {'name': '新浪微博',
+     'url': 'http://weibo.com/zhanglixin5566',
+     'description': '扯淡用的'},
+     {'name': 'Github',
+     'url': 'https://github.com/LixinZhang',
+     'description': '一些代码，放在上面托管'},
+     {'name':'Facebook',
+     'url':'https://www.facebook.com/zhanglixin.peter',
+     'description': ''},
+     {'name':'Linkedin',
+     'url':'http://www.linkedin.com/pub/lixin-zhang/72/bb/66a',
+     'description': ''}
+     {'name':'知乎',
+     'url':'http://www.zhihu.com/people/zhanglixin',
+     'description': ''}
+     {'name':'博客园',
+     'url':'http://www.cnblogs.com/coser',
+     'description': '原来的中文博客，很多是本科时候记录的东西'}
+     ]
