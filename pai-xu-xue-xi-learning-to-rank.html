@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="LixinZhang" />
+        <meta name="copyright" content="LixinZhang" />
+
+<meta name="keywords" content="Learning to Rank, MachineLearning, " />
+        <title>排序学习（Learning to Rank） - Backyard of LixinZhang
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>Backyard of LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/book">Notes</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="http://lixinzhang.github.io/resume.pdf">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/pai-xu-xue-xi-learning-to-rank.html"> 排序学习（Learning to Rank）  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <blockquote>
+<p>这篇里面的内容主要是在做毕业设计时，整理的一些关于L2R的学习笔记。</p>
+</blockquote>
+<h3>什么是排序学习？</h3>
+<p>传统的排序模型主要分为两类：一种是按照相关度进行排序，一种是按照重要性进行排序。
+相关度排序模型是指基于查询和文档之间的相似度作为衡量指标，来对文档进行排序，如BM25相关度分值、基于向量空间模型或布尔模型的余弦相似度等。
+重要性排序模型仅仅根据文档之间的拓扑关系来判断文档的重要程度，而不考虑用户输入的查询，如HITS，PageRank分数等。
+然而，无论基于相关度模型还是重要性模型，往往只能衡量查询与文档间的某单方面的权重，导致排序结果置信度不够。因此，实际应用中，通常会将不同的排序模型进行组合来对文档进行排序，然而，随着排序模型越来越复杂，人工分配各个单模型的排序权重越来越不现实，因此研究者们考虑使用机器学习的方法自动学习多个排序模型的权重参数，从而有效地组合多个排序模型，使排序效果更好。
+这就是排序学习（Learning to Rank, L2R)。从广义上来讲，排序学习是指机器学习方法中任何用于解决排序任务的技术；从狭义上来说，排序学习是指排序整合 (Ranking aggregation)和排序生成(Ranking creation)过程中用于构建排序模型的机器学习方法。</p>
+<h3>学习框架</h3>
+<p>下图展示了一般情况下排序学习系统框架示意图，其中主要包括三个关键步骤。首先，是排序学习训练数据的收集与标注；其次，是选择合适的排序学习方法进行机器学习训练得到排序模型；最后，通过得到的排序模型，对新查询对应的待排序文档进行排序，最终得到文档的排序结果。
+<img alt="image" src="http://images.cnblogs.com/cnblogs_com/coser/561971/o_L2R.png" />
+训练数据的标注是排序学习中的关键任务，一般可以分为显式标注与隐式标注两种。对于显示标注，对每一个查询的返回结果，需要人工方式检查其相关性，因此人力成本高，代价高且人工噪声也会很大。对于隐式标注，则是从用户的历史点击记录中抽取标注数据，例如同时展现给用户的文档列表，如果用户点击了文档a，那么一定程度上可以认为文档文档a比其他文档更相关，然而这种方法的属于隐反馈信息，也具有比较大的噪声。
+排序学习的训练数据的标注一般有三种形式，分别为单点标注、两两标注以及列表标注：</p>
+<ul>
+<li>单点(point)标注：为每个查询，标注对应的每个文档的相关度(如二元标注（不相关，相关），五级标注（差（Bad）、一般（Fair）、好（Good）、出色（Excellent）、完美（Perfect）)；</li>
+<li>两两(pair)标注：为每个查询，标注对应的每两个文档对（Pair）之间的偏序相关性(如对于查询$$$q$$$，文档$$$a$$$比文档$$$b$$$更相关)；</li>
+<li>列表(list)标注：为每个查询，标注对应的有序文档列表(如文档$$$a$$$&gt;文档$$$b$$$&gt;文档$$$c$$$)。</li>
+</ul>
+<h3>学习方法</h3>
+<p>排序学习三种不同类型的训练数据形式，对应着三种不同类型的排序学习方法，分别为Pointwise方法，Pairwise方法，Listwise方法。</p>
+<h4>Pointwise方法</h4>
+<p>当使用机器学习技术解决排序相关的问题时，很自然的想法便是寻找现有的机器学习模型对排序问题进行直接建模。这就是Pointwise方法的主要思想。这样做的前提是，模型要预测的是对于指定查询，每一个文档的准确的相关度值。然而，其实这并没有必要，因为对于排序问题而言，目标不是要得到准确的相关度分值，而是要得到一个准确排序的文档列表。Pointwise方法基于不同的机器学习策略分为三种子类型：基于回归的排序算法，其输出空间为实数型的相关度分值；基于分类的排序算法，其输出空间为无序的类目标签如非常相关或不相关等；以及基于序数回归的排序算法，其输出空间为有序的类目标签。由于pointwise方法的输入空间为单一文档，缺乏对文档间关系的考虑，而对于排序问题，文档间的有序关系更为重要。因此，在实际排序学习应用当中，pointwise方法只作为一个次优的解决方法。常见的基于Pointwise的排序学习算法如下：OAP-BPM，Ranking with Large Margin Principles以及Constraint Ordinal Regression等。</p>
+<h4>Pairwise方法</h4>
+<p>Pairwise方法与上前面的Pointwise方法不同，其并不是关注于如何准确地估算出文档的相关度分值，而是考虑了对于指定查询，每两个文档间的相关度的有序关系。Pairwise方法通常将排序问题归约为对文档有序对（ordered pair）的分类问题，如判断文档对里的哪一个文档对于给定查询是更相关的。因此，其学习目标为最小化误分类文档对的数量。理想情况下，如果所有文档对都被正确的分类，那么这些文档也会被正确的排序。Pairwise方法的分类与Pointwise方法中的分类不同，前者是对文档对而言，后者则是对单一的文档而言。传统分类问题的基本假设是待分类的样本是独立的，而对于文档对而言并不是如此。尽管如此，基于Pairwise的解决排序问题仍然是有效的。对于解决排序问题，Pairwise方法考虑了文档对间的有序关系，比Pointwise方法更近了一步，但是其仍存在很多缺点，如文档与文档间的偏序程度信息有了损失，如对于某一查询，文档$$$a$$$是强相关，文档$$$b$$$是弱相关，文档$$$c$$$为不相关，则有序对$$$<a,c>$$$与$$$<b,c>$$$在训练过程中是被同等对待，但其实两者存在很大不同；此外，大多数基于pairwise的排序学习算法只是考虑文档对间的位置关系，而没有考虑文档在最后排序列表的位置关系。目前已有很多研究针对这些问题展开，并取得了一定改进效果，如LambdaRank，IR-SVM等方法。常见的基于Pairwise的排序学习算法如下：Ranking SVM，RankBoost，GBRank，IRSVM，MPRank等。</p>
+<h4>Listwise方法</h4>
+<p>Listwise方法相比Pointwise与Pairwise方法，将对于给定查询的整个文档集合作为输入，直接对排序结果列表进行优化。根据不同的优化损失函数，Listwise方法主要分为两类，一类是直接将排序的评测指标作为目标优化函数进行直接优化，另一类则与其相反，并不依赖于排序指标。Listwise在损失函数中考虑了文档排序的位置因素，这是前两种方法所不具备的，Listwise方法一般情况下也比前两种方法具有更好的性能。然而，Listwise方法的缺点也很明显，由于需要对结果列表进行直接优化，因此训练模型的复杂度非常高。常见的基于Listwise的排序学习算法如下：AdaRank，ListNet，ListMLE等。</p>
+<h3>参考资料</h3>
+<ol>
+<li>Liu T.-Y. Learning to rank for information retrieval[J]. Foundations and Trends in Infor-
+mation Retrieval, 2009, 3(3):225–331</li>
+<li>Hang L. A short introduction to learning to rank[J]. IEICE TRANSACTIONS on Infor-
+mation and Systems, 2011, 94(10):1854–1862</li>
+</ol>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/lai-bei-jing-zhe-liang-nian-ban.html" title="Previous: 来北京这两年半">来北京这两年半</a></li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/pai-xu-xue-xi-learning-to-rank.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/pai-xu-xue-xi-learning-to-rank.html';
+    var disqus_url = 'http://lixinzhang.github.io/pai-xu-xue-xi-learning-to-rank.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2015-02-05T13:31:00">Feb 5, 2015</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#MachineLearning-ref">MachineLearning</a> 
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article"> 
+                <li><a href="/tags.html#Learning-to-Rank-ref">Learning to Rank
+                    <span>1</span>
+</a></li>
+            </ul>
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>
