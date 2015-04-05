@@ -17,7 +17,7 @@ Druid是神马？
 
 之前写过的：[Druid Introduction and usage in S&D Analytic Tool](http://lixinzhang.github.io/druid-introduction-and-usage-in-sd-analytic-tool.html)
 
-![222](http://http://lixinzhang.github.io/image/o_Druid.jpg)
+![222](http://lixinzhang.github.io/image/o_Druid.jpg)
 
 ###我对Druid的理解
 

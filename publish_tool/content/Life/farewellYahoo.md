@@ -10,7 +10,7 @@ Tags: Life
 
 非常感谢组里的同事们，尤其是我的经理对我这段时间的照顾和帮助。转眼就要各奔东西，祝愿小伙伴们在事业和生活都能顺顺利利，我也要开始一段新的生活了。
 
-![image1](http://http://lixinzhang.github.io/image/badge.png)
+![image1](http://lixinzhang.github.io/image/badge.png)
 
 考虑到发展前景、技术积累以及户口情况，我最终选择腾讯微信（北京）作为我的下一站，也希望自己以后能在微信早日做出一些成绩出来。
 
@@ -18,4 +18,4 @@ Tags: Life
 
 Farewell, Yahoo!
 
-![image2](http://lixinzhang.github.io/allpeople.png)
+![image2](http://lixinzhang.github.io/image/allpeople.png)
