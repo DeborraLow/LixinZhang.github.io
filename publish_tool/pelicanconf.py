@@ -40,10 +40,11 @@ DISQUS_SITENAME = 'zhanglixinseu'
 OUTPUT_PATH = './'
 
 LANDING_PAGE_ABOUT = {'title':'Backyard of LixinZhang', 'details':'''
-<p>I am now a FTE working for Yahoo!(Beijing R&D). 
+<p>I have just graduated from Yahoo!(Beijing R&D).</p>
+<p>
 I graduated from Beihang University(BUAA, Beijing) with master degree in Computer Science, 
 and got bachelor degree in Software Engineering from Southeast University(SEU, Nanjing).
-
+</p>
 <p>
 I mostly work in Python, C++/C on Mac OS, UNIX-style OS and I have rich intern experience 
 in many companies on my school-days, like Yahoo(one year), Alibaba(one year) 
