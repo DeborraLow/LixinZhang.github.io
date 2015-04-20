@@ -40,7 +40,8 @@ DISQUS_SITENAME = 'zhanglixinseu'
 OUTPUT_PATH = './'
 
 LANDING_PAGE_ABOUT = {'title':'Backyard of LixinZhang', 'details':'''
-<p>I have just graduated from Yahoo!(Beijing R&D).</p>
+<p>I am a FTE in Tencent WeChat Group(WXG) focusing on online advertising.</p>
+<p>Before I joined Tencent, I graduated from Yahoo!(Beijing R&D) on 2015-3-31. And it is my honor to be a Yahoo.</p>
 <p>
 I graduated from Beihang University(BUAA, Beijing) with master degree in Computer Science, 
 and got bachelor degree in Software Engineering from Southeast University(SEU, Nanjing).
@@ -49,13 +50,11 @@ and got bachelor degree in Software Engineering from Southeast University(SEU, N
 I mostly work in Python, C++/C on Mac OS, UNIX-style OS and I have rich intern experience 
 in many companies on my school-days, like Yahoo(one year), Alibaba(one year) 
 and Innovation Works(two month). 
-Now I am focusing on Computational Advertising, Recommender System, Data Mining which are now very pupular in industry and academia. 
-I am also familiar with Web Development, Distributed System and Network Programming.
+Now I am focusing on Computational Advertising and data mining which are now very pupular in industry and academia. 
+I am also familiar with distributed system, web development and network programming.
 </p>
-
 <p>
 My hobbies are Winning Eleven computer game and music of Linkin Park, Taylor Swift, Avril Lavigne, Taiwan Mayday and 逃跑计划. 
-English as my second language is very poor to me. So I try to write some blogs and notes in English to improve my language skill.
 </p>
 
  '''}
