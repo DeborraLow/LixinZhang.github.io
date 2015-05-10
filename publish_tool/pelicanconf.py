@@ -40,8 +40,8 @@ DISQUS_SITENAME = 'zhanglixinseu'
 OUTPUT_PATH = './'
 
 LANDING_PAGE_ABOUT = {'title':'Backyard of LixinZhang', 'details':'''
-<p>I am a FTE in Tencent WeChat Group(WXG) focusing on online advertising.</p>
-<p>Before I joined Tencent, I graduated from Yahoo!(Beijing R&D) on 2015-3-31. And it is my honor to be a Yahoo.</p>
+<p>I am a R&D Software Engineer in Tencent WeChat Group(WXG, Beijing).</p>
+<p>Before I joined Tencent, I graduated from Yahoo!(Beijing R&D) on 2015-3-31. And it is my honor to used to be a Yahoo.</p>
 <p>
 I graduated from Beihang University(BUAA, Beijing) with master degree in Computer Science, 
 and got bachelor degree in Software Engineering from Southeast University(SEU, Nanjing).
@@ -50,7 +50,7 @@ and got bachelor degree in Software Engineering from Southeast University(SEU, N
 I mostly work in Python, C++/C on Mac OS, UNIX-style OS and I have rich intern experience 
 in many companies on my school-days, like Yahoo(one year), Alibaba(one year) 
 and Innovation Works(two month). 
-Now I am focusing on Computational Advertising and data mining which are now very pupular in industry and academia. 
+Now I am focusing on Computational Advertising and Data Mining which are now very pupular in industry and academia. 
 I am also familiar with distributed system, web development and network programming.
 </p>
 <p>
@@ -68,7 +68,7 @@ PROJECTS = [
      'description': '一些代码，放在上面托管'},
      {'name':'Facebook',
      'url':'https://www.facebook.com/zhanglixin.peter',
-     'description': '联系外国朋友的'},
+     'description': '联系在外国朋友的'},
      {'name':'Linkedin',
      'url':'http://www.linkedin.com/pub/lixin-zhang/72/bb/66a',
      'description': '欢迎互相关注'},
