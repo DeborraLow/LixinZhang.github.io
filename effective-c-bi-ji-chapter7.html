@@ -98,7 +98,7 @@
 <p>看下面的例子，定义一个模板化的基类MsgSender，然后定义继承类LoggingMsgSender：</p>
 <div class="highlight"><pre><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Company</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">MsgSender</span><span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="kt">void</span> <span class="n">sendmsg</span><span class="p">(){</span>
         <span class="n">Company</span> <span class="n">c</span><span class="p">;</span>
         <span class="n">c</span><span class="p">.</span><span class="n">saysomething</span><span class="p">();</span>
@@ -108,7 +108,7 @@
 
 <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Company</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">LoggingMsgSender</span><span class="o">:</span> <span class="k">public</span> <span class="n">MsgSender</span><span class="o">&lt;</span><span class="n">Company</span><span class="o">&gt;</span><span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="kt">void</span> <span class="n">sendLoggingMsg</span><span class="p">(){</span>
         <span class="n">sendmsg</span><span class="p">();</span> <span class="c1">//编译error</span>
     <span class="p">}</span>
@@ -120,7 +120,7 @@
 <p>用this指针明确告知存在。</p>
 <div class="highlight"><pre><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Company</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">LoggingMsgSender</span><span class="o">:</span> <span class="k">public</span> <span class="n">MsgSender</span><span class="o">&lt;</span><span class="n">Company</span><span class="o">&gt;</span><span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="kt">void</span> <span class="n">sendLoggingMsg</span><span class="p">(){</span>
         <span class="k">this</span><span class="o">-&gt;</span><span class="n">sendmsg</span><span class="p">();</span>
     <span class="p">}</span>
@@ -132,8 +132,8 @@
 <div class="highlight"><pre><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Company</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">LoggingMsgSender</span><span class="o">:</span> <span class="k">public</span> <span class="n">MsgSender</span><span class="o">&lt;</span><span class="n">Company</span><span class="o">&gt;</span><span class="p">{</span>
 <span class="k">using</span> <span class="n">MsgSender</span><span class="o">&lt;</span><span class="n">Company</span><span class="o">&gt;::</span><span class="n">sendmsg</span><span class="p">;</span>
-<span class="nl">public:</span>
-    <span class="kt">void</span> <span class="nf">sendLoggingMsg</span><span class="p">(){</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">void</span> <span class="n">sendLoggingMsg</span><span class="p">(){</span>
         <span class="n">sendmsg</span><span class="p">();</span>
     <span class="p">}</span>
 <span class="p">};</span>
@@ -143,7 +143,7 @@
 <p>直接使用基类，但是也关掉了多态性质，因此不提倡这种方法。</p>
 <div class="highlight"><pre><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Company</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">LoggingMsgSender</span><span class="o">:</span> <span class="k">public</span> <span class="n">MsgSender</span><span class="o">&lt;</span><span class="n">Company</span><span class="o">&gt;</span><span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="kt">void</span> <span class="n">sendLoggingMsg</span><span class="p">(){</span>
         <span class="n">MsgSender</span><span class="o">&lt;</span><span class="n">Company</span><span class="o">&gt;::</span><span class="n">sendmsg</span><span class="p">();</span>
     <span class="p">}</span>
@@ -164,7 +164,7 @@
 
 <p>如不调用<code>sender.sendLoggingMsg()</code>，现在完成的情况就可以通过编译，然而若调用<code>sender.sendLoggingMsg()</code>，则会编译出错，原因很简单，找不到<code>CompanyA</code>是否存在<code>saysomething</code>函数。 因此，模板的诊断可以发生在定义时，也可能发生在具体实现时。最后，在<code>CompanyA</code>类中添加缺失的函数。</p>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">CompanyA</span><span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="kt">void</span> <span class="n">saysomething</span><span class="p">(){</span>
         <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;hi&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
     <span class="p">}</span>

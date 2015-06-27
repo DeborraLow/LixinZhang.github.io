@@ -84,7 +84,7 @@
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">state_deleter</span> <span class="p">{</span>  <span class="c1">// a deleter class with state</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
   <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
   <span class="kt">void</span> <span class="k">operator</span><span class="p">()(</span><span class="n">T</span><span class="o">*</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">delete</span> <span class="p">[]</span> <span class="n">p</span><span class="p">;</span>

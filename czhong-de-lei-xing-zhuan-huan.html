@@ -77,7 +77,7 @@
 <h3>dynamic_cast</h3>
 <p>dynamic_cast 支持运行时识别指针或引用所指向的对象。 其将基类类型对象的引用或指针转换为同一继承层次中其他类型的引用和指针。与<code>dynamic_cast</code>一起使用的指针必须是有效的——它必须为0或者指向某一对象。</p>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Base</span><span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="n">Base</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
         <span class="n">num</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
     <span class="p">}</span>
@@ -86,7 +86,7 @@
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">Derived</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Base</span><span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="n">Derived</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span><span class="o">:</span><span class="n">Base</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">){</span>
         <span class="n">num</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
     <span class="p">}</span>
@@ -155,11 +155,11 @@
 <p>static_cast 与 reinterpret_cast reinterpret_cast是为了映射到一个完全不同类型的意思，这个关键词在我们需要把类型映射回原有类型时用到它。我们映射到的类型仅仅是为了故弄玄虚和其他目的，这是所有映射中最危险的。(这句话是C++编程思想中的原话)</p>
 <p>static_cast和reinterpret_cast的区别主要在于多重继承，比如</p>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
-    <span class="nl">public:</span>
+    <span class="k">public</span><span class="o">:</span>
     <span class="kt">int</span> <span class="n">m_a</span><span class="p">;</span>
 <span class="p">};</span>
 <span class="k">class</span> <span class="nc">B</span> <span class="p">{</span>
-    <span class="nl">public:</span>
+    <span class="k">public</span><span class="o">:</span>
     <span class="kt">int</span> <span class="n">m_b</span><span class="p">;</span>
 <span class="p">};</span>
 

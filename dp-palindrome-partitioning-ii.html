@@ -75,7 +75,7 @@ Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 
 <p>顺便附带一道相关题目<a href="https://oj.leetcode.com/problems/longest-palindromic-substring/">longest-palindromic-substring</a>。</p>
 <div class="highlight"><pre><span class="c1">//利用dp性质f[i][j] = f[i+1][j-1] &amp;&amp; S[i] == S[j]</span>
 <span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="n">string</span> <span class="n">longestPalindrome</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
         <span class="kt">bool</span> <span class="n">check</span><span class="p">[</span><span class="mi">1001</span><span class="p">][</span><span class="mi">1001</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="nb">false</span><span class="p">};</span>
         <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
@@ -102,7 +102,7 @@ Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 
 
 <h3>最长回文子串的另一O(N^2)解法</h3>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="n">string</span> <span class="n">longestPalindrome</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">s</span><span class="p">;</span>
         <span class="kt">int</span> <span class="n">maxLen</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
@@ -145,7 +145,7 @@ $$</p>
 <p>Leetcode：无法Accpeted， 时间空间，均无法满足要求</p>
 <h4>参考程序</h4>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="kt">int</span> <span class="n">minCut</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
         <span class="kt">int</span> <span class="o">**</span> <span class="n">F</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span> <span class="o">*</span> <span class="p">[</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()];</span>
         <span class="kt">bool</span> <span class="o">**</span> <span class="n">valid</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">bool</span> <span class="o">*</span> <span class="p">[</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()];</span>
@@ -194,7 +194,7 @@ $$F[i]=min(F[j]+1) ,{i&lt;j&lt;n}$$</p>
 <p>Leetcode：Accpeted</p>
 <h4>参考程序</h4>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="kt">int</span> <span class="n">minCut</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
         <span class="kt">int</span> <span class="n">F</span><span class="p">[</span><span class="mi">2000</span><span class="p">];</span>
         <span class="kt">bool</span> <span class="n">flag</span><span class="p">[</span><span class="mi">2000</span><span class="p">][</span><span class="mi">2000</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="nb">false</span><span class="p">};</span>

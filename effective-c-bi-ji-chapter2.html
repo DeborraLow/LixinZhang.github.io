@@ -104,7 +104,7 @@
 <h3>不在构造和析构函数过程中调用virtual函数</h3>
 <p>先看段代码：</p>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Base</span><span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="n">Base</span><span class="p">(){</span>
         <span class="n">num</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
         <span class="n">nonPureVirFunction</span><span class="p">();</span>
@@ -126,7 +126,7 @@
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">Derived</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Base</span><span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="n">Derived</span><span class="p">(){</span>
         <span class="c1">//nonPureVirFunction();</span>
         <span class="n">num</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>

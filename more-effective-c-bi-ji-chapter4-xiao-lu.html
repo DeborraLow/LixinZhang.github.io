@@ -75,7 +75,7 @@
 <p>一般读操作由于不修改内部值，因此引用计数很好用，但写的时候再进行副本创建。但是如何区分读与写很困难，比如<code>opetartor[]</code>既可以读也可以写。</p>
 <h4>Lazy Fetching(缓式取出)</h4>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Object</span><span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="n">Object</span><span class="p">(</span><span class="kt">int</span> <span class="n">id</span><span class="p">)</span><span class="o">:</span><span class="n">p</span><span class="p">(</span><span class="nb">NULL</span><span class="p">){}</span>
     <span class="c1">//const 函数不能修改任何成员值</span>
     <span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">field1</span><span class="p">()</span> <span class="k">const</span><span class="p">{</span>
@@ -86,7 +86,7 @@
         <span class="k">return</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
     <span class="p">}</span>
 
-<span class="nl">private:</span>
+<span class="k">private</span><span class="o">:</span>
      <span class="k">mutable</span> <span class="n">string</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
 <span class="p">};</span>
 </pre></div>

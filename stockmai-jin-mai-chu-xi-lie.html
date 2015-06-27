@@ -69,7 +69,7 @@
 于是题目变成最大子段和的问题</p>
 <h4>Source Code</h4>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="kt">int</span> <span class="n">maxProfit</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">prices</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span><span class="p">(</span><span class="n">prices</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
         <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">sub_prices</span><span class="p">;</span>
@@ -89,7 +89,7 @@
             <span class="p">}</span>
             <span class="n">max_profix</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">sub_sum</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">max_profix</span><span class="p">);</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">max_profix</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">max_profix</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">max_profix</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="nl">max_profix</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 </pre></div>
@@ -100,7 +100,7 @@
 <p>这个方法，就很简单。</p>
 <h4>Source Code</h4>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="kt">int</span> <span class="n">maxProfit</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">prices</span><span class="p">)</span> <span class="p">{</span>
         <span class="kt">int</span> <span class="n">pre_min</span> <span class="o">=</span> <span class="mi">90000000</span><span class="p">;</span>
         <span class="kt">int</span> <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -125,7 +125,7 @@
 因此遇到B[i] &lt; 0的情况，就相当于划分出了一个新的子段。</p>
 <h3>Source Code</h3>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="kt">int</span> <span class="n">maxProfit</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">prices</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">prices</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
         <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -133,7 +133,7 @@
         <span class="p">{</span>
             <span class="n">res</span> <span class="o">+=</span> <span class="n">max</span><span class="p">(</span><span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">0</span><span class="p">);</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">res</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">res</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">res</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="nl">res</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 </pre></div>
@@ -155,7 +155,7 @@
 <p>枚举一个分割点，左边求最大，右边求最小。或左边求最小，右边求最大。</p>
 <h3>Source Code</h3>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="kt">int</span> <span class="n">maxProfit</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">prices</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span><span class="p">(</span><span class="n">prices</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 

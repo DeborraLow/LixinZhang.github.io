@@ -68,7 +68,7 @@
 对应的高度为height[1] &lt; height[2] &lt; height[5] &lt; height[7]
 当遇到不满足单调性时，弹出元素进行计算。</p>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="kt">int</span> <span class="n">largestRectangleArea</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">height</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">height</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
@@ -107,7 +107,7 @@
 <p>前后两次遍历，记录位置i之前最大的数，和i之后最大的数，然后可以得出本位置可以存放的水有多少。</p>
 <h3>Source code</h3>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="kt">int</span> <span class="n">trap</span><span class="p">(</span><span class="kt">int</span> <span class="n">A</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">left_max_height</span><span class="p">,</span> <span class="n">right_max_height</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
         <span class="kt">int</span> <span class="n">tmp_max</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -123,7 +123,7 @@
         <span class="kt">int</span> <span class="n">total_water</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
         <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
             <span class="kt">int</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">left_max_height</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">right_max_height</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-            <span class="n">total_water</span> <span class="o">+=</span> <span class="p">(</span><span class="n">cur</span><span class="o">&gt;</span><span class="mi">0</span> <span class="o">?</span> <span class="n">cur</span> <span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+            <span class="n">total_water</span> <span class="o">+=</span> <span class="p">(</span><span class="n">cur</span><span class="o">&gt;</span><span class="mi">0</span> <span class="o">?</span> <span class="nl">cur</span> <span class="p">:</span> <span class="mi">0</span><span class="p">);</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">total_water</span><span class="p">;</span>
     <span class="p">}</span>
@@ -139,7 +139,7 @@
 //同理height[low] &gt; height[high], high--。 这样就可以保证只遍历一次，即时间是O(n)的复杂度。</p>
 <h3>Source code</h3>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="kt">int</span> <span class="n">maxArea</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">height</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">height</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
         <span class="kt">int</span> <span class="n">most_water</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>

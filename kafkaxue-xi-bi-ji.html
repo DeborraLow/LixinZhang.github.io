@@ -107,30 +107,30 @@ Kafka is a distributed, partitioned, replicated commit log service. It provides 
 <li><a href="https://github.com/mumrah/kafka-python">https://github.com/mumrah/kafka-python</a></li>
 </ol>
 <p>:::python    </p>
-<div class="highlight"><pre><span class="n">from</span> <span class="n">kazoo</span><span class="p">.</span><span class="n">client</span> <span class="n">import</span> <span class="n">KazooClient</span>
-<span class="n">from</span> <span class="n">samsa</span><span class="p">.</span><span class="n">cluster</span> <span class="n">import</span> <span class="n">Cluster</span>
-<span class="n">import</span> <span class="n">json</span>
-<span class="n">import</span> <span class="n">time</span>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">kazoo.client</span> <span class="kn">import</span> <span class="n">KazooClient</span>
+<span class="kn">from</span> <span class="nn">samsa.cluster</span> <span class="kn">import</span> <span class="n">Cluster</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
 
 <span class="n">zookeeper</span> <span class="o">=</span> <span class="n">KazooClient</span><span class="p">(</span><span class="s">&quot;budget32.rm.ne1.yahoo.com:2181&quot;</span><span class="p">)</span>
-<span class="n">zookeeper</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+<span class="n">zookeeper</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 <span class="n">cluster</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">zookeeper</span><span class="p">)</span>
-<span class="n">topic</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">.</span><span class="n">topics</span><span class="p">[</span><span class="err">&#39;</span><span class="n">demo</span><span class="err">&#39;</span><span class="p">]</span>
-<span class="n">print</span> <span class="n">cluster</span><span class="p">.</span><span class="n">brokers</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
-<span class="n">consumer</span> <span class="o">=</span> <span class="n">topic</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="err">&#39;</span><span class="n">group</span><span class="o">-</span><span class="n">name</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="n">topic</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">topics</span><span class="p">[</span><span class="s">&#39;demo&#39;</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">cluster</span><span class="o">.</span><span class="n">brokers</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="n">consumer</span> <span class="o">=</span> <span class="n">topic</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&#39;group-name&#39;</span><span class="p">)</span>
 <span class="n">impression</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">for</span> <span class="n">message</span> <span class="n">in</span> <span class="n">consumer</span><span class="o">:</span>
-    <span class="nl">try:</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="err">&#39;</span><span class="n">timestamp</span><span class="err">&#39;</span><span class="p">],</span> <span class="err">&#39;</span><span class="o">%</span><span class="n">Y</span><span class="o">-%</span><span class="n">m</span><span class="o">-%</span><span class="n">dT</span><span class="o">%</span><span class="n">H</span><span class="o">:%</span><span class="n">M</span><span class="o">:%</span><span class="n">S</span><span class="err">&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="n">tm_min</span> <span class="o">&gt;=</span> <span class="mi">45</span> <span class="o">&amp;</span> <span class="n">t</span><span class="p">.</span><span class="n">tm_min</span> <span class="o">&lt;</span> <span class="mi">50</span> <span class="o">:</span>
-            <span class="n">impression</span> <span class="o">+=</span> <span class="n">obj</span><span class="p">[</span><span class="err">&#39;</span><span class="n">impression</span><span class="err">&#39;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">impression</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span>
-            <span class="n">print</span> <span class="n">impression</span>
-        <span class="k">if</span> <span class="n">t</span><span class="p">.</span><span class="n">tm_min</span> <span class="o">&gt;</span> <span class="mi">52</span><span class="o">:</span>
+<span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">consumer</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s">&#39;timestamp&#39;</span><span class="p">],</span> <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">T%H:%M:%S&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">tm_min</span> <span class="o">&gt;=</span> <span class="mi">45</span> <span class="o">&amp;</span> <span class="n">t</span><span class="o">.</span><span class="n">tm_min</span> <span class="o">&lt;</span> <span class="mi">50</span> <span class="p">:</span>
+            <span class="n">impression</span> <span class="o">+=</span> <span class="n">obj</span><span class="p">[</span><span class="s">&#39;impression&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">impression</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
+            <span class="k">print</span> <span class="n">impression</span>
+        <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">tm_min</span> <span class="o">&gt;</span> <span class="mi">52</span><span class="p">:</span>
             <span class="k">break</span>
-    <span class="n">except</span> <span class="o">:</span>
-        <span class="n">print</span> <span class="n">mssage</span>
+    <span class="k">except</span> <span class="p">:</span>
+        <span class="k">print</span> <span class="n">mssage</span>
 </pre></div>
 
 

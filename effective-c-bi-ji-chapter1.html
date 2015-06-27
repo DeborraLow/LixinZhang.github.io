@@ -102,7 +102,7 @@
 <p>用inline替换<code>#define 函数</code>，如<code>#define CALL_WITH_MAX(a,b) f((a)&gt;(b) ? (a) : (b))</code>，在定义，切记对括号的正确使用，因为define是替换，如果不加括号，就容易出问题。使用<code>inline</code>来替换它</p>
 <div class="highlight"><pre><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="kr">inline</span> <span class="kt">void</span> <span class="n">callWithMax</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">){</span>
-    <span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="o">&gt;</span><span class="n">b</span><span class="o">?</span><span class="n">a</span><span class="o">:</span><span class="n">b</span><span class="p">);</span>
+    <span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="o">&gt;</span><span class="n">b</span><span class="o">?</span><span class="nl">a</span><span class="p">:</span><span class="n">b</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -124,9 +124,9 @@
 </li>
 </ul>
 <p>理解的方法，<code>const</code>在<code>*</code>号左边指const值，在星号右边指pointer本身是const的。</p>
-<div class="highlight"><pre>    <span class="p">:::</span><span class="nl">cpp</span>
-    <span class="nx">const</span> <span class="nx">std</span><span class="p">::</span><span class="nl">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span><span class="p">::</span><span class="nl">iterator</span> <span class="nx">iter</span><span class="p">;</span> <span class="c1">//const pointer</span>
-    <span class="nx">std</span><span class="p">::</span><span class="nl">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span><span class="p">::</span><span class="nl">const_iterator</span> <span class="nx">iter</span><span class="p">;</span> <span class="c1">// const data, 一般用于遍历的时候用</span>
+<div class="highlight"><pre>    <span class="o">::</span><span class="nd">:cpp</span>
+    <span class="nt">const</span> <span class="nt">std</span><span class="o">:</span><span class="nd">:vector</span><span class="o">&lt;</span><span class="nt">int</span><span class="o">&gt;:</span><span class="nd">:iterator</span> <span class="nt">iter</span><span class="o">;</span> <span class="o">//</span><span class="nt">const</span> <span class="nt">pointer</span>
+    <span class="nt">std</span><span class="o">:</span><span class="nd">:vector</span><span class="o">&lt;</span><span class="nt">int</span><span class="o">&gt;:</span><span class="nd">:const_iterator</span> <span class="nt">iter</span><span class="o">;</span> <span class="o">//</span> <span class="nt">const</span> <span class="nt">data</span><span class="o">,</span> <span class="err">一般用于遍历的时候用</span>
 </pre></div>
 
 

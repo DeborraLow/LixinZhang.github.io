@@ -63,7 +63,7 @@
 <p>这节主要就是在讲解数组的取地址的访问形式。
 直接在代码上看这个问题：</p>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Base</span><span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="k">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">(){</span>
         <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;base&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
     <span class="p">}</span>
@@ -73,7 +73,7 @@
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">Derived</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Base</span><span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="k">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">(){</span>
         <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;derived&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
     <span class="p">}</span>
@@ -113,7 +113,7 @@
 <h3>对定制的“类型转换函数”保持警觉</h3>
 <p>两种函数允许编译器执行隐式类型转换：单自变量<code>constructors</code>和隐式类型转换操作符。所谓单自变量<code>constructors</code>是指能够以单一自变量成功调用的<code>constructors</code>。</p>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Name</span><span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="n">Name</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span> <span class="n">s</span><span class="p">){</span>
     <span class="p">}</span>
     <span class="n">Name</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">s</span><span class="p">){</span>
@@ -148,7 +148,7 @@
 <h3>区别increment/decrement操作符的前置(prefix)与后置(postfix)形式</h3>
 <p>C++提供自定义类的<code>++A与A++</code>的支持</p>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">UPInt</span><span class="p">{</span>
-<span class="nl">public:</span>
+<span class="k">public</span><span class="o">:</span>
     <span class="n">UPInt</span> <span class="o">&amp;</span> <span class="k">operator</span><span class="o">++</span><span class="p">();</span> <span class="c1">//++A</span>
     <span class="k">const</span> <span class="n">UPInt</span> <span class="k">operator</span><span class="o">++</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span> <span class="c1">//A++</span>
     <span class="n">UPInt</span> <span class="o">&amp;</span> <span class="k">operator</span><span class="o">--</span><span class="p">();</span>
