@@ -14,10 +14,8 @@ Category: Note
 \usepackage{amsmath}
 \usepackage{algorithm}
 \usepackage{algorithmic}
-
 \usepackage{listings} %插入代码
 \usepackage{xcolor} %代码高亮
-
 %下面一段可以解决mac下中文乱码的问题
 \XeTeXlinebreaklocale "zh"
 \XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
@@ -29,7 +27,6 @@ Category: Note
 \setmainfont{Times New Roman}
 \usepackage{zhspacing}
 \zhspacing
-
 \usepackage{graphicx}
 \usepackage[unicode]{hyperref} %目录、引用等的跳转
 \usepackage{xcolor}
@@ -45,12 +42,10 @@ Category: Note
 \renewcommand{\tablename}{表}
 \renewcommand{\appendixname}{附录}
 \renewcommand{\algorithm}{算法}
-
 \title{文档标题}
 \author{lixinzhang}
 \maketitle
 \tableofcontents
-
 \newpage
 \section{AAA}
 \subsection{aaa}
