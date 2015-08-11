@@ -6,7 +6,7 @@ Category: Algorithm
 
 ##Pagerank 简单介绍
 
-Pagerank将每个页面抽象表达为一个结点，如果有一个页面$$$a$$$包含有一个或多个链接指向另一个页面$$$b$$$，那么表示页面$$$a$$$对页面$$$b$$$的重要性进行了认可，为其投了一票。这种关系，可以抽象为图结构中的一条有向边。然后通过能力传递的观点，每个结点会将自己的权重分发给其指向的结点，经过多轮的迭代，完成最后的收敛，最后得到各自的pagerank分值。
+Pagerank将每个页面抽象表达为一个结点，如果有一个页面$$$a$$$包含有一个或多个链接指向另一个页面$$$b$$$，那么表示页面$$$a$$$对页面$$$b$$$的重要性进行了认可，为其投了一票。这种关系，可以抽象为图结构中的一条有向边。然后通过能量传递的观点，每个结点会将自己的权重分发给其指向的结点，经过多轮的迭代，完成最后的收敛，最后得到各自的pagerank分值。
 
 Pagerank的一般形式表达为：
 $$PR(u) = (1-d) + d \cdot \sum\_{v \in B(u)} PR(v)$$
@@ -120,7 +120,7 @@ d_0.490000 [['b', '0.5']]
 </pre>
 
 ###Controller
-由于pagerank算法是一个多轮迭代的过程，因此需要一个控制器来反复执行迭代的任务。一轮迭代后的输出格式与输入格式是相同的，因此只要在执行map-reduce任务时，每结束一轮迭代，就讲input directory 与 output directory进行交换即可。
+由于pagerank算法是一个多轮迭代的过程，因此需要一个控制器来反复执行迭代的任务。一轮迭代后的输出格式与输入格式是相同的，因此只要在执行map-reduce任务时，每结束一轮迭代，就将input directory 与 output directory进行交换即可。
 
 ####page_rank_controller.py
     ::python
@@ -129,9 +129,9 @@ d_0.490000 [['b', '0.5']]
 
     ITER = 10
 
-    dataset = "hdfs://tl-wxg-nn-tdw.tencent-distribute.com:54310/user/lhotse/lixinzhang/peoplerank/dataset/preprocessing"
-    source = "hdfs://tl-wxg-nn-tdw.tencent-distribute.com:54310/user/lhotse/lixinzhang/peoplerank/dataset/processing"
-    target = "hdfs://tl-wxg-nn-tdw.tencent-distribute.com:54310/user/lhotse/lixinzhang/peoplerank/dataset/processing_swap"
+    dataset = "hdfs://XXX:54310/user/lhotse/lixinzhang/peoplerank/dataset/preprocessing"
+    source = "hdfs://XXX:54310/user/lhotse/lixinzhang/peoplerank/dataset/processing"
+    target = "hdfs://XXX:54310/user/lhotse/lixinzhang/peoplerank/dataset/processing_swap"
 
     os.system("hadoop fs -rmr %s" % source)
     os.system("hadoop fs -cp %s/part* %s/" % (dataset, source))
