@@ -80,12 +80,12 @@ a c 0.3
 d b 0.5
 </pre></p>
 <h3>数据预处理</h3>
-<h4>people_rank_pre_processing_mapper.py</h4>
+<h4>page_rank_pre_processing_mapper.py</h4>
 <div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span> <span class="p">:</span>
     <span class="n">uin</span><span class="p">,</span> <span class="n">to_uin</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-    <span class="c">#key -&gt; uin_peoplerank</span>
+    <span class="c">#key -&gt; uin_pagerank</span>
     <span class="n">key</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">uin</span><span class="p">,</span> <span class="s">&quot;1.0&quot;</span><span class="p">)</span>
     <span class="c">#value -&gt; touin_weight</span>
     <span class="n">value</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">to_uin</span><span class="p">,</span> <span class="n">weight</span><span class="p">)</span>
@@ -93,7 +93,7 @@ d b 0.5
 </pre></div>
 
 
-<h4>people_rank_pre_processing_reducer.py</h4>
+<h4>page_rank_pre_processing_reducer.py</h4>
 <div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
@@ -116,13 +116,12 @@ d_1.0 b_0.5
 </pre></p>
 <h3>一轮的Pagerank迭代</h3>
 <p>接预处理的输出为输入。</p>
-<h4>people_rank_mapper.py</h4>
+<h4>page_rank_mapper.py</h4>
 <div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">PeopleRank is similar to PageRank</span>
-<span class="sd">PeopleRank assign different weight to different edges according to votes count.</span>
+<span class="sd">PageRank assign different weight to different edges according to votes count.</span>
 <span class="sd">PR(u) = (1-d) + d * sum_{v \in B(u)} PR(v) * weight_{v-&gt;u}</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -139,7 +138,7 @@ d_1.0 b_0.5
 </pre></div>
 
 
-<h4>people_rank_reducer.py</h4>
+<h4>page_rank_reducer.py</h4>
 <div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
@@ -160,7 +159,7 @@ d_1.0 b_0.5
     <span class="k">else</span> <span class="p">:</span>
         <span class="k">pass</span>
 
-<span class="c">#update PeopleRank score</span>
+<span class="c">#update pageRank score</span>
 <span class="k">for</span> <span class="n">uin</span> <span class="ow">in</span> <span class="n">line_to_be_updated</span> <span class="p">:</span>
     <span class="k">if</span> <span class="n">uin</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">uin_to_sum_rank</span> <span class="p">:</span>
         <span class="n">newRank</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">d</span><span class="p">)</span>
@@ -176,7 +175,31 @@ a_0.150000 [['b', '0.3'], ['d', '0.4'], ['c', '0.3']]
 d_0.490000 [['b', '0.5']]
 </pre></p>
 <h3>Controller</h3>
-<p>由于pagerank算法是一个多轮迭代的过程，因此</p>
+<p>由于pagerank算法是一个多轮迭代的过程，因此需要一个控制器来反复执行迭代的任务。一轮迭代后的输出格式与输入格式是相同的，因此只要在执行map-reduce任务时，每结束一轮迭代，就讲input directory 与 output directory进行交换即可。</p>
+<h4>page_rank_controller.py</h4>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">ITER</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="s">&quot;hdfs://tl-wxg-nn-tdw.tencent-distribute.com:54310/user/lhotse/lixinzhang/peoplerank/dataset/preprocessing&quot;</span>
+<span class="n">source</span> <span class="o">=</span> <span class="s">&quot;hdfs://tl-wxg-nn-tdw.tencent-distribute.com:54310/user/lhotse/lixinzhang/peoplerank/dataset/processing&quot;</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s">&quot;hdfs://tl-wxg-nn-tdw.tencent-distribute.com:54310/user/lhotse/lixinzhang/peoplerank/dataset/processing_swap&quot;</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s">&quot;hadoop fs -rmr </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">source</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s">&quot;hadoop fs -cp </span><span class="si">%s</span><span class="s">/part* </span><span class="si">%s</span><span class="s">/&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">source</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">one_pass</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s">&quot;hadoop fs -rmr </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">target</span><span class="p">))</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s">&quot;sh pagerank.sh </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ITER</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Processing iter : </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">one_pass</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+    <span class="n">source</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="p">,</span> <span class="n">source</span>
+
+<span class="k">print</span> <span class="s">&quot;Done.&quot;</span>
+</pre></div>
             <aside>
             <nav>
             <ul class="articles_timeline">

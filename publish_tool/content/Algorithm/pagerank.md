@@ -27,19 +27,19 @@ a c 0.3
 d b 0.5
 </pre>
 ###数据预处理
-####people_rank_pre_processing_mapper.py
+####page_rank_pre_processing_mapper.py
     ::python
     #!/usr/bin/python
     import sys
     for line in sys.stdin :
         uin, to_uin, weight = line.strip().split()
-        #key -> uin_peoplerank
+        #key -> uin_pagerank
         key = "%s_%s" % (uin, "1.0")
         #value -> touin_weight
         value = "%s_%s" % (to_uin, weight)
         print key, value
 
-####people_rank_pre_processing_reducer.py
+####page_rank_pre_processing_reducer.py
     ::python
     #!/usr/bin/python
     import sys
@@ -62,14 +62,13 @@ d_1.0 b_0.5
 
 ###一轮的Pagerank迭代
 接预处理的输出为输入。
-####people_rank_mapper.py
+####page_rank_mapper.py
     ::python
     #!/usr/bin/python
     import sys
 
     """
-    PeopleRank is similar to PageRank
-    PeopleRank assign different weight to different edges according to votes count.
+    PageRank assign different weight to different edges according to votes count.
     PR(u) = (1-d) + d * sum_{v \in B(u)} PR(v) * weight_{v->u}
     """
 
@@ -84,7 +83,7 @@ d_1.0 b_0.5
             print "%s\t%s" % (touin, "score:%f" % (rank * weight))
         print "%s\t%s" % (uin, "list:%s" % touinlist)
     
-####people_rank_reducer.py
+####page_rank_reducer.py
     ::python
     #!/usr/bin/python
     import sys
@@ -106,7 +105,7 @@ d_1.0 b_0.5
         else :
             pass
 
-    #update PeopleRank score
+    #update pageRank score
     for uin in line_to_be_updated :
         if uin not in uin_to_sum_rank :
             newRank = (1-d)
@@ -121,4 +120,29 @@ d_0.490000 [['b', '0.5']]
 </pre>
 
 ###Controller
-由于pagerank算法是一个多轮迭代的过程，因此
+由于pagerank算法是一个多轮迭代的过程，因此需要一个控制器来反复执行迭代的任务。一轮迭代后的输出格式与输入格式是相同的，因此只要在执行map-reduce任务时，每结束一轮迭代，就讲input directory 与 output directory进行交换即可。
+
+####page_rank_controller.py
+    ::python
+    import sys
+    import os
+
+    ITER = 10
+
+    dataset = "hdfs://tl-wxg-nn-tdw.tencent-distribute.com:54310/user/lhotse/lixinzhang/peoplerank/dataset/preprocessing"
+    source = "hdfs://tl-wxg-nn-tdw.tencent-distribute.com:54310/user/lhotse/lixinzhang/peoplerank/dataset/processing"
+    target = "hdfs://tl-wxg-nn-tdw.tencent-distribute.com:54310/user/lhotse/lixinzhang/peoplerank/dataset/processing_swap"
+
+    os.system("hadoop fs -rmr %s" % source)
+    os.system("hadoop fs -cp %s/part* %s/" % (dataset, source))
+
+    def one_pass(source, target) :
+        os.system("hadoop fs -rmr %s" % (target))
+        os.system("sh pagerank.sh %s %s" % (source, target))
+
+    for i in range(ITER) :
+        print "Processing iter : %d" % (i+1)
+        one_pass(source, target)
+        source, target = target, source
+
+    print "Done."
