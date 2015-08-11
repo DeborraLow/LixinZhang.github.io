@@ -19,7 +19,7 @@ $$PR(u) = (1-d) + d \cdot \sum\_{v \in B(u)} PR(v) * weight\_{v->u}$$
 
 ##Pagerank的streaming版本的map-reduce实现
 ###原始输入数据格式
-其中，每一行表示
+其中，每一行表示结点1指向结点2的权重
 <pre>
 a b 0.3
 a d 0.4
@@ -32,27 +32,27 @@ d b 0.5
     #!/usr/bin/python
     import sys
     for line in sys.stdin :
-        uin, to_uin, weight = line.strip().split()
-        #key -> uin_pagerank
-        key = "%s_%s" % (uin, "1.0")
-        #value -> touin_weight
-        value = "%s_%s" % (to_uin, weight)
-        print key, value
+        page, to_page, weight = line.strip().split()
+        #key -> page_pagerank
+        key = "%s_%s" % (page, "1.0")
+        #value -> topage_weight
+        value = "%s_%s" % (to_page, weight)
+        print "%s\t%s" % (key, value)
 
 ####page_rank_pre_processing_reducer.py
     ::python
     #!/usr/bin/python
     import sys
 
-    uin2uinlist = {}
+    page2pagelist = {}
     for line in sys.stdin :
         key, value = line.strip().split()
-        if key not in uin2uinlist :
-            uin2uinlist[key] = []
-        uin2uinlist[key].append(value)
+        if key not in page2pagelist :
+            page2pagelist[key] = []
+        page2pagelist[key].append(value)
 
-    for key in uin2uinlist :
-        print key, ",".join(uin2uinlist[key])
+    for key in page2pagelist :
+        print "%s\t%s" % (key, ",".join(page2pagelist[key]))
        
 ####输出格式
 <pre>
@@ -73,45 +73,45 @@ d_1.0 b_0.5
     """
 
     for line in sys.stdin :
-        curuin, touinlist = line.strip().split()
-        uin, rank = curuin.split("_")
+        curpage, topagelist = line.strip().split()
+        page, rank = curpage.split("_")
         rank = float(rank)
-        touinlist = [item.split("_") for item in touinlist.split(",")]
-        #assign uin's score to its point-to-uins by score * weight
-        for item in touinlist :
-            touin, weight = item[0], float(item[1])
-            print "%s\t%s" % (touin, "score:%f" % (rank * weight))
-        print "%s\t%s" % (uin, "list:%s" % touinlist)
+        topagelist = [item.split("_") for item in topagelist.split(",")]
+        #assign page's score to its point-to-pages by score * weight
+        for item in topagelist :
+            topage, weight = item[0], float(item[1])
+            print "%s\t%s" % (topage, "score:%f" % (rank * weight))
+        print "%s\t%s" % (page, "list:%s" % topagelist)
     
 ####page_rank_reducer.py
     ::python
     #!/usr/bin/python
     import sys
 
-    uin_to_sum_rank = {}
+    page_to_sum_rank = {}
     line_to_be_updated = {}
 
     d = 0.85
 
     for line in sys.stdin :
-        uin, value = line.strip().split("\t")
+        page, value = line.strip().split("\t")
         tag, val = value.split(":")
         if tag == "list" :
-            line_to_be_updated[uin] = val
+            line_to_be_updated[page] = val
         elif tag == "score" :
-            if uin not in uin_to_sum_rank :
-                uin_to_sum_rank[uin] = 0.0
-            uin_to_sum_rank[uin] += float(val)
+            if page not in page_to_sum_rank :
+                page_to_sum_rank[page] = 0.0
+            page_to_sum_rank[page] += float(val)
         else :
             pass
 
     #update pageRank score
-    for uin in line_to_be_updated :
-        if uin not in uin_to_sum_rank :
+    for page in line_to_be_updated :
+        if page not in page_to_sum_rank :
             newRank = (1-d)
         else:
-            newRank = (1-d) + uin_to_sum_rank[uin] * d
-        print "%s_%f" % (uin, newRank), line_to_be_updated[uin]
+            newRank = (1-d) + page_to_sum_rank[page] * d
+        print "%s\t%s" % ("%s_%f" % (page, newRank), line_to_be_updated[page])
     
 ####输出格式
 <pre>
@@ -129,9 +129,9 @@ d_0.490000 [['b', '0.5']]
 
     ITER = 10
 
-    dataset = "hdfs://XXX:54310/user/lhotse/lixinzhang/peoplerank/dataset/preprocessing"
-    source = "hdfs://XXX:54310/user/lhotse/lixinzhang/peoplerank/dataset/processing"
-    target = "hdfs://XXX:54310/user/lhotse/lixinzhang/peoplerank/dataset/processing_swap"
+    dataset = "hdfs://XXX:54310/user/lhotse/lixinzhang/pagerank/dataset/preprocessing"
+    source = "hdfs://XXX:54310/user/lhotse/lixinzhang/pagerank/dataset/processing"
+    target = "hdfs://XXX:54310/user/lhotse/lixinzhang/pagerank/dataset/processing_swap"
 
     os.system("hadoop fs -rmr %s" % source)
     os.system("hadoop fs -cp %s/part* %s/" % (dataset, source))
