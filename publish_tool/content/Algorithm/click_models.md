@@ -113,7 +113,7 @@ $$P(E\_r=1|E\_{r-1}=1,S\_{r-1}=0) = \tau\_2 $$
 $$P(E\_r=1|E\_{r-1}=1,S\_{r-1}=1) = \tau\_3 $$
 
 ###Dynamic Bayesian Network Model (DBN)
-<img src='http://lixinzhang.github.io/image/DBM.png'></img>
+<img src='http://lixinzhang.github.io/image/DBN.png'></img>
 
 DBN assumes that the user's perseverance after a click depends not on the perceived $$$\alpha\_{uq}$$$ but on the actual relevance $$$\sigma\_{uq}$$$. Parameter $$$\gamma$$$ is the continuation probability for a user that either did not click on a document or clicked but was not satisfied by it.
 
@@ -203,4 +203,4 @@ $$$P(E\_{r\_u}) = \epsilon\_{r\_u}$$$ is the main difference between different m
 * Chuklin, /A/, Markov, /I/, de Rijke, M. Click Models for Web Search[M]// Morgan & Claypool, 2015:115.
 * Chapelle O, Zhang Y. A dynamic bayesian network click model for web search ranking[C]// Proceedings of the 18th international conference on World Wide Web ACM, 2009:1-10.
 * Guo F, Liu C, Kannan A, et al. Click chain model in web search[J]. Proceedings of WWW, 2009:11-20.
-* Code: [PyClick](https://github.com/markovi/PyClick)
+* Code: [PyClick](https://github.com/markovi/PyClick)
