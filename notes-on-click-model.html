@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="LixinZhang" />
+        <meta name="copyright" content="LixinZhang" />
+
+<meta name="keywords" content=", Algorithm, " />
+        <title>Notes on Click Model - Backyard of LixinZhang
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://lixinzhang.github.io/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://lixinzhang.github.io/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://lixinzhang.github.io/"><span class=site-name>Backyard of LixinZhang</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://lixinzhang.github.io">Home</a></li>
+                            <li ><a href="http://lixinzhang.github.io/book">Notes</a></li>
+                            <li ><a href="http://lixinzhang.github.io/categories.html">Categories</a></li>
+                            <li ><a href="http://lixinzhang.github.io/tags.html">Tags</a></li>
+                            <li ><a href="http://lixinzhang.github.io/archives.html">Archives</a></li>
+                            <li ><a href="https://cn.linkedin.com/in/zhanglx">Resume</a></li>
+                            <li><form class="navbar-search" action="http://lixinzhang.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://lixinzhang.github.io/notes-on-click-model.html"> Notes on Click Model  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <blockquote>
+<p>在做click model，进行了一些简单的调研。主要参考一些相关的survey和paper，参考文章已在reference中列出。</p>
+</blockquote>
+<h2>Introduction</h2>
+<h3>What is Click Model</h3>
+<ul>
+<li>Click models aim at modeling user clicks on a SERP(search engine result page) based on <strong>Search Log</strong>.</li>
+<li>Calculate the probability of a click on a given document, $$$P(C_u=1)$$$.</li>
+<li>Calculate the probability of a click on that document given previously observed clicks in the same session, $$$P(C_u=1|C_{&lt;r_u})$$$.</li>
+<li>Help <strong>understand users</strong>, <strong>simulate users</strong>, <strong>evaluate search</strong>, <strong>improve search</strong>.</li>
+</ul>
+<h2>Basic Click Models</h2>
+<h3>Basic Models</h3>
+<ul>
+<li>Random Click Model (RCM)</li>
+<li>Click-through Rate Models (CTR)<ul>
+<li>Rank-based CTR Model (RCTR)</li>
+<li>Document-based CTR Model (DCTR)</li>
+</ul>
+</li>
+<li>Position-based Model (PBM)</li>
+<li>Cascade Model (CM)</li>
+<li>User Browsing Model (UBM)</li>
+<li>Dependent Click Model (DCM)</li>
+<li>Click Chain Model (CCM)</li>
+<li>Dynamic Bayesian Network Model (DBN)<ul>
+<li>Simplified DBN Model (SDBN)</li>
+</ul>
+</li>
+</ul>
+<h3>Notation</h3>
+<p><strong>Expression</strong> &amp; <strong>Meaning</strong></p>
+<table>
+<thead>
+<tr>
+<th>Expression</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$$$SERP$$$</td>
+<td>search engine result page</td>
+</tr>
+<tr>
+<td>$$$u$$$</td>
+<td>A document</td>
+</tr>
+<tr>
+<td>$$$q$$$</td>
+<td>A user's query</td>
+</tr>
+<tr>
+<td>$$$r$$$</td>
+<td>The rank of a document</td>
+</tr>
+<tr>
+<td>$$$u_r$$$</td>
+<td>A document at rank r</td>
+</tr>
+<tr>
+<td>$$$r_u$$$</td>
+<td>The rank of a document u</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Event</strong> &amp; <strong>Meaning</strong></p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$$$E$$$</td>
+<td>a user examines an object on a $$$SERP$$$</td>
+</tr>
+<tr>
+<td>$$$A$$$</td>
+<td>a user is attracted by the object's representation</td>
+</tr>
+<tr>
+<td>$$$C$$$</td>
+<td>an object is clicked</td>
+</tr>
+<tr>
+<td>$$$S$$$</td>
+<td>a user's information need is satisified</td>
+</tr>
+</tbody>
+</table>
+<h3>Random Click Model (RCM)</h3>
+<p>$$P(C_u = 1) = \rho$$</p>
+<h3>Click-through Rate Models (CTR)</h3>
+<ul>
+<li>
+<p>Rank-based CTR Model (RCTR)
+$$P(C_r = 1) = \rho_r$$</p>
+</li>
+<li>
+<p>Document-based CTR Model (DCTR)
+$$P(C_{u} = 1) = \rho_{uq}$$</p>
+</li>
+</ul>
+<h3>Position-based Model (PBM)</h3>
+<p><img src='http://lixinzhang.github.io/image/PBM.png'></img></p>
+<p><strong>Examination hypothesis</strong>. The probability of a user examining a document depends heavily on its rank or position. PBM introduces a set of examination parameters $$$\gamma_{r}$$$, one for each rank. PBM does not depend on the events at previous ranks.</p>
+<p>$$P(C_u=1) = P(E_u=1) \cdot P(A_u=1)$$
+$$P(A_u=1) = \alpha_{uq}$$
+$$P(E_u=1) = \gamma_{uq}$$</p>
+<h3>Cascade Model (CM)</h3>
+<p><img src='http://lixinzhang.github.io/image/CM.png'></img></p>
+<p>Cascade model assumes that a user scans documents on a SERP from top to bottom until they find a relevant document. It can only describe sessions with one click.</p>
+<p>$$E_r = 1 \quad and \quad A_r = 1 \Leftrightarrow C_r = 1 $$
+$$P(A_r=1) = \alpha_{u_r q} $$
+$$P(E_1=1) = 1 $$
+$$P(E_r=1|E_{r-1}=0) = 0 $$
+$$P(E_r=1|C_{r-1}=1) = 0 $$
+$$P(E_r=1|E_{r-1}=1, C_{r-1}=0) = 1$$</p>
+<h3>User Browsing Model (UBM)</h3>
+<p><img src='http://lixinzhang.github.io/image/UBM.png'></img></p>
+<p>UBM is an extension of PBM model that has some elements of the cascade model. UBM take previous clicks into account.
+$$P(E_r=1|C_1=c_1,\cdots,C_{r-1}=c_{r-1}) = \gamma_{rr^{'}} $$
+$$r^{'} = max\{k \in {0,\cdots, r-1},c_k=1 \}$$
+The probability of user’s examination is related with both the last clicking position and the distance from that position.</p>
+<h3>Dependent Click Model (DCM)</h3>
+<p><img src='http://lixinzhang.github.io/image/DCM.png'></img>
+DCM is an extension of the cascade model that handle sessions with multiple clicks. User has probability $$$\lambda_{r}$$$ to continue after clicking a result.
+$$P(E_r=1|C_{r-1} = 1) = \lambda_{r} $$
+$$P(S_r=1|C_r=0) = 0 $$
+$$P(S_r=1|C_r=1) = 1 - \lambda_r $$
+$$P(E_r=1|S_{r-1}=1) = 0 $$
+$$P(E_r=1|E_{r-1}=1, S_{r-1}=0) = 1$$</p>
+<h3>Click Chain Model (CCM)</h3>
+<p><img src='http://lixinzhang.github.io/image/CCM.png'></img></p>
+<p>CCM introduces a parameter to handle the situation where a user may abandon the search without clicking on the result. Continuation parameter depends on relevance $$$\alpha_{uq}$$$. A strong assumption: perceived relevance(感知相关性) equals to actual relevance(实际相关性).</p>
+<p>$$P(E_r=1|E_{r-1}=1, C_{r-1}=0) = \tau_1 $$
+$$P(E_r=1|C_{c-1}=1) = \tau_2(1-\alpha_{u_{r-1}q}) + \tau_3\alpha_{u_{r-1}q} $$
+$$P(S_r=1|C_r=0) = 0 $$
+$$P(S_r=1|C_r=1) = \alpha_{u_{rq}} $$
+$$P(E_r=1|E_{r-1}=1,S_{r-1}=0) = \tau_2 $$
+$$P(E_r=1|E_{r-1}=1,S_{r-1}=1) = \tau_3 $$</p>
+<h3>Dynamic Bayesian Network Model (DBN)</h3>
+<p><img src='http://lixinzhang.github.io/image/DBM.png'></img></p>
+<p>DBN assumes that the user's perseverance after a click depends not on the perceived $$$\alpha_{uq}$$$ but on the actual relevance $$$\sigma_{uq}$$$. Parameter $$$\gamma$$$ is the continuation probability for a user that either did not click on a document or clicked but was not satisfied by it.</p>
+<p>$$E_r = 1 \quad and \quad A_r = 1 \Leftrightarrow C_r = 1 $$
+$$P(A_r=1) = \alpha_{u_r q} $$
+$$P(E_1=1) = 1 $$
+$$P(E_r=1|E_{r-1}=0) = 0 $$
+$$P(S_r=1|C_r=1) = \sigma_{u_rq} $$
+$$P(E_r=1|S_{r-1}=1) = 0 $$
+$$P(E_r=1|E_{r-1}=1, S_{r-1}=0) = \gamma$$</p>
+<p><strong>Simplified DBN model (SDBN) :  $$$\gamma = 1$$$</strong></p>
+<h3>Evaluation &amp; Comparison</h3>
+<p><img src='http://lixinzhang.github.io/image/cmp.png'></img></p>
+<p><strong>Perplexity</strong> shows how well a click model can predict user clicks in a query session when previous clicks and skips in that session are not known.</p>
+<p><strong>Log-likelihood</strong> is widely used to measure model fitness. It shows how well a model approximates the observed data.</p>
+<h2>Click Probabilities</h2>
+<h3>Click Probabilities</h3>
+<p>We pay more attention on $$$P(C_u=1)$$$ and $$$P(C_u=1, C_{&lt;r_u})$$$.</p>
+<p><strong>RCM, RCTR, DCTR, PBM</strong>
+$$P(C_u=1, C_{&lt;r_i}) = P(C_u=1)$$</p>
+<p><strong>PBM</strong>
+$$P(C_u=1)=P(A_u=1) \cdot P(E_{r_u}=1) = \alpha_{uq}\gamma_{r_u}$$</p>
+<p><strong>CM, DCM, CCM, DBN, SDBN</strong>
+$$P(C_u=1) = P(C_u=1|E_{r_u}=1) \cdot P(E_{r_u}=1) = \alpha_{uq} \epsilon_{r_u}$$
+$$$P(E_{r_u}) = \epsilon_{r_u}$$$ is the main difference between different models.</p>
+<h2>Parameter Estimation</h2>
+<p><strong>Click Model:</strong></p>
+<ul>
+<li>Set of events/random variables.</li>
+<li>Set of dependencies between these events.</li>
+<li>Set of the model’s parameters.</li>
+</ul>
+<p><strong>Parameter estimation methods:</strong></p>
+<ul>
+<li>Maximum likelihood estimation.</li>
+<li>Expectation maximization.</li>
+</ul>
+<p><strong>Click Model</strong> &amp; <strong>estimation method</strong> &amp; <strong>parameters</strong> </p>
+<table>
+<thead>
+<tr>
+<th>Click Model</th>
+<th>Estimation method</th>
+<th>Parameters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RCM</td>
+<td>MLE</td>
+<td>$$$\rho$$$</td>
+</tr>
+<tr>
+<td>RCTR</td>
+<td>MLE</td>
+<td>$$$\rho_r$$$</td>
+</tr>
+<tr>
+<td>DCTR</td>
+<td>MLE</td>
+<td>$$$\rho_{uq}$$$</td>
+</tr>
+<tr>
+<td>PBM</td>
+<td>EM</td>
+<td>$$$\alpha_{uq}$$$,$$$\gamma_r$$$</td>
+</tr>
+<tr>
+<td>CM</td>
+<td>MLE</td>
+<td>$$$\alpha_{uq}$$$</td>
+</tr>
+<tr>
+<td>UBM</td>
+<td>EM</td>
+<td>$$$\alpha_{uq}$$$,$$$\gamma_{rr^{'}}$$$</td>
+</tr>
+<tr>
+<td>SDCM</td>
+<td>MLE</td>
+<td>$$$\alpha_{uq}$$$,$$$\lambda_r$$$</td>
+</tr>
+<tr>
+<td>CCM</td>
+<td>EM</td>
+<td>$$$\alpha_{uq}$$$, $$$\tau_1$$$, $$$\tau_2$$$, $$$\tau_3$$$</td>
+</tr>
+<tr>
+<td>DBN</td>
+<td>EM</td>
+<td>$$$\alpha_{uq}$$$, $$$\sigma_{uq}$$$, $$$\gamma$$$</td>
+</tr>
+<tr>
+<td>SDBN</td>
+<td>MLE</td>
+<td>$$$\alpha_{uq}$$$</td>
+</tr>
+</tbody>
+</table>
+<h2>Advanced Click Models</h2>
+<ul>
+<li>Aggregated search, a SERP aggregates results from multiple sources known as verticals(e.g. News, Image, or video verticals). <strong>Presentaion bias problem</strong>s.</li>
+<li>Beyond a single query session, from query session to task session.</li>
+<li>Non-sequential examination problem, a click model incorporating revisiting behaviors.</li>
+<li>Featured based CTR prediction, similar to ctr prediction for online advertising.</li>
+</ul>
+<h2>Application for search ranking, DBN in Yahoo! 2009</h2>
+<ul>
+<li>Predicting click-through rate, predict CTR at position 1.</li>
+<li>Predicted relevance as a ranking feature, as a ranking signals.
+    $$r_{uq} = P(S_i=1|E_i=1)$$
+    $$r_{uq} = P(S_i=1|C_i=1)P(C_i=1|E_i=1)$$
+    $$r_{uq} = \alpha_{uq} \lambda_{uq}$$</li>
+<li>Learning a ranking function with predicted relevance. </li>
+<li><strong>Learning to rank</strong>:rank documents based on supervised machine learning.<ul>
+<li>point-wise</li>
+<li>pair-wise</li>
+<li>list-wise</li>
+</ul>
+</li>
+</ul>
+<h2>Reference</h2>
+<ul>
+<li>Chuklin, /A/, Markov, /I/, de Rijke, M. Click Models for Web Search[M]// Morgan &amp; Claypool, 2015:115.</li>
+<li>Chapelle O, Zhang Y. A dynamic bayesian network click model for web search ranking[C]// Proceedings of the 18th international conference on World Wide Web ACM, 2009:1-10.</li>
+<li>Guo F, Liu C, Kannan A, et al. Click chain model in web search[J]. Proceedings of WWW, 2009:11-20.</li>
+<li>Code: <a href="https://github.com/markovi/PyClick">PyClick</a></li>
+</ul>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/pagerankji-jian-dan-de-map-reduceshi-xian.html" title="Previous: Pagerank及简单的map-reduce实现">Pagerank及简单的map-reduce实现</a></li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://lixinzhang.github.io/notes-on-click-model.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+        var disqus_identifier = 'http://lixinzhang.github.io/notes-on-click-model.html';
+    var disqus_url = 'http://lixinzhang.github.io/notes-on-click-model.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2015-10-24T21:44:00">Oct 24, 2015</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#Algorithm-ref">Algorithm</a> 
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<!-- Using MathJax, with the delimiters $ -->
+<!-- Conflict with pygments for the .mo and .mi -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+  styles: {
+  ".MathJax .mo, .MathJax .mi": {color: "black ! important"}}
+  },
+  tex2jax: {inlineMath: [['$$$','$$$'], ['\\(','\\)']],processEscapes: true}
+  });
+  MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+  MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+  var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;
+  VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+  });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'zhanglixinseu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>
