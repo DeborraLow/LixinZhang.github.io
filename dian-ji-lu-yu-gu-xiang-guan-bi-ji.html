@@ -6,8 +6,8 @@
         <meta name="author" content="LixinZhang" />
         <meta name="copyright" content="LixinZhang" />
 
-<meta name="keywords" content="search, search, " />
-        <title>信息检索中的评价指标MAP和NDCG - Backyard of LixinZhang
+<meta name="keywords" content="ctr prediction, Machine Learning, " />
+        <title>点击率预估相关笔记 - Backyard of LixinZhang
 </title>
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="http://lixinzhang.github.io/theme/css/style.css" media="screen">
@@ -52,63 +52,87 @@
 <article>
 <div class="row-fluid">
     <header class="page_header span10 offset2">
-    <h1><a href="http://lixinzhang.github.io/xin-xi-jian-suo-zhong-de-ping-jie-zhi-biao-maphe-ndcg.html"> 信息检索中的评价指标MAP和NDCG  </a></h1>
+    <h1><a href="http://lixinzhang.github.io/dian-ji-lu-yu-gu-xiang-guan-bi-ji.html"> 点击率预估相关笔记  </a></h1>
     </header>
 </div>
 
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <blockquote>
-<p>简单记录一下信息检索中MAP和NDCG两个关键的评价指标。</p>
-</blockquote>
-<h2>MAP</h2>
-<h3>MAP计算</h3>
-<p><code>MAP</code>全称Mean Average Precision，表示平均正确率。其中<code>AP</code>的计算方法如下：
-$$AveP=\frac{\sum_{k=1}^{n}(P(k) \times rel(k))}{相关文档数量}$$
-其中，$$$k$$$为检索结果队列中的排序位置，$$$P(k)$$$为前$$$k$$$个结果的准确率，即$$$P(k)=\frac{相关文档数量}{总文档数量}$$$，$$$rel(k)$$$表示位置$$$k$$$的文档是否相关，相关为1，不相关为0。</p>
-<p>MAP即是将多个query对应的AP求平均。
-$$MAP=\frac{\sum_{q=1}^{Q} AveP(q)}{Q}$$
-Q为query的数量。</p>
-<h3>举例</h3>
-<p>假设有两个主题，主题1有4个相关网页，主题2有5个相关网页。某系统对于主题1检索出4个相关网页，其rank分别为1, 2, 4, 7；对于主题2检索出3个相关网页，其rank分别为1,3,5。对于主题1，平均准确率为(1/1+2/2+3/4+4/7)/4=0.83。对于主题2，平均准确率为(1/1+2/3+3/5+0+0)/5=0.45。则MAP= (0.83+0.45)/2=0.64。” ——<a href="http://www.cnblogs.com/ywl925/archive/2013/08/16/3262209.html">例子来源</a></p>
-<h2>NDCG</h2>
-<h3>NDCG定义</h3>
+            <h2>什么是点击率预估？</h2>
+<ul>
+<li>点击率预估可以形式化为：$$$P(click=1|Item, User, Context)$$$</li>
+<li>点击行为（点或不点）很容易刻画为一个二分类问题。</li>
+<li>在计算广告领域更加受到关注，因为与收入（钱）直接挂钩。$$$bidPrice=pCTR * CPC$$$</li>
+<li>在推荐系统与在线广告应用场景中，点击率预估关注的__目标__不同，在线广告中不仅关注排序性能，也会关注预估值的准确性。而对于推荐系统，我们更关心排序性能，因此$$$AUC$$$作为评估模型效果的指标是合理的。</li>
+<li>其实也可以看做是一种Learning to rank问题，只不过看要学习的目标是什么。</li>
+</ul>
+<h3>点击率预估方法概览</h3>
+<ul>
+<li>特征决定了所有算法效果的上限，而不同的算法只是离这个上限的距离不同而已。</li>
+<li>广义线性模型 + 人工特征组合(LR + Feature Engineering), 简单，易维护。</li>
+<li>非线性模型（GBDT，FM，FFM, DNN，MLR）。</li>
+<li>广义线性模型 + 非线性模型组合特征。</li>
+<li>batch learning -&gt; online learning (Google FTRL) 。</li>
+</ul>
+<h2>Logistic Regression + Feature Engineering</h2>
 <blockquote>
-<p>Discounted cumulative gain (DCG) is a measure of ranking quality. In information retrieval, it is often used to measure effectiveness of web search engine algorithms or related applications. Using a graded relevance scale of documents in a search engine result set, DCG measures the usefulness, or gain, of a document based on its position in the result list. The gain is accumulated from the top of the result list to the bottom with the gain of each result discounted at lower ranks.</p>
+<p>预估$$$P(Click=1|Item, User, Context)$$$的概率.</p>
 </blockquote>
-<h3>NDCG假设</h3>
-<blockquote>
-<p>Two assumptions are made in using DCG and its related measures.</br>
-1. Highly relevant documents are more useful when appearing earlier in a search engine result list (have higher ranks)</br>
-2. Highly relevant documents are more useful than marginally relevant documents, which are in turn more useful than irrelevant documents.</br>
-DCG originates from an earlier, more primitive, measure called Cumulative Gain.</p>
-</blockquote>
-<h3>NDCG计算</h3>
-<p>先说CG（Cumulative Gain，累计增益），
-$$CG_{p} = \sum_{i=1}^{p}rel_i$$
-其中，$$$p$$$为文档在搜索结果列表中的排序位置，$$$rel_i$$$为处在该位置文档的等级相关性（graded relevance）。</p>
-<p>CG的劣势是等级相关性与位置无关，但这样并不合理，将一个相关性更高的结果替换排在前面相关性较弱的结果，应该更佳，但是CG的表现是两者无差异。因此，引入了DCG（Discounted Cumulative Gain）。
-$$DCG_{p}=\sum_{i=1}^{P} \frac{2^{rel_i} - 1}{log_{2}^{i+1}}$$
-DCG考虑了位置的影响，表示结果位置越靠前的文档，其相关性表现对整体排序质量的影响越大。</p>
-<p>然而，DCG仍有一个缺点，不同query返回的搜索结果数量不同，其DCG的值相差很大，是不可比的。因此，需要对DCG做一定的归一化，于是有了NDCG（Normalized DCG）。
-$$NDCG_p=\frac{DCG_p}{IDCG_p}$$
-其中，$$$IDCG_p$$$为搜索结果按相关性排序之后能得到的最大DCG值。</p>
-<h3>举例</h3>
-<p><a href="https://en.wikipedia.org/wiki/Discounted_cumulative_gain">维基百科</a>上的例子：
-搜索结果为文档D1,D2,D3,D4,D5,D6，相关性分数分别为3，2，3，0，1，2，则：
-$$CG_6 = 3 + 2 + 3 + 0 + 1 + 2=11$$
-$$DCG_6 = \sum_{i=1}^{6} \frac{rel_i}{log_2^{i+1}}=8.10$$
-按相关性排序可以得到最优结果，即最大DCG为文档按照{3，3，2，2，1，0}排序：
-$$IDCG_6=8.69$$ 
-$$NDCG_6 = \frac{DCG_6}{IDCG_6}=0.932$$</p>
+<h3>Logistic Regression 逻辑回归</h3>
+<p>$$L(\omega) = \sum_{i=1}^N{y_i(\omega x_i) - log(1+exp(\omega x_i))} + C \Omega(\omega)
+$$</p>
+<ul>
+<li>优势：模型简单，容易实现，优化算法成熟，模型可解释性强，易维护。</li>
+<li>劣势：线性模型无法捕捉非线性规律，需要大量人工经验构造非线性的组合特征。</li>
+</ul>
+<h3>特征上的一些方法</h3>
+<ul>
+<li>categorical feature, ordinal feature, numberical feature，统一one-hot encoding</li>
+<li>单特征处理：离散化，去冗余特征（Pearson相关性），去无用特征（信息增益），处理极度长尾（覆盖过少）</li>
+<li>让模型自动进行特征选择，加入L1正则，让模型sparse。</li>
+<li>人工经验特征组合，控制维数，维数太多，用hash trick进行一定程度的维数压缩。</li>
+<li>点击反馈特征，用某种特征组合上的过去一段时间（时间窗口）的统计点击率作为特征，也叫做动态特征。让这个特征，随时间动起来，捕捉动态部分，来减少模型的效果衰减。 有人尝试batch + 动态特征的效果比online learning相差不多。</li>
+</ul>
+<h3>模型上的一些方法</h3>
+<ul>
+<li>Online Learning，Google的FTRL, 2013 KDD，让每个最新的反馈都能更新到模型上。 有人尝试，用batch的方式对模型进行warm up。FTRL-Proximal在L1正则下，稀疏性和精度都比较出色。</li>
+<li>Mixed Logistic Regression，这个是阿里在LR的基础上提出的分片逻辑回归算法，用来解决很多线性不可分的数据。思路，先把数据切片，在每个切片下在回归，不断迭代。</li>
+<li>Coupled Group Lasso，2015 ICML，阿里提出来的，也是自动去刻画user和ad间交叉关系，并且能产生稀疏解，但计算复杂度稍高。 而且貌似对业界没产生什么太大的影响。</li>
+</ul>
+<h2>Factorization Machines(FM or FFM)</h2>
+<p>业界逐渐流行，在数据挖掘类竞赛中表现出色，并在工业界被很多公司证明有效。</p>
+<ul>
+<li>http://www.libfm.org/</li>
+<li>https://github.com/dmlc/difacto </li>
+<li>https://github.com/zhengruifeng/spark-libFM </li>
+</ul>
+<h3>二阶多项式模型</h3>
+<p>$$y(X) = \omega_0 + \sum_{i=1}^{n} \omega_i x_i + \sum_{i=1}^{n} \sum_{j=i+1}^{n} \omega_{ij}x_ix_j
+$$</p>
+<p>二次项参数$$$\omega_{ij}$$$ 可以组成一个对称阵$$$W$$$, 矩阵分解为$$$W=V^TV$$$。参数$$$\omega_{ij}$$$ 转化为$$$<v\_i, v\_j>$$$</p>
+<p>组合二阶特征，刻画特征间的关系，但特征维度过高。</p>
+<h3>Factorization Machines</h3>
+<p>$$y(X) = \omega_0 + \sum_{i=1}^{n} \omega_i x_i + \sum_{i=1}^{n} \sum_{j=i+1}^{n} <v_i, v_j> x_ix_j$$</p>
+<p>其中，$$$v_i$$$是第i维特征的隐向量，$$$&lt;\cdot,\cdot&gt;$$$代表向量点积。隐向量的长度为k (k &lt; &lt; n)，包含k个描述特征的因子。</p>
+<p>$$\sum_{i=1}^{n} \sum_{j=i+1}^{n} <v_i, v_j> x_ix_j = \frac{1}{2} \sum_{f=1}^{k} \left( {\left( \sum_{i=1}^{n} v_{i,f} x_i \right)}^2 - \sum_{i=1}^{n} {v_{i,f}}^2 {x_i}^2 \right)$$</p>
+<p>模型参数一共有$$$nk+k+1$$$个，FM参数训练的复杂度也是$$$O(kn)$$$。</p>
+<h3>Field-aware Factorization Machines</h3>
+<p>$$y(X) = \omega_0 + \sum_{i=1}^{n} \omega_i x_i + \sum_{i=1}^{n} \sum_{j=i+1}^{n} <v\_{i, f_j} , v_{j, f_i}> x_ix_j$$</p>
+<p>同一类的特征，应该属于一个field，如country，有美国、中国、日本等，他们属于同一种field。
+在FFM中，每一维特征$$$x_i$$$，针对其它特征的每一种"field"$$$f_j$$$，都会学习一个隐向量$$$v_{i,j}$$$。因此，隐向量不仅与特征相关，也与field相关。</p>
+<h2>GBDT + LR</h2>
+<h3>利用GBDT构建新特征</h3>
+<p>Xinran He et al. Practical Lessons from Predicting Clicks on Ads at Facebook, 2014
+<img src='http://lixinzhang.github.io/image/gbdt.png'></img>
+对特征做非线性变换后，作为LR的输入。</p>
             <aside>
             <nav>
             <ul class="articles_timeline">
  
-                <li class="previous_article">« <a href="http://lixinzhang.github.io/notes-on-click-model.html" title="Previous: Notes on Click Model">Notes on Click Model</a></li>
+                <li class="previous_article">« <a href="http://lixinzhang.github.io/dp-palindrome-partitioning-ii.html" title="Previous: DP-palindrome-partitioning II">DP-palindrome-partitioning II</a></li>
  
-                <li class="next_article"><a href="http://lixinzhang.github.io/tips.html" title="Next: tips">tips</a> »</li>
+                <li class="next_article"><a href="http://lixinzhang.github.io/hive.html" title="Next: Hive">Hive</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -117,7 +141,7 @@ $$NDCG_6 = \frac{DCG_6}{IDCG_6}=0.932$$</p>
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
-                href="http://lixinzhang.github.io/xin-xi-jian-suo-zhong-de-ping-jie-zhi-biao-maphe-ndcg.html/#disqus_thread">
+                href="http://lixinzhang.github.io/dian-ji-lu-yu-gu-xiang-guan-bi-ji.html/#disqus_thread">
                 Comments
             </a>
         </div>
@@ -127,8 +151,8 @@ $$NDCG_6 = \frac{DCG_6}{IDCG_6}=0.932$$</p>
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'zhanglixinseu';
-        var disqus_identifier = 'http://lixinzhang.github.io/xin-xi-jian-suo-zhong-de-ping-jie-zhi-biao-maphe-ndcg.html';
-    var disqus_url = 'http://lixinzhang.github.io/xin-xi-jian-suo-zhong-de-ping-jie-zhi-biao-maphe-ndcg.html';
+        var disqus_identifier = 'http://lixinzhang.github.io/dian-ji-lu-yu-gu-xiang-guan-bi-ji.html';
+    var disqus_url = 'http://lixinzhang.github.io/dian-ji-lu-yu-gu-xiang-guan-bi-ji.html';
 
     (function() {
          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -148,12 +172,12 @@ $$NDCG_6 = \frac{DCG_6}{IDCG_6}=0.932$$</p>
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2015-12-06T00:00:00">Dec 6, 2015</time>
+            <time pubdate="pubdate" datetime="2014-06-26T12:53:00">Jun 26, 2014</time>
             <h4>Category</h4>
-            <a class="category-link" href="/categories.html#search-ref">search</a> 
+            <a class="category-link" href="/categories.html#Machine-Learning-ref">Machine Learning</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
-                <li><a href="/tags.html#search-ref">search
+                <li><a href="/tags.html#ctr-prediction-ref">ctr prediction
                     <span>1</span>
 </a></li>
             </ul>
