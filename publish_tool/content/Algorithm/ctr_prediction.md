@@ -49,7 +49,7 @@ $$
 
 ###二阶多项式模型
 
-$$y(X) = \omega\_0 + \sum\_{i=1}^{n} \omega\_i x_i + \sum\_{i=1}^{n} \sum\_{j=i+1}^{n} \omega\_{ij}x\_ix\_j
+$$y(X) = \omega\_0 + \sum\_{i=1}^{n} \omega\_i x\_i + \sum\_{i=1}^{n} \sum\_{j=i+1}^{n} \omega\_{ij}x\_ix\_j
 $$
 
 二次项参数$$$\omega\_{ij}$$$ 可以组成一个对称阵$$$W$$$, 矩阵分解为$$$W=V^TV$$$。参数$$$\omega\_{ij}$$$ 转化为$$$<v\_i, v\_j>$$$
@@ -57,11 +57,11 @@ $$
 组合二阶特征，刻画特征间的关系，但特征维度过高。
 
 ###Factorization Machines
-$$y(X) = \omega\_0 + \sum\_{i=1}^{n} \omega\_i x_i + \sum\_{i=1}^{n} \sum\_{j=i+1}^{n} <v_i, v_j> x_ix_j$$
+$$y(X) = \omega\_0 + \sum\_{i=1}^{n} \omega\_i x\_i + \sum\_{i=1}^{n} \sum\_{j=i+1}^{n} <v\_i, v\_j> x\_ix\_j$$
 
 其中，$$$v_i$$$是第i维特征的隐向量，$$$<\cdot,\cdot>$$$代表向量点积。隐向量的长度为k (k < < n)，包含k个描述特征的因子。
 
-$$\sum\_{i=1}^{n} \sum\_{j=i+1}^{n} <v_i, v_j> x_ix_j = \frac{1}{2} \sum\_{f=1}^{k} \left( {\left( \sum\_{i=1}^{n} v\_{i,f} x_i \right)}^2 - \sum\_{i=1}^{n} {v_{i,f}}^2 {x_i}^2 \right)$$
+$$\sum\_{i=1}^{n} \sum\_{j=i+1}^{n} <v\_i, v\_j> x\_ix\_j = \frac{1}{2} \sum\_{f=1}^{k} \left( {\left( \sum\_{i=1}^{n} v\_{i,f} x_i \right)}^2 - \sum\_{i=1}^{n} {v\_{i,f}}^2 {x\_i}^2 \right)$$
 
 模型参数一共有$$$nk+k+1$$$个，FM参数训练的复杂度也是$$$O(kn)$$$。
 
