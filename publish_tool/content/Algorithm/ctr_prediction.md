@@ -57,7 +57,7 @@ $$
 组合二阶特征，刻画特征间的关系，但特征维度过高。
 
 ###Factorization Machines
-$$y(X) = \omega\_0 + \sum\_{i=1}^{n} \omega\_i x\_i + \sum\_{i=1}^{n} \sum\_{j=i+1}^{n} <v\_i, v\_j> x\_ix\_j$$
+$$y(X) = \omega\_0 + \sum\_{i=1}^{n} \omega\_i x\_i + \sum\_{i=1}^{n} \sum\_{j=i+1}^{n} \<v\_i, v\_j\> x\_ix\_j$$
 
 其中，$$$v_i$$$是第i维特征的隐向量，$$$<\cdot,\cdot>$$$代表向量点积。隐向量的长度为k (k < < n)，包含k个描述特征的因子。
 
