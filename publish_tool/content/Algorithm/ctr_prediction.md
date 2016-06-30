@@ -71,11 +71,17 @@ $$y(X) = \omega\_0 + \sum\_{i=1}^{n} \omega\_i x_i + \sum\_{i=1}^{n} \sum\_{j=i+
 同一类的特征，应该属于一个field，如country，有美国、中国、日本等，他们属于同一种field。
 在FFM中，每一维特征$$$x_i$$$，针对其它特征的每一种"field"$$$f_j$$$，都会学习一个隐向量$$$v_{i,j}$$$。因此，隐向量不仅与特征相关，也与field相关。
 
+开源代码：
+https://github.com/guestwalk/libffm
 
 ##GBDT + LR
 ###利用GBDT构建新特征
 Xinran He et al. Practical Lessons from Predicting Clicks on Ads at Facebook, 2014
-<img src='http://lixinzhang.github.io/image/gbdt.png'></img>
+
+这篇论文被广泛传播，在工业界也有这不错的影响，很多公司都进行了尝试，并证明了有效。
+
+<img src='http://lixinzhang.github.io/image/gbdt.png' width='600px'></img>
+
 对特征做非线性变换后，作为LR的输入。
 
 
