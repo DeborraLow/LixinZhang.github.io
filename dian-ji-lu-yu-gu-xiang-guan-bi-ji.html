@@ -118,7 +118,7 @@ $$</p>
 <p>$$\sum_{i=1}^{n} \sum_{j=i+1}^{n} <v\_i, v\_j> x_ix_j = \frac{1}{2} \sum_{f=1}^{k} \left( {\left( \sum_{i=1}^{n} v_{i,f} x_i \right)}^2 - \sum_{i=1}^{n} {v_{i,f}}^2 {x_i}^2 \right)$$</p>
 <p>模型参数一共有$$$nk+k+1$$$个，FM参数训练的复杂度也是$$$O(kn)$$$。</p>
 <h3>Field-aware Factorization Machines</h3>
-<p>$$y(X) = \omega_0 + \sum_{i=1}^{n} \omega_i x_i + \sum_{i=1}^{n} \sum_{j=i+1}^{n} <v\_{i, f_j} , v_{j, f_i}> x_ix_j$$</p>
+<p>$$y(X) = \omega_0 + \sum_{i=1}^{n} \omega_i x_i + \sum_{i=1}^{n} \sum_{j=i+1}^{n} <v\_{i, f\_j} , v\_{j, f\_i}> x_ix_j$$</p>
 <p>同一类的特征，应该属于一个field，如country，有美国、中国、日本等，他们属于同一种field。
 在FFM中，每一维特征$$$x_i$$$，针对其它特征的每一种"field"$$$f_j$$$，都会学习一个隐向量$$$v_{i,j}$$$。因此，隐向量不仅与特征相关，也与field相关。</p>
 <h2>GBDT + LR</h2>

@@ -66,7 +66,7 @@ $$\sum\_{i=1}^{n} \sum\_{j=i+1}^{n} <v\_i, v\_j> x\_ix\_j = \frac{1}{2} \sum\_{f
 模型参数一共有$$$nk+k+1$$$个，FM参数训练的复杂度也是$$$O(kn)$$$。
 
 ###Field-aware Factorization Machines
-$$y(X) = \omega\_0 + \sum\_{i=1}^{n} \omega_i x_i + \sum\_{i=1}^{n} \sum\_{j=i+1}^{n} <v\_{i, f_j} , v_{j, f_i}> x_ix_j$$
+$$y(X) = \omega\_0 + \sum\_{i=1}^{n} \omega\_i x_i + \sum\_{i=1}^{n} \sum\_{j=i+1}^{n} <v\_{i, f\_j} , v\_{j, f\_i}> x\_ix\_j$$
 
 同一类的特征，应该属于一个field，如country，有美国、中国、日本等，他们属于同一种field。
 在FFM中，每一维特征$$$x_i$$$，针对其它特征的每一种"field"$$$f_j$$$，都会学习一个隐向量$$$v_{i,j}$$$。因此，隐向量不仅与特征相关，也与field相关。
