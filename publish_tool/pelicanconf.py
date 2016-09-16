@@ -40,22 +40,16 @@ DISQUS_SITENAME = 'zhanglixinseu'
 OUTPUT_PATH = './'
 
 LANDING_PAGE_ABOUT = {'title':'Backyard of LixinZhang', 'details':'''
-<p>I am a R&D Software Engineer in Tencent WeChat Group(WXG, Beijing).</p>
-<p>Before I joined Tencent, I graduated from Yahoo!(Beijing R&D) on 2015-3-31. And it is my honor to used to be a Yahoo.</p>
-<p>
-I graduated from Beihang University(BUAA, Beijing) with master degree in Computer Science, 
-and got bachelor degree in Software Engineering from Southeast University(SEU, Nanjing).
+<p>北京，腾讯，微信，基础研究</p>
+<p>本科在东南大学，研究生在北京航空航天大学。</p>
+</p>
+<p>目前的工作方向主要是推荐系统、搜索引擎，关注机器学习、数据挖掘、自然语言处理相关领域。</p>
+<p>微信是我毕业第一份正式工作，毕业前实习过Yahoo!、阿里巴巴、创新工场。</p>
 </p>
 <p>
-I mostly work in Python, C++/C on Mac OS, UNIX-style OS and I have rich intern experience 
-in many companies on my school-days, like Yahoo(one year), Alibaba(one year) 
-and Innovation Works(two month). 
-Now I am focusing on Computational Advertising and Data Mining which are now very pupular in industry and academia. 
-I am also familiar with distributed system, web development and network programming.
+折腾过好多技术方向，到现在也没折腾明白，还在探索中...
 </p>
-<p>
-My hobbies are Winning Eleven computer game and music of Linkin Park, Taylor Swift, Avril Lavigne, Taiwan Mayday and 逃跑计划. 
-</p>
+<p>Balance work and life，希望自己能逐渐成为一个有趣的人。</p>
 
  '''}
 
